@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_commerce">
+    <column name="" javatype="" />
+    
+    <!-- 查询所有商会 -->
+    <operation name="selectAllCommerce" multiplicity="many">
+        <extraparams>
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_commerce
+        </sql>
+        <sqlmap>
+           <![CDATA[
+			SELECT
+		        ID,
+				COMMERCE_ID,
+				COMMERCE_LEADER,
+				COMMERCE_VICE_LEADER,
+				COMMERCE_CHARGE,
+				COMMERCE_SECRETARY_USER,
+				COMMERCE_EXECUTIVE_CHAIRMAN,
+				COMMERCE_STANDING_PRESIDENT,
+				COMMERCE_HONORARY_CHAIRMAN,
+				COMMERCE_EXECUTIVE_DIRECTOR,
+				COMMERCE_MANAGING_DIRECTOR,
+				COMMERCE_EXECUTIVE,
+				COMMERCE_SECRETARY_PARTY,
+				COMMERCE_NAME,
+				COMMERCE_QRURL,
+				COMMERCE_URL,
+				COMMERCE_CELL,
+				COMMERCE_ADDR,
+				COMMERCE_DESC,
+				PEOPLE_NUM,
+				MESSAGE,
+				LOACTION_X,
+				LOACTION_Y,
+				DEL_FLG,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_commerce
+			order by id desc
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查询任意商会信息 -->
+    <operation name="selectCommerceInfoByCommerceId" >
+        <extraparams>
+            <param name="commerceId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_commerce
+        </sql>
+        <sqlmap>
+			SELECT
+		        ID,
+				COMMERCE_ID,
+				COMMERCE_LEADER,
+				COMMERCE_VICE_LEADER,
+				COMMERCE_CHARGE,
+				COMMERCE_SECRETARY_USER,
+				COMMERCE_EXECUTIVE_CHAIRMAN,
+				COMMERCE_STANDING_PRESIDENT,
+				COMMERCE_HONORARY_CHAIRMAN,
+				COMMERCE_EXECUTIVE_DIRECTOR,
+				COMMERCE_MANAGING_DIRECTOR,
+				COMMERCE_EXECUTIVE,
+				COMMERCE_SECRETARY_PARTY,
+				COMMERCE_NAME,
+				COMMERCE_QRURL,
+				COMMERCE_URL,
+				COMMERCE_CELL,
+				COMMERCE_ADDR,
+				COMMERCE_DESC,
+				PEOPLE_NUM,
+				MESSAGE,
+				LOACTION_X,
+				LOACTION_Y,
+				DEL_FLG,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_commerce
+            WHERE COMMERCE_ID = #commerceId#
+        </sqlmap>
+    </operation>
+    
+    <!-- 修改商会电话  -->
+    <operation name="updateCommerceCell">
+		<sql>
+			update makeploy_commerce set
+		     COMMERCE_CELL =?,GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 修改商会公告  -->
+    <operation name="updateCommerceMemo">
+		<sql>
+			update makeploy_commerce set
+		     MEMO =?,GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 创建新商会  -->
+    <operation name="creatNewCommerce">
+        <sql>
+        insert into makeploy_commerce
+            (
+                ID,
+				COMMERCE_ID,
+				COMMERCE_LEADER,
+				COMMERCE_VICE_LEADER,
+				COMMERCE_CHARGE,
+				COMMERCE_SECRETARY_USER,
+				COMMERCE_EXECUTIVE_CHAIRMAN,
+				COMMERCE_STANDING_PRESIDENT,
+				COMMERCE_HONORARY_CHAIRMAN,
+				COMMERCE_EXECUTIVE_DIRECTOR,
+				COMMERCE_MANAGING_DIRECTOR,
+				COMMERCE_EXECUTIVE,
+				COMMERCE_SECRETARY_PARTY,
+				COMMERCE_NAME,
+				COMMERCE_QRURL,
+				COMMERCE_URL,
+				COMMERCE_CELL,
+				COMMERCE_ADDR,
+				COMMERCE_DESC,
+				PEOPLE_NUM,
+				MESSAGE,
+				LOACTION_X,
+				LOACTION_Y,
+				DEL_FLG,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+             ?,?,?,?,?,?,?,?, ?, ?,?, ?, ?,?,?,?, ?,?,?,?,?,?, ?, ?, ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+        </sql>
+    </operation>
+	
+    <!-- 商会查询（数据条数）  -->
+    <operation name="selectCommerceCount" resultClass="int">
+        <sql>
+            select * from makeploy_commerce
+        </sql>
+        <sqlmap>
+			SELECT
+		    count(1)
+			FROM makeploy_commerce
+        </sqlmap>
+    </operation>
+    
+    <!-- 修改入会人数  -->
+    <operation name="updateCommercePeopleNum" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     PEOPLE_NUM  = ? ,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 查询所有商会 -->
+    <operation name="selectAllCommerceByCell" multiplicity="many">
+        <extraparams>
+            <param name="commerceCell" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_commerce
+        </sql>
+        <sqlmap>
+           <![CDATA[
+			SELECT
+		        ID,
+				COMMERCE_ID,
+				COMMERCE_LEADER,
+				COMMERCE_VICE_LEADER,
+				COMMERCE_CHARGE,
+				COMMERCE_SECRETARY_USER,
+				COMMERCE_EXECUTIVE_CHAIRMAN,
+				COMMERCE_STANDING_PRESIDENT,
+				COMMERCE_HONORARY_CHAIRMAN,
+				COMMERCE_EXECUTIVE_DIRECTOR,
+				COMMERCE_MANAGING_DIRECTOR,
+				COMMERCE_EXECUTIVE,
+				COMMERCE_SECRETARY_PARTY,
+				COMMERCE_NAME,
+				COMMERCE_QRURL,
+				COMMERCE_URL,
+				COMMERCE_CELL,
+				COMMERCE_ADDR,
+				COMMERCE_DESC,
+				PEOPLE_NUM,
+				MESSAGE,
+				LOACTION_X,
+				LOACTION_Y,
+				DEL_FLG,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_commerce
+			where 1=1
+			<isNotEmpty property="commerceCell" prepend="and">
+	            COMMERCE_CELL = #commerceCell#
+	        </isNotEmpty> 
+			order by id desc
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 商会查询（数据条数）  -->
+    <operation name="selectCommerceCountByCell" resultClass="int">
+        <extraparams>
+            <param name="commerceCell" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_commerce
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_commerce
+			where 1=1 
+			<isNotEmpty property="commerceCell" prepend="and">
+	            COMMERCE_CELL = #commerceCell#
+	        </isNotEmpty> 
+	        ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="changeLeader" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_LEADER  = ? ,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changeViceLeader" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_VICE_LEADER  = ? ,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changeCharge" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_CHARGE = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changeSecretary" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_SECRETARY_USER = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changeExecutiveChairman" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_EXECUTIVE_CHAIRMAN = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	<operation name="changeStandingPresident" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_STANDING_PRESIDENT = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	<operation name="changeHonoraryChairman" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_HONORARY_CHAIRMAN = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	<operation name="changeExecutiveDirector" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_EXECUTIVE_DIRECTOR = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	<operation name="changeManagingDirector" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_MANAGING_DIRECTOR = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	<operation name="changeExecutive" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_EXECUTIVE = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	<operation name="changeSecretaryParty" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     COMMERCE_SECRETARY_PARTY = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+
+
+    <operation name="checkLeader" >
+        <extraparams>
+            <param name="commerceLeader" javatype="java.lang.String" />
+            <param name="commerceViceLeader" javatype="java.lang.String" />
+            <param name="commerceCharge" javatype="java.lang.String" />
+            <param name="commerceSecretaryUser" javatype="java.lang.String" />
+            <param name="commerceExecutiveChairman" javatype="java.lang.String" />
+            <param name="commerceStandingPresident" javatype="java.lang.String" />
+            <param name="commerceHonoraryChairman" javatype="java.lang.String" />
+            <param name="commerceExecutiveDirector" javatype="java.lang.String" />
+            <param name="commerceManagingDirector" javatype="java.lang.String" />
+            <param name="commerceExecutive" javatype="java.lang.String" />
+            <param name="commerceSecretaryParty" javatype="java.lang.String" />
+            <param name="commerceId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_commerce
+        </sql>
+        <sqlmap>
+           <![CDATA[
+			SELECT
+		        ID,
+				COMMERCE_ID,
+				COMMERCE_LEADER,
+				COMMERCE_VICE_LEADER,
+				COMMERCE_CHARGE,
+				COMMERCE_SECRETARY_USER,
+				COMMERCE_EXECUTIVE_CHAIRMAN,
+				COMMERCE_STANDING_PRESIDENT,
+				COMMERCE_HONORARY_CHAIRMAN,
+				COMMERCE_EXECUTIVE_DIRECTOR,
+				COMMERCE_MANAGING_DIRECTOR,
+				COMMERCE_EXECUTIVE,
+				COMMERCE_SECRETARY_PARTY,
+				COMMERCE_NAME,
+				COMMERCE_QRURL,
+				COMMERCE_URL,
+				COMMERCE_CELL,
+				COMMERCE_ADDR,
+				COMMERCE_DESC,
+				PEOPLE_NUM,
+				MESSAGE,
+				LOACTION_X,
+				LOACTION_Y,
+				DEL_FLG,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_commerce
+			where 1 = 1
+			<isNotEmpty property="commerceLeader" prepend="and">
+	            COMMERCE_LEADER = #commerceLeader#
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceViceLeader" prepend="and">
+	            COMMERCE_VICE_LEADER like '%$commerceViceLeader$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceCharge" prepend="and">
+	            COMMERCE_CHARGE = #commerceCharge#
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceSecretaryUser" prepend="and">
+	            COMMERCE_SECRETARY_USER = #commerceSecretaryUser#
+	        </isNotEmpty>
+	        <isNotEmpty property="commerceExecutiveChairman" prepend="and">
+	            COMMERCE_EXECUTIVE_CHAIRMAN like '%$commerceExecutiveChairman$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceStandingPresident" prepend="and">
+	            COMMERCE_STANDING_PRESIDENT like '%$commerceStandingPresident$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceHonoraryChairman" prepend="and">
+	            COMMERCE_HONORARY_CHAIRMAN like '%$commerceHonoraryChairman$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceExecutiveDirector" prepend="and">
+	            COMMERCE_EXECUTIVE_DIRECTOR like '%$commerceExecutiveDirector$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceManagingDirector" prepend="and">
+	            COMMERCE_MANAGING_DIRECTOR like '%$commerceManagingDirector$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceExecutive" prepend="and">
+	            COMMERCE_EXECUTIVE like '%$commerceExecutive$%'
+	        </isNotEmpty> 
+	        <isNotEmpty property="commerceSecretaryParty" prepend="and">
+	            COMMERCE_SECRETARY_PARTY like '%$commerceSecretaryParty$%'
+	        </isNotEmpty>  
+	        <isNotEmpty property="commerceId" prepend="and">
+	            COMMERCE_ID = #commerceId#
+	        </isNotEmpty>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="changeDelFlg" >
+		<sql>
+			update makeploy_commerce  
+			set
+		     DEL_FLG = ?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="updateCommerce">
+		<sql>
+			update makeploy_commerce set
+		        COMMERCE_NAME = ?,
+				COMMERCE_URL = ?,
+				COMMERCE_CELL = ?,
+				COMMERCE_ADDR = ?,
+				COMMERCE_DESC = ?,
+				MESSAGE = ?,
+				GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="updateCommerceQR">
+		<sql>
+			update makeploy_commerce set
+		        COMMERCE_QRURL = ?,
+				GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+</table>

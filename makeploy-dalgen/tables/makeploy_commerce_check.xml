@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_commerce_check">
+	<!-- 查询店铺的审核情况 -->
+	<operation name="selectAllCommerceCheck" multiplicity="many">
+		<extraparams>
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_commerce_check
+		</sql>
+		<sqlmap>
+		 <![CDATA[
+			SELECT
+				ID,
+				USER_ID,
+				COMMERCE_ID,
+				USER_NAME,
+				USER_CELL,
+				USER_JOB,
+				CARD_ADDR,
+				NOW_ADDR,
+				MESSAGES,
+				STATUS,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_commerce_check  
+	        order by GMT_MODIFIED DESC
+	        limit #offset#,#limit#
+		  ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="changeCommerceUserInfo">
+		<sql>
+			update makeploy_commerce_check set
+		        USER_NAME = ?,
+				USER_CELL = ?,
+				USER_JOB = ?,
+				CARD_ADDR = ?,
+				NOW_ADDR = ?,
+				GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? and COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 列表的条数 -->
+	<operation name="countitmes" resultClass="int">
+		<sql>
+			select count(1) from makeploy_commerce_check
+		</sql>
+	</operation>
+	
+	<!-- 改变审核状态  -->
+    <operation name="updateOldCommerceCheck">
+		<sql>
+			update makeploy_commerce_check set
+		        STATUS = ?,
+				GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? and COMMERCE_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 查询我的审核信息表 -->
+	<operation name="selectMyCommerceCheck">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="commerceId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_commerce_check
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+                ID,
+				USER_ID,
+				COMMERCE_ID,
+				USER_NAME,
+				USER_CELL,
+				USER_JOB,
+				CARD_ADDR,
+				NOW_ADDR,
+				MESSAGES,
+				STATUS,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_commerce_check
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="commerceId" prepend="and">
+                    COMMERCE_ID = #commerceId#
+                </isNotNull>
+            </dynamic>
+            ]]>
+        </sqlmap>
+    </operation>
+
+    <!-- 添加审核    -->
+    <operation name="addCommerceCheck" paramtype="object">
+		<sql>
+			insert into makeploy_commerce_check
+            (
+                ID,
+				USER_ID,
+				COMMERCE_ID,
+				USER_NAME,
+				USER_CELL,
+				USER_JOB,
+				CARD_ADDR,
+				NOW_ADDR,
+				MESSAGES,
+				STATUS,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 改变审核状态  -->
+    <operation name="updateCommerceCheck" paramtype="object">
+		<sql>
+			update makeploy_commerce_check set
+				STATUS = ?,
+				GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? and COMMERCE_ID = ?
+		</sql>
+	</operation>
+</table>

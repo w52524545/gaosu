@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-dark">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-登录界面</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+</head>
+<body>
+	<section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+		<div class="container aside-xxl">
+			<section class="panel panel-default bg-white m-t-lg">
+				<header class="panel-heading text-center">
+				<b style="font-size:20px">登录</b>
+				</header>
+				<form action="LoginMng.do" method="post"
+					class="panel-body wrapper-lg">
+					<div class="form-group">
+						<label class="control-label">手机号</label> <input type="text"
+							class="form-control input-lg" placeholder="$!name" name="cell">
+					</div>
+					<div class="form-group">
+						<label class="control-label">密码</label> <input type="password"
+							id="inputPassword" placeholder="$!passw" class="form-control input-lg"
+							name="password">
+					</div>
+					<div >
+					<b>选择身份登录：</b>&nbsp;&nbsp;
+					<span class="pay_list_c1 on" >
+					<input type="radio" name="identity" value="0"  checked="checked" id="shopUser"  class="radioclass" />商户&nbsp;
+					<input type="radio" name="identity" value="1" #if($!activeType=="1") checked="checked" #end id="admin" class="radioclass" />管理员&nbsp;
+					<!--<input type="radio" name="identity" value="2" #if($!activeType=="2") checked="checked" #end id="agent"  class="radioclass" />区域代理&nbsp;-->
+					<!--<input type="radio" name="identity" value="3" #if($!activeType=="3") checked="checked" #end id="commerce"  class="radioclass" />商会-->
+					</span>
+					<input type="text" value="$!content" style="border:0px;background-color:white;font-size:15px;color:red;width:50px;" disabled>
+					</div>
+					<br>
+					<button type="submit" class="btn btn-primary"
+						style="margin-left: 50px; width: 100px;">登录</button>
+					<a  href="updatePassword.html"><button type="button" class="btn btn-primary"
+						style="margin-left: 30px; width: 100px;">修改密码</button></a>
+				</form>
+			</section>
+		</div>
+	</section>
+	<!-- footer -->
+	<footer id="footer" style="position: relative; top: 200px">
+		<div class="text-center padder">
+			<p>
+			</p>
+		</div>
+	</footer>
+	<!-- / footer -->
+	<script src="js/app.v2.js"></script>
+	<!-- Bootstrap -->
+	<!-- App -->
+</body>
+</html>

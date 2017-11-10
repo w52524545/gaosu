@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_pro_image">
+	<operation name="insert" resultClass="int">
+		<sql>
+			insert into makeploy_pro_image (
+			SHOP_ID,
+			PRODUCT_NO,
+			FLAG,
+			IMG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			values(
+			?,
+			?,
+			?,
+			?,
+			?,
+			CURRENT_TIMESTAMP,
+			?,
+			CURRENT_TIMESTAMP,
+			?
+
+			)
+		</sql>
+
+	</operation>
+	<operation name="selectProImageByProShopid" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="flag" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_pro_image
+		</sql>
+		<sqlmap>
+		   <![CDATA[
+		    select * from makeploy_pro_image
+			where 1 = 1 
+			<isNotEmpty property="shopId" prepend="and">
+                SHOP_ID = #shopId#
+            </isNotEmpty>
+            <isNotEmpty property="productNo" prepend="and">
+                PRODUCT_NO = #productNo#
+            </isNotEmpty>
+            <isNotEmpty property="flag" prepend="and">
+                FLAG = #flag#
+            </isNotEmpty>
+			]]>
+		</sqlmap>
+	</operation>
+	<operation name="updateProImageByProShopid" resultClass="int">
+		<sql>
+			update makeploy_pro_image
+			set IMG=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			where SHOP_ID=? and PRODUCT_NO=? and FLAG=?
+		</sql>
+
+	</operation>
+	<!-- 查询商品的所有图片 -->
+	<operation name="selectAllProImage" multiplicity="many">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_pro_image
+		</sql>
+		<sqlmap>
+   	 	<![CDATA[
+   	 	select * from makeploy_pro_image
+   	 	<dynamic prepend="where">
+   	 		<isNotEmpty property="productNo" prepend="and">
+                PRODUCT_NO = #productNo#
+            </isNotEmpty>
+            <isNotEmpty property="shopId" prepend="and">
+                SHOP_ID = #shopId#
+            </isNotEmpty>
+        </dynamic>
+        ]]>
+		</sqlmap>
+	</operation>
+	<operation name="addPartnerImage" paramtype="object">
+		<sql>
+			insert into makeploy_pro_image
+			(
+			ID,
+			SHOP_ID,
+			PRODUCT_NO,
+			FLAG,
+			IMG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES
+			(
+			?, ?, ?, ?, ?,
+			?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+	
+	<operation name="deleteProimage" resultClass="int">
+		<sql>
+			delete from makeploy_pro_image where SHOP_ID=? and PRODUCT_NO=?
+		</sql>
+	</operation>
+
+</table>

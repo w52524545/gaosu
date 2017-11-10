@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>搜索</title>
+</head>
+<body class="marketMzw">
+<div class="searBar">
+    <form>
+        <select name="search">
+            <option value="商品">商品</option>
+            <option value="店铺">店铺</option>
+        </select>
+        <i></i>
+        <input type="text" placeholder="请输入关键字">
+    </form>
+    <a>取消</a>
+</div>
+</body>
+<script type="text/javascript">
+//    点击取消input中输入的内容清空
+    $(function () {
+        $(".searBar a").click(function () {
+            $(".searBar form input").val("");
+        });
+    });
+</script>
+
+
+</html>

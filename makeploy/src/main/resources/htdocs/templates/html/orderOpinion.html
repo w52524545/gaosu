@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>评论</title>
+</head>
+<body class="marketMzw">
+<div class="opinionF0">
+    <div><img src="images/gd1.jpg" alt="商品图片"/></div>
+    <textarea id="text"></textarea>
+    	<input type="hidden" id="productNO" value="$!productNO">
+        <input type="hidden" id="userId" value="$!userId">
+         <input type="hidden" id="orderId" value="$!orderId">
+          <input type="hidden" id="shopId" value="$!shopId">
+</div>
+<ul class="opinionF1">
+    <li class="one"><span>描述相符</span><i></i><i></i><i></i><i></i><i></i></li>
+    <li class="two"><span>描述相符</span><i></i><i></i><i></i><i></i><i></i></li>
+    <li class="three"><span>描述相符</span><i></i><i></i><i></i><i></i><i></i></li>
+</ul>
+<button  class="opinionF2" onclick="comments()">发表评价</button>
+</body>
+<script type="text/javascript">
+    $(function(){
+        //    星星颗数
+        $(".opinionF1 > li  i").click(function(){
+            $(this).addClass("cur");
+            $(this).prevAll("i").addClass("cur");
+            $(this).nextAll("i").removeClass("cur");
+        });
+    });
+</script>
+<script type="text/javascript">
+	function comments(){
+		var productNO = $('#productNO').val();  //商品号
+		var orderId = $('#orderId').val();    //订单id
+		var shopId = $('#shopId').val();		//店铺id
+		var userId = $('#userId').val();		//用户id(评论者)
+		var text = $('#text').val();			//评论
+		var star1 = $('.opinionF1 > li.one  i.cur').size(); //星级1
+		var star2 = $('.opinionF1 > li.two  i.cur').size();	//星级2
+		var star3 = $('.opinionF1 > li.three  i.cur').size(); //星级3
+	
+		var url = "comments.do";
+		jQuery.ajax({
+            url : url,// 跳转到 action  
+            type : 'post',
+            cache : false,
+            contentType : "application/x-www-form-urlencoded; charset=utf-8",
+            dataType : 'json',
+            data:{"productNO":productNO,"orderId":orderId,"shopId":shopId,"userId":userId,"userId":userId,
+            		"text":text,"star1":star1,"star2":star2,"star3":star3},
+            success : function(result) {
+                if (result.bizSucc) {
+                    alert("操作成功");
+                    location.href = "orderAll.html";
+                } else{
+                     alert("失败");
+                                   }
+            },
+            error : function() {  
+                           alert("异常！");  
+                }  
+          });
+	}
+</script>
+</html>

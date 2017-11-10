@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+
+<script type="text/javascript">
+function toleader(userId,leadtype){
+	var commerceId = '$!commerceId';
+	var url="toleader.do";
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{
+				 "commerceId":commerceId,
+				 "userId":userId,
+				 "leadtype":leadtype,
+			 },
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert("成功");
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+}
+
+</script>
+
+<script type="text/javascript">
+function removeLeader(userId,leadtype){
+	var commerceId = '$!commerceId';
+	var url="removeLeader.do";
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{
+				 "commerceId":commerceId,
+				 "userId":userId,
+				 "leadtype":leadtype,
+			 },
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert("成功");
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+}
+
+</script>
+
+<script type="text/javascript">
+
+function deleteCommerceUser(userId){
+	alert("确认删除？");
+	var commerceId = '$!commerceId';
+	var url="deleteCommerceUser.do";
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{
+				 "commerceId":commerceId,
+				 "userId":userId
+			 },
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert("成功");
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+}
+
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+.table1{
+	table-layout:fixed;
+	word-wrap:break-word;
+}
+.td1{
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+td{
+text-align:center;
+}	
+</style>
+</head>
+<body>
+	<div class="headline">
+	</div>
+	<section class="hbox stretch">
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商会信息</li>
+						<li>商会成员</li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="commerceUser.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage" value="$!formName.currentPage">
+							 <input type="hidden" name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<input type="hidden" name="commerceId" id="commerceId" value="$!commerceId">
+							<input type="hidden" name="check" id="check" value="$!check">
+							<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default" style="overflow-x:auto;width:99.999%">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm table1" style="width:auto">
+								<thead>
+									<tr>
+										<th style="width:auto">用户名</th>
+										<th style="width:auto">联系电话</th>
+										<th style="width:auto">从事行业</th>
+										<th style="width:auto">户籍所在地</th>
+										<th style="width:auto">现所在地</th>
+										<th style="width:5%">昵称</th>
+										<th style="width:auto">性别</th>
+										<th style="width:auto">会长设置</th>
+										<th style="width:auto">副会长设置 </th>
+										<th style="width:auto">负责人设置 </th>
+										<th style="width:auto">秘书长设置 </th>
+										<th style="width:auto">执行会长设置 </th>
+										<th style="width:auto">常务会长设置 </th>
+										<th style="width:auto">名誉会长设置 </th>
+										<th style="width:auto">常务董事设置 </th>
+										<th style="width:auto">常务理事设置 </th>
+										<th style="width:auto">执行董事设置 </th>
+										<th style="width:auto">党支部书记设置 </th>
+										<th style="width:150px">会员操作 </th>
+									</tr>
+								</thead>
+								#foreach($userInfo in $userInfo)
+								<tr>
+									<td style="width:auto">$!userInfo.commerceCheckDO.userName</td>
+									<td style="width:auto">$!userInfo.commerceCheckDO.userCell</td>
+									<td style="width:auto">$!userInfo.commerceCheckDO.userJob</td>
+									<td style="width:auto">$!userInfo.commerceCheckDO.cardAddr</td>
+									<td style="width:auto">$!userInfo.commerceCheckDO.nowAddr</td>
+									<td style="width:auto"><img style="margin-left:0px;margin-top:5px" alt="图片" src="$!userInfo.userDO.headUrl"><span style="margin-top:5px">$!userInfo.userDO.nickName</span></td>
+									<td style="width:auto">#if($!userInfo.userDO.sex=="1")男 
+									#elseif($!userInfo.userDO.sex=="2")女
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkLeaderUser == 0)
+									<input type="button" class="btn   btn-success" value="设为会长" onclick="toleader($!userInfo.userDO.userId,'1')">
+									#elseif($!userInfo.checkLeaderUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销会长" onclick="removeLeader($!userInfo.userDO.userId,'1')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="会长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkViceLeaderUser == 0)
+									<input type="button" class="btn   btn-success" value="设为副会长" onclick="toleader($!userInfo.userDO.userId,'2')">
+									#elseif($!userInfo.checkViceLeaderUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销副会长" onclick="removeLeader($!userInfo.userDO.userId,'2')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="副会长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkChargeUser == 0)
+									<input type="button" class="btn   btn-success" value="设为负责人" onclick="toleader($!userInfo.userDO.userId,'3')">
+									#elseif($!userInfo.checkChargeUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销负责人" onclick="removeLeader($!userInfo.userDO.userId,'3')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="负责人" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkSecretaryUser == 0)
+									<input type="button" class="btn   btn-success" value="设为秘书长" onclick="toleader($!userInfo.userDO.userId,'4')">
+									#elseif($!userInfo.checkSecretaryUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销秘书长" onclick="removeLeader($!userInfo.userDO.userId,'4')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkExecutiveChairmanUser == 0)
+									<input type="button" class="btn   btn-success" value="设为执行会长" onclick="toleader($!userInfo.userDO.userId,'5')">
+									#elseif($!userInfo.checkExecutiveChairmanUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销执行会长" onclick="removeLeader($!userInfo.userDO.userId,'5')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkStandingPresidentUser == 0)
+									<input type="button" class="btn   btn-success" value="设为常务会长" onclick="toleader($!userInfo.userDO.userId,'6')">
+									#elseif($!userInfo.checkStandingPresidentUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销常务会长" onclick="removeLeader($!userInfo.userDO.userId,'6')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkHonoraryChairmanUser == 0)
+									<input type="button" class="btn   btn-success" value="设为名誉会长" onclick="toleader($!userInfo.userDO.userId,'7')">
+									#elseif($!userInfo.checkHonoraryChairmanUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销名誉会长" onclick="removeLeader($!userInfo.userDO.userId,'7')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto"> 
+									#if($!userInfo.checkExecutiveDirectorUser == 0)
+									<input type="button" class="btn   btn-success" value="设为常务董事" onclick="toleader($!userInfo.userDO.userId,'8')">
+									#elseif($!userInfo.checkExecutiveDirectorUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销常务董事" onclick="removeLeader($!userInfo.userDO.userId,'8')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkManagingDirectorUser == 0)
+									<input type="button" class="btn   btn-success" value="设为常务理事" onclick="toleader($!userInfo.userDO.userId,'9')">
+									#elseif($!userInfo.checkManagingDirectorUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销常务理事" onclick="removeLeader($!userInfo.userDO.userId,'9')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkExecutiveUser == 0)
+									<input type="button" class="btn   btn-success" value="设为执行董事" onclick="toleader($!userInfo.userDO.userId,'10')">
+									#elseif($!userInfo.checkExecutiveUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销执行董事" onclick="removeLeader($!userInfo.userDO.userId,'10')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:auto">
+									#if($!userInfo.checkSecretaryPartyUser == 0)
+									<input type="button" class="btn   btn-success" value="设为党支部书记" onclick="toleader($!userInfo.userDO.userId,'11')">
+									#elseif($!userInfo.checkSecretaryPartyUser == 1)
+									<input type="button" class="btn   btn-success" value="撤销党支部书记" onclick="removeLeader($!userInfo.userDO.userId,'11')" style="background-color: red;">
+									<!-- <input type="button" class="btn   btn-success" value="秘书长" style="background-color: red;"> -->
+									#end
+									</td>
+									
+									<td style="width:150px">
+									<input type="button" class="btn   btn-success" value="修改会员信息" onclick="changeCommerceUserInfo($!userInfo.userDO.userId)" >
+									<input type="button" class="btn   btn-success" value="删除该会员" onclick="deleteCommerceUser($!userInfo.userDO.userId)" style="background-color: red;">
+									</td>
+								</tr>
+				            #end
+							</table>
+					</section>
+					<div class="fn-mt7" style="float:right">#set ($formName = "formName")
+						#parse('/mng/page.html')</div>
+						<div style="height:200px"></div>
+				</section>
+			</section>
+		</section>
+		</section>
+	<script src="js/app.v2.js"></script>
+	
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function check() {
+			var url = "check.html";
+			window.open(url, '增加一条信息', features);
+		}
+</script>
+
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function changeCommerceUserInfo(userId) {
+		    var commerceId = '$!commerceId';
+			var url = "changeCommerceUserInfo.html?userId="+userId+"&commerceId="+commerceId;
+			window.open(url, '增加一条信息', features);
+		}
+</script>
+
+<script type="text/javascript">
+     function goback(){
+    	 var check = '$!check';
+    	 if(check == '1'){
+    		 window.location.href="commerceIndex.html";
+    	 }else{
+    		 window.location.href="allcommerce.html";
+    	 }
+     }
+</script>
+
+</body>
+</html>

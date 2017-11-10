@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE tables SYSTEM "dalgen-config.dtd">
+
+<!-- ============================================================== -->
+<!-- Master configuration file for auto-generation of project dal. -->
+
+<!-- $Id: dal-config.xml,v 1.35 2013/10/29 14:54:07 guangdong.li Exp $ -->
+
+<!-- ============================================================== -->
+
+<tables>
+	<!-- ========================================================== -->
+	<!-- The typemap("Type Map") maps from one java type to another -->
+	<!-- java type. If you feel the original sql data type to java -->
+	<!-- type mapping is not satisfactory, you can use typemap to -->
+	<!-- convert it to a more appropriate one. -->
+	<!-- ========================================================== -->
+	<typemap from="java.sql.Date" to="java.util.Date" />
+	<typemap from="java.sql.Timestamp" to="java.util.Date" />
+	<typemap from="java.math.BigDecimal" to="long" />
+	<typemap from="byte" to="int" />
+	<typemap from="short" to="int" />
+	<tableprefix prefix="makeploy" />
+
+    <include table="tables/makeploy_account.xml" /> 
+    <include table="tables/makeploy_activity.xml" /> 
+    <include table="tables/makeploy_address.xml" />
+    <include table="tables/makeploy_agent.xml" />
+    <include table="tables/makeploy_borrow_money.xml" />
+    <include table="tables/makeploy_collection.xml" /> 
+    <include table="tables/makeploy_category.xml" /> 
+    <include table="tables/makeploy_discount.xml" /> 
+    <include table="tables/makeploy_msg.xml" />  
+    <include table="tables/makeploy_option.xml" />
+    <include table="tables/makeploy_order.xml" />  
+    <include table="tables/makeploy_product.xml" />
+    <include table="tables/makeploy_product_comment.xml" />
+    <include table="tables/makeploy_product_parameters.xml" /> 
+    <include table="tables/makeploy_role.xml" />  
+    <include table="tables/makeploy_sequence.xml" />
+    <include table="tables/makeploy_shop_comment.xml" /> 
+    <include table="tables/makeploy_shop_income.xml" /> 
+    <include table="tables/makeploy_shop.xml" /> 
+    <include table="tables/makeploy_shop_check.xml" /> 
+    <include table="tables/makeploy_shopping_cart.xml" /> 
+	<include table="tables/makeploy_sys_config.xml" />
+	<include table="tables/makeploy_team_go.xml" /> 
+	<include table="tables/makeploy_team_income.xml" /> 
+	<include table="tables/makeploy_user.xml" />
+	<include table="tables/makeploy_verify_code.xml" /> 
+	<include table="tables/makeploy_pro_image.xml" /> 
+	<include table="tables/makeploy_partner.xml" />  
+	<include table="tables/makeploy_unionshop_check.xml" />
+	<include table="tables/makeploy_area.xml" />
+	<include table="tables/makeploy_faretemplate.xml" />
+	<include table="tables/makeploy_inclpostageproviso.xml" />
+	<include table="tables/makeploy_carrymode.xml" />
+	<include table="tables/makeploy_product_promotion.xml" />
+	<include table="tables/makeploy_commerce.xml" />
+	<include table="tables/makeploy_commerce_check.xml" />
+	<include table="tables/makeploy_partner_rank.xml" />
+</tables>
+

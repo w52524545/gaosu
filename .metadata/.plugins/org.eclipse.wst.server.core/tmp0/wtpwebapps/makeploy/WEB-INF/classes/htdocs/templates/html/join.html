@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>参团详情</title>
+</head>
+<body class="marketMzw">
+<div class="joinF0">
+    <div class="joinF0Main">
+        <i></i><h5>正在建团</h5>
+    </div>
+</div>
+<div class="joinF1">
+    <div class="joinF11"><img src="$!result.productUrl" alt="商品图"></div>
+    <div class="joinF12">
+        <p>$!result.productName</p>
+        <p>组团价：<font>￥$!result.Price</font></p>
+        <div class="joinF1L"><span>数量：$!result.soleCount</span><span>运费：￥$!result.luggage</span></div>
+        <div class="joinF1R">$!result.needPeople人团</div>
+    </div>
+</div>
+<div  class="joinF2">
+    <div class="joinF21">
+        <img src="images/gd1.jpg" alt="头像">
+        <img src="images/gd1.jpg" alt="头像">
+        <img src="images/gd3.jpg" alt="头像">
+        <p>还差$!result.leftPeople人，你还在等什么！！</p>
+    </div>
+    <div class="joinF22">
+        <ul>
+            <li><p>哈哈哈（团长）</p><span>2016-12-11 11:40:04开团</span></li>
+            <li><p>哦哦</p><span>2016-12-11 12:40:04拼团</span></li>
+        </ul>
+        <div>还差$!result.leftPeople人，快叫小伙伴参团</div>
+    </div>
+</div>
+<div  class="joinF3">
+    <a>立即参团</a>
+</div>
+<div class="detailPop2">
+    <div class="detPopMain">
+        <div class="detPopM1">
+            <div class="detPopM11"><img src="$!result.productUrl" alt="商品图片"></div>
+            <div class="detPopM12">
+                <font>￥<big>$!result.price</big></font>
+                <small>库存$!result.stock件</small>
+                <small>请选择分类</small>
+            </div>
+            <i></i>
+        </div>
+        <div class="detPopM2">
+            <p>尺码</p>
+            <ul> 
+            #foreach($size in $clothingList)
+            <li>$!size.dimensions</li>
+            #end
+            </ul>
+        </div>
+        <div class="detPopM2">
+            <p>颜色</p>
+            <ul> 
+            #foreach($color in $clothingList)
+            <li>$!color.color</li>
+            #end
+            </ul>
+        </div>
+        <div class="detPopM3">
+            <p>购买数量</p>
+            <div class="add_chose brte clearfix">
+                <a id="reduce" class="reduce" href="javascript:void(0)">-</a>
+                <input type="text" value="1" class="ctext">
+                <a id="add" class="add" href="javascript:void(0)">+</a>
+            </div>
+        </div>
+        <div class="detPopM4 detPopM42"><a href="orderPay2.html">立即参团</a></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function() {
+        //购买弹窗
+        $(".joinF3 a").click(function(){
+            $(".detailPop2").show();
+            $(".detailPop2 div.detPopMain").slideDown();
+        });
+        //关闭弹窗
+        $(".detPopMain i").click(function(){
+            $(".detPopMain").slideUp();
+            $(".detailPop2").hide();
+        });
+
+        //购买选择项
+        $(".detPopM2 ul li").click(function(){
+            $(this).toggleClass("cur").siblings().removeClass("cur");
+        });
+
+        //购买数量加减运算
+        $(".add_chose #reduce").click(function() {
+            var num = parseInt($(this).parent().find(".ctext").attr("value"));
+            if ((num - 1) > 1) {$(this).parent().find('.ctext').attr("value", num - 1);}
+            else if((num - 1) <= 1) {
+//                $(this).addClass("cur");
+                $(this).parent().find('.ctext').attr("value",1);
+            }
+        });
+        $(".add_chose #add").click(function() {
+            var num = parseInt($(this).parent().find(".ctext").attr("value"));
+//            $(".add_chose #reduce").removeClass("cur");
+            $(this).parent().find('.ctext').attr("value", num + 1)
+        });
+    });
+</script>
+</html>

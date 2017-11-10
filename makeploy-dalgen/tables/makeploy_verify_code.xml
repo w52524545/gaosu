@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_verify_code">
+    <column name="" javatype="" />
+    
+    <!-- 查询用户权限信息 -->
+    <operation name="selectVerifyCodeInfoByUserId" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_verify_code
+        </sql>
+        <sqlmap>
+			SELECT
+		     ID,
+		     USER_ID,
+		     CELL,
+		     VERIFY_CODE,
+		     STATUS,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_verify_code
+			WHERE USER_ID = #userId#
+        </sqlmap>
+    </operation>
+</table>

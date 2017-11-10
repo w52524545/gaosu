@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+function showPic(shopId,proNo,flag) {
+	var url="showPic.do";
+	jQuery.ajax({
+		 url : url,// 跳转到 action  
+		 type : 'post',
+		 cache : false,
+		 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		 dataType : 'json',
+		 data:{"shopId":shopId,"productNo":proNo,"flag":flag},
+		 success : function(data) {
+			 var text="";
+			 var imgresult=data.result;
+			 var flag=data.flag;
+			 if (flag=="2") {
+				 jQuery.each(imgresult,function(i,item){
+						text+='<div style="position:relative;">'+
+							'<img alt="" style="width:128px;height:auto"src="'+item.img+'" onload="fn(this)">'+
+							'<p style="position:relative;left:10px;bottom:0px;color:red"></p>'+
+						'</div>';
+					 });
+					 $("#showBanner").html(text);
+					 $("#showBannerF").show("slow");
+			 } else {
+				 jQuery.each(imgresult,function(i,item){
+						text+='<div style="position:relative;">'+
+							'<img alt="" style="width:128px;height:500px"src="'+item.img+'" onload="fn(this)">'+
+							'<p style="position:relative;left:10px;bottom:0px;color:red"></p>'+
+						'</div>';
+					 });
+					 $("#showBanner").html(text);
+					 $("#showBannerF").show("slow");
+			 }
+			 
+		 },
+		 error : function() {  
+		            alert("异常！");  
+		     }  
+		   });
+}
+function closeD(){
+	$("#showBannerF").hide("slow");
+}
+function close(){
+	alert("11");
+	 $("#showBannerF").hide("slow");
+}
+/* $("#showpicSpan").click(function(){
+	alert("11");
+	  $("#showBannerF").hide("slow");
+	}); */
+function fn(image){
+     var img=new Image();
+	 img.src=$(image)[0].src;
+//      alert(img.src);
+     var width=img.width,height=img.height;
+//      alert(width);
+     $(image).parent().find("p").eq(0).html('原图像素:'+width+'*'+height);
+}
+</script>
+<style>
+img {
+	margin-top: 10px;
+	margin-left: 5px;
+	width: 128px;
+}
+
+.morePic {
+	padding-top: 10px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+td {
+	vertical-align: middle;
+}
+</style>
+<script type="text/javascript">
+var s,p,f
+function Pass(shoId,productNo,flag) {
+	if(flag=="1"){
+		s=shoId
+		p=productNo
+		f=flag
+		 div='<input type="text"class="type-button"style="height:35px;width:120px;" id="returnMoney"placeholder="输入返现比例(0-1)"><input class="type-button" type="text"style="height:35px;width:120px;" id="returnPoint"placeholder="输入积分比例(0-1)"><span class="type-button" style="font-size: 16px;font-weight: bold;cursor: pointer;float:left;position:absolute;right:70px;top:0px" onclick="PassTrue()">确认同意</span><span class="type-button" style="font-size: 16px;font-weight: bold;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDivText()">关闭</span>'
+			 $("#inputText").html(div);
+		    ShowDiv('inputText','fade')	;
+	}else if(flag=="0"){
+		Pass1(shoId,productNo,flag);
+	}
+}
+function PassTrue(){
+	var url = "productCheckSet.do?shoId="+s +"&productNo="+p+"&flag="+f;
+	var returnMoney=document.getElementById("returnMoney").value
+	var returnPoint=document.getElementById("returnPoint").value
+	jQuery.ajax({
+		url : url,// 跳转到 action  
+		type : 'post',
+		cache : false,
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		dataType : 'json',
+		data:{
+			"returnMoney":returnMoney,
+			"returnPoint":returnPoint
+		},
+		success : function(data) {
+			
+				if (f=="1") {
+					alert("审核商品成功！");
+					window.location.reload(true);
+				} else if (f=="0"){
+					alert("拒绝审核成功！");
+					window.location.reload(true);
+				}
+			
+			
+		},
+			      error : function() {  
+			           alert("网络异常！");  
+			      }  
+	});
+}
+function Pass1(shoId,productNo,flag) {
+	var dialog
+	if(flag=="1"){
+		dialog="确认同意审核?"
+	}else if (flag=="0"){
+		dialog="确认拒绝审核?"
+	}
+	if (!confirm(dialog)) {
+		return false;
+	}
+	
+	
+	 var url = "productCheckSet.do?shoId="+ shoId+"&productNo="+productNo+"&flag="+flag;
+	//提交表单
+	jQuery.ajax({
+		url : url,// 跳转到 action  
+		type : 'post',
+		cache : false,
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		dataType : 'json',
+		success : function(data) {
+			
+				if (flag=="1") {
+					alert("审核商品成功！");
+					window.location.reload(true);
+				} else if (flag=="0"){
+					alert("拒绝审核成功！");
+					window.location.reload(true);
+				}
+			
+			
+		},
+			      error : function() {  
+			           alert("网络异常！");  
+			      }  
+	});
+}
+
+//弹出隐藏层
+function ShowDiv(show_div,bg_div){
+    document.getElementById(show_div).style.display='block';
+    document.getElementById(bg_div).style.display='block' ;
+    var bgdiv = document.getElementById(bg_div);
+    bgdiv.style.width = document.body.scrollWidth;
+//bgdiv.style.height = $(document).height();
+    $("#"+bg_div).height($(document).height());
+}
+//关闭窗口
+function CloseDivText(){
+	document.getElementById('inputText').style.display='none';
+    document.getElementById('fade').style.display='none';
+}
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+tr {
+	text-align: center
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li> #else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li> #end
+								<!-- 审核中心-->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-columns icon"> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt" class="active">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li class="active"><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+	
+									</ul></li>
+								<!-- 充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li><a href=""> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>玫发现商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<!-- 弹出层 banner -->
+
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商品审核</li>
+						<li><a style="color: red;" href="productPromotionChech.html">&nbsp;促销商品审核</a></li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="productCheckMng.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!formName.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商铺ID：</label>
+										<div class="col-sm-2">
+											<input type="text" name="shopId" value="$!shopId"
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商品号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="productNo" value="$!productNo"
+												class="form-control">
+										</div>
+										<input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<header class="panel-heading">
+							<span style="font-family: 微软雅黑;">商品列表</span>&nbsp;
+						</header>
+						<!-- 搜索商品 -->
+						<div class="table-responsive">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width: 10%">店铺名称/ID/电话</th>
+										<th style="width: 10%">商品ID</th>
+										<th style="width: 15%">商品名</th>
+										<th style="width: 15%">商品类型</th>
+										<th style="width: 20%">商品图片</th>
+										<th style="text-align: center">操作</th>
+									</tr>
+								</thead>
+								#foreach($product in $productList)
+								<tr>
+									<td style="vertical-align: middle;">$!product.shopName <br>
+										$!product.shopId <br> $!product.shopCell
+									</td>
+									<td style="vertical-align: middle;">$!product.productNo</td>
+									<td style="vertical-align: middle;">$!product.productName</td>
+									<td style="vertical-align: middle;">$!product.productType
+										> $!product.children</td>
+									<td>#foreach ($moren in $product.moren)
+										<div style="position: relative;">
+											<img id="img" alt="" style="width: 128px; height: auto"
+												src="$moren.img" onload="fn(this)">
+											<p
+												style="position: absolute; left: 10px; top: 10px; color: red"></p>
+										</div> #end <br> <span class="morePic"
+										onclick="showPic($!product.shopId,$!product.productNo,'2')">商品滑动图*</span>
+										<br> <br> <br> <br> <span class="morePic"
+										onclick="showPic($!product.shopId,$!product.productNo,'0')">商品详情图*</span>
+									</td>
+									<td
+										style="width: 20%; padding: 20px 20px; vertical-align: middle;">
+
+										<input class="btn   btn-danger"
+										style="width: 35%; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="Pass('$!product.shopId','$!product.productNo','1')"
+										value="同意" name="a_up"> <input
+										class="btn   btn-danger"
+										style="width: 35%; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="Pass('$!product.shopId','$!product.productNo','0')"
+										value="拒绝" name="a_up">
+
+
+
+									</td>
+								</tr>
+								#end
+							</table>
+						</div>
+						<div style="height: 40px"></div>
+					</section>
+					<!-- ---列表主体--- -->
+					<div style="clear: both" class="fn-mt7">#set ($formName =
+						"formName") #parse('/mng/page.html')</div>
+					<div style="height: 100px;"></div>
+				</section>
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+	</section>
+	<!--弹出层时背景层DIV-->
+	<div id="fade" class="black_overlay"></div>
+	<div id="MyDiv" class="white_content">
+		<div style="text-align: right; cursor: default; height: 40px;">
+
+		</div>
+
+	</div>
+	<div id="inputText" class="white_content"
+		style="position: absolute; left: 800px; top: 170px; width: 420px; height: 37px;">
+
+	</div>
+	<div id="showBannerF"
+		style="display: none; padding: 10px; position: absolute; right: 15%; top: 20%; width: auto; height: auto; background-color: #E0FFFF">
+		<span id="showpicSpan" onclick="closeD()"
+			style="font-size: 16px; font-weight: bold; cursor: pointer; float: left; position: absolute; right: 10px; top: 0px">关闭</span>
+		<div id="showBanner" style="margin-top: 5px"></div>
+		<!-- 		<div style="position:relative;">
+			<img alt="" style="width:128px;height:auto"src="http://lsh5.cn/image/1486641757679.jpeg" onload="fn(this)">
+			<p style="position:relative;left:10px;bottom:0px;color:red"></p>
+		</div>
+				<div style="position:relative;">
+			<img alt="" style="width:128px;height:auto"src="http://lsh5.cn/image/1486641757679.jpeg" onload="fn(this)">
+			<p style="position:relative;left:10px;bottom:0px;color:red"></p>
+		</div> -->
+	</div>
+	<script src="js/app.v2.js"></script>
+</body>
+</html>

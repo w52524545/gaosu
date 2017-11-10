@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="applicable-device" content="mobile">
+<title>玫发现商城-首页</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+<script src="js/idangerous.swiper-1.9.1.min.js"></script>
+</head>
+<body>
+	<main>
+	<div class="new">
+		<div class="new_t">
+			<i></i><a href=""><MARQUEE scrollAmount=2 direction=left>用户
+					某某某 刚刚在商场下了一个订单！</MARQUEE></a>
+		</div>
+
+	</div>
+	<div class="home-device">
+		<div class="swiper-main">
+			<div class="swiper-container swiper">
+				<div class="swiper-wrapper cur">
+					<div class="swiper-slide cur">
+						<img src="images/banner.jpg">
+					</div>
+					<div class="swiper-slide cur">
+						<img src="images/banner.jpg">
+					</div>
+					<div class="swiper-slide cur">
+						<img src="images/banner.jpg">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pagination"></div>
+	</div>
+	<nav>
+	    #foreach($category in $categoryList)
+		<li><a href="sortlist.html?fatherName=$!category.fatherName"><img src="images/nav1.png"><span>$!category.fatherName</span></a></li>
+		#end
+	</nav>
+	<section>
+		<div class="floor1">
+			<a href="">每日12:30开抢<br>
+			<span>B&O耳机</span><br>
+			<img src="images/floor.jpg"></a>
+		</div>
+		<div class="floor1_t">
+			<dl>
+				<a href=""><dt>
+						明日预告<br>
+						<b>精彩抢先知</b><span>深海鱼油</span>
+					</dt>
+					<dd>
+						<img src="images/floor1.jpg">
+					</dd></a>
+			</dl>
+			<dl>
+				<a href=""><dt>
+						新品推荐<br>
+						<b>每周更新</b><span>西柚汁</span>
+					</dt>
+					<dd>
+						<img src="images/floor2.jpg">
+					</dd></a>
+			</dl>
+		</div>
+	</section>
+	<section>
+		<div class="floor2">
+			<a href="group.html"><i></i>爱拼团<span>更多<i></i></span></a>
+		</div>
+		<div class="floor2_t">
+			<div class="slide_container">
+				<ul class="rslides" id="slider">
+					
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="floor3">
+			<img src="images/newpin.jpg">
+			#foreach($result in $newProduct)
+			<li><a href="productDetail.html?shopId=$!result.shopId&productNo=$!result.productNo"><img src="$!result.productUrl">
+				<p>$!result.productOff%off$!result.productName</p>
+					<span>￥<i>$!result.price</i></span></a></li>
+		    #end
+		</div>
+	</section>
+	<section>
+		<div class="floor2">
+			<a href="store.html"><i class="dp"></i>联盟商家<span>更多<i></i></span></a>
+		</div>
+		<div class="floor4">
+			
+		</div>
+	</section>
+	</main>
+	<div class="s_search">
+		<a href="search.html"><img src="images/search.png" /></a>
+	</div>
+	<footer>
+		<li class="cur"><a href="index.html"><i></i><span>首页</span></a></li>
+		<li><a href="sort.html"><i></i><span>分类</span></a></li>
+		<li><a href="partner.html"><i></i><span>开通农村经纪人</span></a></li>
+		<li><a href="shopcart.html"><i></i><span>购物车</span></a></li>
+		<li><a href="userCenter.html"><i></i><span>个人中心</span></a></li>
+	</footer>
+	
+<script src="js/public.js"></script>
+<script type="text/javascript">
+ /*拼团图片轮播*/
+$(function(){
+  $("#slider").responsiveSlides({
+    auto: true,
+    pager: false,
+    nav: true,
+    speed: 500,
+    namespace: "slide"
+  });
+
+})
+</script>
+<script src="js/responsiveslides.min.js"></script>
+
+
+<!-- 首页联盟商家展示  low-->
+<script type="text/javascript">
+$(document).ready(function() { 
+    jQuery.ajax({
+	    type: "POST",
+		url: "selectUnionShopHome.do",
+		dataType:"json",
+		data: 
+		{
+		},
+		success: function(data) {
+			var resultList = data.listObject;
+			var bodyHtml = "";
+			jQuery.each(resultList, function(i, item) {
+				var shopStar=item.shopStar;
+				if(shopStar<=1){
+					bodyHtml += '<li>'+'<a href="onlinestore.html?shopId='+item.shopId+' ">'+'<img src=" '+item.shopUrl+' ">'+
+					'<div class="floor4_t">'+'<b>'+item.shopName+'</b>'+
+					'<p><i></i>'+
+					'</p><br><p>地址：'+item.shopAddr+'</p><p>已售：'+item.sellCount+
+					'<span>1.6km</span></p></div></a></li>';
+				}
+				else if(shopStar==2){
+					bodyHtml += '<li>'+'<a href="onlinestore.html?shopId='+item.shopId+' ">'+'<img src=" '+item.shopUrl+' ">'+
+					'<div class="floor4_t">'+'<b>'+item.shopName+'</b>'+
+					'<p><i></i><i></i>'+
+					'</p><br><p>地址：'+item.shopAddr+'</p><p>已售：'+item.sellCount+
+					'<span>1.6km</span></p></div></a></li>';
+				}
+				else if(shopStar==3){
+					bodyHtml += '<li>'+'<a href="onlinestore.html?shopId='+item.shopId+' ">'+'<img src=" '+item.shopUrl+' ">'+
+					'<div class="floor4_t">'+'<b>'+item.shopName+'</b>'+
+					'<p><i></i><i></i><i></i>'+
+					'</p><br><p>地址：'+item.shopAddr+'</p><p>已售：'+item.sellCount+
+					'<span>1.6km</span></p></div></a></li>';
+				}
+				else if(shopStar==4){
+					bodyHtml += '<li>'+'<a href="onlinestore.html?shopId='+item.shopId+' ">'+'<img src=" '+item.shopUrl+' ">'+
+					'<div class="floor4_t">'+'<b>'+item.shopName+'</b>'+
+					'<p><i></i><i></i><i></i><i></i>'+
+					'</p><br><p>地址：'+item.shopAddr+'</p><p>已售：'+item.sellCount+
+					'<span>1.6km</span></p></div></a></li>';
+				}
+				else{
+					bodyHtml += '<li>'+'<a href="onlinestore.html?shopId='+item.shopId+' ">'+'<img src=" '+item.shopUrl+' ">'+
+					'<div class="floor4_t">'+'<b>'+item.shopName+'</b>'+
+					'<p><i></i><i></i><i></i><i></i><i></i>'+
+					'</p><br><p>地址：'+item.shopAddr+'</p><p>已售：'+item.sellCount+
+					'<span>1.6km</span></p></div></a></li>';
+				}
+			});
+			var new_content = bodyHtml;
+			$(".floor4").html(new_content);
+   }
+  });
+});
+</script>
+
+
+<!-- 首页新品展示 -->
+<script type="text/javascript">
+$(document).ready(function() { 
+    jQuery.ajax({
+	    type: "POST",
+		url: "",
+		dataType:"json",
+		data: 
+		{
+		},
+		success: function(data) {
+			var resultList = data.listObject;
+			var bodyHtml = "";
+			jQuery.each(resultList, function(i, item) {
+				bodyHtml += '<li>'+'<a href="onlinestore.html?shopId='+item.shopId+' ">'+'<img src=" '+item.shopUrl+' ">'+
+				'<div class="floor4_t">'+'<b>'+item.shopName+'</b>'+
+				'<p><i></i><i></i><i></i><i></i><i></i></p><br><p>地址：'+item.shopAddr+'</p><p>已售：'+item.sellCount+
+				'<span>1.6km</span></p></div></a></li>';
+			});
+			var new_content = bodyHtml;
+			$(".floor4").html(new_content);
+   }
+  });
+});
+</script>
+
+<!-- 首页爱拼团展示 -->
+<script type="text/javascript">
+$(document).ready(function() { 
+    jQuery.ajax({
+	    type: "POST",
+		url: "selectTeamGoProduct.do",
+		dataType:"json",
+		data: 
+		{
+		},
+		success: function(data) {
+			var resultList = data.listObject;
+			var bodyHtml = "";
+			jQuery.each(resultList, function(i, item) {
+				bodyHtml += '<li><a href="groupDetail.html?shopId='+item.shopId+'&productNo='+item.productNo+' ">'+
+				'<img src="images/images1.jpg" alt="">'+
+				'<p class="caption">'+item.productOff+'%off'+item.productName+'<br>'+
+						'<b>￥<i>'+item.price.amount+'</i><span>￥'+item.oldPrice.amount+'</span><em>'+item.needPeople+'人团</em></b>'+
+					'</p></a></li>';
+			});
+			var new_content = bodyHtml;
+			$(".rslides").html(new_content);
+   }
+  });
+});
+</script>
+
+
+</body>
+</html>

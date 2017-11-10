@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_agent">
+	<column name="AREA_INCOME" javatype="com.onway.common.lang.Money" />
+
+	<!-- 添加地区代理 -->
+	<operation name="addAgent" paramtype="object">
+		<sql>
+			insert into makeploy_agent
+			( ID,
+			USER_ID,
+			USER_NAME,
+			CELL,
+			PROVINCE,
+			CITY,
+			DISTRICT,
+			AREA_INCOME,
+			CHECK_OUT,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO)
+			values(?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?)
+
+		</sql>
+	</operation>
+
+	<!-- 查询代理信息 -->
+	<operation name="selectAll">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="cell" javatype="java.lang.String" />
+			<param name="province" javatype="java.lang.String" />
+			<param name="city" javatype="java.lang.String" />
+			<param name="district" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from
+			makeploy_agent
+		</sql>
+		<sqlmap>
+	<![CDATA[
+	SELECT
+		     ID,
+		     USER_ID,
+		     USER_NAME,
+		     CELL,
+		     PROVINCE,
+		     CITY,
+		     DISTRICT,
+		     AREA_INCOME,
+		     CHECK_OUT,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_agent
+			WHERE 1=1
+			<isNotEmpty property="userId" prepend="and">
+			USER_ID=#userId#
+			</isNotEmpty>
+			<isNotEmpty property="cell" prepend="and">
+			CELL= #cell#
+			</isNotEmpty>
+			<isNotEmpty property="province" prepend="and">
+			PROVINCE=#province#
+			</isNotEmpty>
+			<isNotEmpty property="city" prepend="and">
+			CITY=#city#
+			</isNotEmpty>
+			<isNotEmpty property="district" prepend="and">
+			DISTRICT=#district#
+			</isNotEmpty>
+	]]>
+		</sqlmap>
+	</operation>
+	<!-- 查询所有agent 返回集合 -->
+	<operation name="selectAgentInfo" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="cell" javatype="java.lang.String" />
+			<param name="province" javatype="java.lang.String" />
+			<param name="city" javatype="java.lang.String" />
+			<param name="district" javatype="java.lang.String" />
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from
+			makeploy_agent
+		</sql>
+		<sqlmap>
+		<![CDATA[
+		SELECT
+			     ID,
+			     USER_ID,
+			     USER_NAME,
+			     CELL,
+			     PROVINCE,
+			     CITY,
+			     DISTRICT,
+			     AREA_INCOME,
+			     CHECK_OUT,
+			     GMT_CREATE,
+			     MODIFIER,
+			     GMT_MODIFIED,
+			     MEMO
+				FROM makeploy_agent
+				WHERE 1=1
+				<isNotEmpty property="userId" prepend="and">
+				USER_ID=#userId#
+				</isNotEmpty>
+				<isNotEmpty property="cell" prepend="and">
+				CELL= #cell#
+				</isNotEmpty>
+				<isNotEmpty property="province" prepend="and">
+				PROVINCE=#province#
+				</isNotEmpty>
+				<isNotEmpty property="city" prepend="and">
+				CITY=#city#
+				</isNotEmpty>
+				<isNotEmpty property="district" prepend="and">
+				DISTRICT=#district#
+				</isNotEmpty>
+				order by GMT_MODIFIED desc
+				limit #offset#,#limit#
+		]]>
+		</sqlmap>
+	</operation>
+	<!-- 更新Checkout时间 -->
+	<operation name="updateCheckout">
+		<sql>
+			update makeploy_agent
+			set
+			CHECK_OUT=CURRENT_TIMESTAMP,AREA_INCOME=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			where USER_ID=?
+		</sql>
+
+	</operation>
+
+	<operation name="updateOutMoney">
+		<sql>
+			update makeploy_agent
+			set AREA_INCOME=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			where USER_ID=?
+		</sql>
+
+	</operation>
+	<!-- 计算代理条数 -->
+	<operation name="count">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="cell" javatype="java.lang.String" />
+			<param name="province" javatype="java.lang.String" />
+			<param name="city" javatype="java.lang.String" />
+			<param name="district" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_agent
+		</sql>
+		<sqlmap>
+	<![CDATA[
+		select count(1)	from makeploy_agent 
+		where 1=1
+			<isNotEmpty property="userId" prepend="and">
+				USER_ID=#userId#
+			</isNotEmpty>
+			<isNotEmpty property="cell" prepend="and">
+				CELL= #cell#
+			</isNotEmpty>
+			<isNotEmpty property="province" prepend="and">
+				PROVINCE=#province#
+			</isNotEmpty>
+			<isNotEmpty property="city" prepend="and">
+				CITY=#city#
+			</isNotEmpty>
+			<isNotEmpty property="district" prepend="and">
+				DISTRICT=#district#
+			</isNotEmpty>
+		
+	
+	]]>
+		</sqlmap>
+	</operation>
+</table>

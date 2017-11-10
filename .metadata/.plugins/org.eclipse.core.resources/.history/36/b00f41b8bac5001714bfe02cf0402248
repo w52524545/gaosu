@@ -1,0 +1,6 @@
+#231
+makeploy.driver=com.mysql.jdbc.Driver
+makeploy.url=jdbc:mysql://60.205.188.103:3306/makeploy?useUnicode=true&characterEncoding=utf-8
+makeploy.user=root
+makeploy.password=root#123
+

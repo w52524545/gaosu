@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改合伙人金额</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js">
+	
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+</style>
+</head>
+<body>
+	<section class="hbox stretch">
+		<!-- 导航栏 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商会新增</li>
+						<li>商会新增</li>
+					</ul>
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<div class="panel-body">
+								<form role="form" action="changePartnerMoney.do" method="POST"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<label>原费用</label><input name="pAccout"
+											id="pAccout" type="text" class="form-control" value="$!pAccout" readonly="readonly"/>
+									</div>
+									<div class="form-group">
+										<label>修改费用</label> <input name="partnerMoney"
+											id="partnerMoney" type="text" class="form-control" value=""/>
+									</div>
+
+									<div class="line line-dashed line-lg pull-in"></div>
+									<input type="submit" class="btn btn-sm btn-success" value="提交">
+								</form>
+							</div>
+						</section>
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+<script src="js/app.v2.js"></script>
+</body>
+</html>

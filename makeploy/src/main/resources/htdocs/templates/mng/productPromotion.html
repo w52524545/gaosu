@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑店铺信息</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js">
+	
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+		if($!promotionDO.status == '0'){
+			alert('该商品正在促销审核中！');
+			return;
+		}
+})
+
+
+	function Trim(str)
+	{ 
+	    return str.replace(/(^\s*)|(\s*$)/g, ""); 
+	}
+	
+function fun(){
+	
+	if(confirm("确定提交申请么？")){
+		jQuery.ajax({
+	        url : "productPromotionChech.do",// 跳转到 action  
+	        type : 'post',
+	        cache : false,
+	        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+	        dataType : 'json',
+	        data:$("#modifyOrder").serialize(),
+	        success : function(data) {
+	            if (data.bizSucc) {
+	                alert("成功");
+	                window.opener.location.reload();
+	                window.close();
+	            } else{
+	             alert("失败");
+	           }
+	        },
+	        error : function() {  
+	                       alert("异常！");  
+	        }  
+	      });
+	}
+	
+
+}
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+</style>
+</head>
+<body>
+	<section class="hbox stretch">
+		<!-- 导航栏 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+						<li>提交申请</li>
+					</ul>
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<div class="panel-body">
+								<form role="form" id="modifyOrder" method="POST"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<label>店铺名称</label>
+										<span class="form-control" style="border: 0px">$!shopDO.shopName</span>
+										<input type="hidden" name="shopId" value="$!shopDO.shopId">
+									</div>
+									<div class="form-group">
+										<label>商品名称</label>
+										<span class="form-control" style="border: 0px">$!productDO.productName</span>
+										<input type="hidden" name="productNo" value="$!productDO.productNo">
+									</div>
+									<div class="form-group">
+										<label>联系人</label>
+										<input name="userName"
+											id="userName" type="text" class="form-control" value="$!promotionDO.userName"/>
+									</div>
+									<div class="form-group">
+										<label>联系电话</label>
+										<input name="cell"
+											id="cell" type="text" class="form-control" value="$!promotionDO.cell"/>
+									</div>
+									<div class="form-group">
+										<label>选择申请活动</label>
+										<select id="type" name="type"  style="width:250px">
+										     #if($!promotionDO.type == '1')
+										     <option value="" >申请活动类型</option>
+										     <option value="团购" selected="selected">团购</option>
+										     <option value="积分商城" >积分</option>
+										     #elseif($!promotionDO.type == '3')
+										     <option value="" >申请活动类型</option>
+										     <option value="团购" >团购</option>
+										     <option value="积分商城" selected="selected">积分</option>
+										     #else
+										     <option value="" selected="selected">申请活动类型</option>
+										     <option value="团购" >团购</option>
+										     <option value="积分商城" >积分</option>
+										     #end
+										     <!-- <option value="限时秒杀" >限时秒杀</option>
+										     <option value="赞助" >赞助</option> -->
+										</select>
+									</div>
+									<div class="form-group">
+					                   <label>请选择行业：</label>
+										<select id="industry" name="industry"class="form-control m-b" style="width:auto">
+												#foreach($type in $industry)
+												    #if($!promotionDO.industry == $type)
+													<option value="$!type" selected="selected">$!type</option>
+													#else
+													<option value="$!type" >$!type</option>
+													#end
+												#end
+										</select>
+				                   </div>
+									<div class="form-group">
+										<label>当前商品价格（元）</label>
+										<span class="form-control" style="border: 0px">$!productDO.oldPrice</span>
+										<input type="hidden" name="oldPrice" value="$!productDO.oldPrice">
+									</div>
+									<div class="form-group">
+										<label>供货价（元）</label> <input name="price"
+											id="price" type="text" class="form-control" value="$!promotionDO.price"/>
+									</div>
+									<div class="form-group">
+										<label>物流方式</label> <input name="postWay"
+											id="postWay" type="text" class="form-control" value="$!promotionDO.postWay"/>
+									</div>
+									<div class="form-group">
+										<label>备注留言</label> <input name="messages"
+											id="messages" type="text" class="form-control" value="$!promotionDO.messages"/>
+									</div>
+									<!-- <div class="form-group">
+										<label>设置团购总人数（若选择团购 务必填写！）</label> <input name="needPeople"
+											id="needPeople" type="text" class="form-control" value=""/>
+									</div> -->
+
+									<div class="line line-dashed line-lg pull-in"></div>
+									<!-- #foreach($area in $areaList)
+									  <label>$!area.area : $!area.areaCity</label><br>
+									#end
+									<br> -->
+									<input type="button" class="btn btn-sm btn-success" value="提交申请" onclick="fun()">
+								</form>
+							</div>
+						</section>
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+<script src="js/app.v2.js"></script>
+</body>
+</html>

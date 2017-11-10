@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_shopping_cart">
+    <column name="" javatype="" />
+    <column name="PRICE" javatype="com.onway.common.lang.Money" />
+    
+    
+    <!-- 查看我的购物车信息列表 -->
+    <operation name="selectShoppingCartByUserId" multiplicity="many">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_shopping_cart
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     SHOP_ID,
+		     PRICE,
+		     PRODUCT_COUNT,
+		     DEL_FLG,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_shopping_cart
+            WHERE USER_ID = #userId#
+            AND DEL_FLG = 0
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查询我的购物车 (判断我的购物车是否有该商品)-->
+    <operation name="selectShoppingCartByUserIdAndProductNoAndShopId" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="productNo" javatype="java.lang.String" />
+            <param name="shopId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_shopping_cart
+        </sql>
+        <sqlmap>
+			SELECT
+		     ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     SHOP_ID,
+		     PRICE,
+		     PRODUCT_COUNT,
+		     DEL_FLG,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_shopping_cart
+			WHERE DEL_FLG = 0 
+               and  USER_ID = #userId#
+               and  PRODUCT_NO = #productNo#
+               and  SHOP_ID = #shopId#
+        </sqlmap>
+    </operation>
+    
+    <!-- 购物车查询（数据条数）  -->
+    <operation name="selectShoppingCartCountByUserId" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_shopping_cart
+        </sql>
+        <sqlmap>
+			SELECT
+		    count(1)
+			FROM makeploy_shopping_cart
+			WHERE USER_ID = #userId#
+			AND DEL_FLG=0
+        </sqlmap>
+    </operation>
+    
+    <!-- 修改修改购物车商品信息  -->
+    <operation name="updateShoppingCartInfo" paramtype="object">
+		<sql>
+			update makeploy_shopping_cart set
+		     PRODUCT_COUNT =?,GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE PRODUCT_NO = ?
+            and USER_ID =?
+            and SHOP_ID =?
+            and DEL_FLG=0
+		</sql>
+	</operation>
+	
+	<!-- 删除购物车商品信息  -->
+    <operation name="deleteShoppingCartInfo" paramtype="object">
+        <sql>
+            update makeploy_shopping_cart set
+		     DEL_FLG = 1,GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE PRODUCT_NO = ?
+            and USER_ID =?
+            and SHOP_ID =?
+        </sql>
+	</operation>
+	
+	<!-- 添加购物车    -->
+    <operation name="addShoppingCart" paramtype="object">
+		<sql>
+			insert into makeploy_shopping_cart
+            (
+             ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     SHOP_ID,
+		     PRICE,
+		     PRODUCT_COUNT,
+		     DEL_FLG,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+            )
+			VALUES 
+			(
+             ?, ?, ?, ?, ?, ?, 0, ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+
+</table>

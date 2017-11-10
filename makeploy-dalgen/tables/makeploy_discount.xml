@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_discount">
+    <column name="" javatype="" />
+    <column name="ACCOUT" javatype="com.onway.common.lang.Money" />
+    <column name="LIMIT_ACCOUT" javatype="com.onway.common.lang.Money" />
+    
+    <!-- 查询优惠券信息 -->
+    <operation name="selectDiscountInfoByUserIdAndStatus" multiplicity="many">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="status" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_discount
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     DISCOUNT_NO,
+		     STATUS,
+		     END_DATE,
+		     ACCOUT,
+		     LIMIT_ACCOUT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_discount
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="status" prepend="and">
+                    STATUS = #status#
+                </isNotNull>
+            </dynamic>
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    
+    <!-- 优惠券查询（数据条数）  -->
+    <operation name="selectDiscountCountByStatusAndUserId" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="status" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_discount
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_discount
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="status" prepend="and">
+                    STATUS = #status#
+                </isNotNull>
+            </dynamic>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查询所有优惠券信息 -->
+    <operation name="selectAllDiscountByUserId" multiplicity="many">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_discount
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     DISCOUNT_NO,
+		     STATUS,
+		     END_DATE,
+		     ACCOUT,
+		     LIMIT_ACCOUT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_discount
+			WHERE USER_ID = #userId#
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+</table>

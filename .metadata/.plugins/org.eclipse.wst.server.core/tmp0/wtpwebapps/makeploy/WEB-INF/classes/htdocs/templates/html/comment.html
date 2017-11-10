@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>商品评论</title>
+</head>
+<body class="marketMzw">
+<ul class="detailF4 comment">
+    #foreach($result in $comments)
+    <li class="detF4Main">
+        <div class="detF4M1">
+            <div><img src="$!result.commentUserUrl" alt="头像"></div>
+            <span>$!result.commentUserNum</span>
+        </div>
+        <div class="comM1">
+            <small>$!dateUtils.format($!result.commentTime,'yyyy-MM-dd')</small><small>尺码：M</small><small>颜色：藏青色</small>
+        </div>
+        <p>$!result.comments</p>
+        <ul class="detF4M2">
+            <li><img src="images/gd1.jpg" alt="图片"></li>
+            <li><img src="images/gd1.jpg" alt="图片"></li>
+        </ul>
+        <small>浏览26</small>
+    </li>
+    #end
+</ul>
+</body>
+</html>

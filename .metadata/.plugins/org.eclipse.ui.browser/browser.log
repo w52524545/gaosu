@@ -1,0 +1,29 @@
+
+11月 01, 2017 20:06:40.47 NEW SESSION
+11月 01, 2017 20:06:40.48 [1256:6224:1101/200640.374:ERROR:backend_impl.cc(1055)] Critical error found -8
+11月 01, 2017 20:06:40.93 [1256:6224:1101/200640.374:ERROR:entry_impl.cc(1037)] No file for a004d086
+11月 01, 2017 20:06:42.79 [1256:6224:1101/200642.773:ERROR:backend_impl.cc(1055)] Critical error found -8
+11月 01, 2017 20:06:58.35 [1256:12032:1101/200658.354:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+11月 01, 2017 20:07:09.36 [1256:12032:1101/200709.356:ERROR:ssl_client_socket_impl.cc(1091)] handshake failed; returned -1, SSL error code 1, net_error -103
+11月 01, 2017 20:07:46.55 [1256:12032:1101/200746.524:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+11月 01, 2017 20:08:44.04 [1256:12032:1101/200844.042:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+11月 01, 2017 20:08:59.59 [1256:12032:1101/200859.588:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+11月 01, 2017 20:11:03.38 [1256:12032:1101/201103.378:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+11月 01, 2017 20:11:19.66 [1256:12032:1101/201119.662:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+11月 01, 2017 20:13:02.52 [1256:9652:1101/201302.521:ERROR:account_tracker.cc(328)] OnGetTokenFailure: Connection failed (-118).
+11月 01, 2017 20:13:02.52 [1256:9652:1101/201302.521:ERROR:account_tracker.cc(328)] OnGetTokenFailure: Connection failed (-118).
+11月 01, 2017 20:14:17.32 [1256:12032:1101/201417.325:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+11月 01, 2017 20:14:17.45 [1256:12032:1101/201417.453:ERROR:connection_factory_impl.cc(386)] Failed to connect to MCS endpoint with error -118
+11月 01, 2017 20:18:15.24 [1256:12032:1101/201815.242:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+11月 01, 2017 20:19:40.13 [1256:9652:1101/201940.132:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+11月 01, 2017 20:21:34.97 [1256:12032:1101/202134.967:ERROR:shader_disk_cache.cc(238)] Failed to create shader cache entry: -2
+11月 01, 2017 20:22:16.05 [1256:9652:1101/202216.048:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+11月 01, 2017 20:23:03.30 [1256:12032:1101/202303.297:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+11月 01, 2017 20:25:17.41 [1256:12032:1101/202517.408:ERROR:socket_dispatcher_host.cc(91)] Failed to resolve address for x., errorcode: -105
+11月 01, 2017 20:25:17.41 [1256:12032:1101/202517.408:ERROR:socket_dispatcher_host.cc(91)] Failed to resolve address for x., errorcode: -105
+11月 01, 2017 20:25:20.71 [1256:9652:1101/202520.714:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+11月 01, 2017 20:29:17.12 [1256:9652:1101/202917.113:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.
+11月 01, 2017 20:31:05.47 [1256:12032:1101/203105.466:ERROR:checkin_request.cc(211)] Failed to get checkin response. Fetcher failed. Retrying.
+11月 01, 2017 20:31:18.70 [1256:12032:1101/203118.698:ERROR:socket_dispatcher_host.cc(91)] Failed to resolve address for x., errorcode: -105
+11月 01, 2017 20:31:18.70 [1256:12032:1101/203118.698:ERROR:socket_dispatcher_host.cc(91)] Failed to resolve address for x., errorcode: -105
+11月 01, 2017 20:34:16.12 [1256:9652:1101/203416.112:ERROR:gcm_channel_status_request.cc(127)] GCM channel request failed.

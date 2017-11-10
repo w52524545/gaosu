@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>我的商品</title>
+</head>
+<body class="marketMzw">
+<ul class="waresList">
+    #foreach ( $prod in $product )
+    <li>
+        <div class="joinF1" value="$!prod.productNo">
+            <div class="joinF11" value="$!prod.shopId"><img src="&!prod.productUrl" alt="商品图"></div>
+            <div class="joinF12">
+                <p>$!prod.productName</p>
+                <div class="joinF1L">
+                    <span>单价：<font style="float:none;">￥ $!prod.price</font></span>
+                    <span>库存$!prod.count件</span>
+                    <div class="waresStatus">#if ($!prod.status==0 ) 上架 #elseif($!prod.status==1) 下架 #end </div>
+                </div>
+                <div class="waresS1">
+                    <i></i>
+                    <ul><li class="waresS11">#if ($!prod.status==1 ) 上架 #elseif($!prod.status==0) 下架 #end </li><li class="waresS12">删除</li><li class="waresS13">修改价格</li><li class="waresS14">修改数量</li></ul>
+                </div>
+                <div class="waresS2"><input type="checkbox" name='checkname' class="s_total" value="$!prod.productNo"/></div>
+            </div>
+        </div>
+    </li>
+    #end
+</ul>
+<div class="waresBot1">
+    <div class="waresBot11"><a class="waresBtn1" id="batchBtn">批量管理</a><a class="waresBtn2" id="gohref">去市场选货</a></div>
+    <div class="waresBot12" id="botHide1">
+        <div><div><p>原价格：</p><input id="price"><p>元</p></div><i></i></div>
+        <a id="sureUpdatePrice">确认修改</a>
+    </div>
+    <div class="waresBot12" id="botHide2">
+        <div><div><p>库存：</p><input id="count" ><p>件</p></div><i></i></div>
+        <a id="sureUpdateCount">确认修改</a>
+    </div>
+</div>
+<div class="waresBot2">
+    <div><input type="checkbox" name="checkall" class="s_total" id="checkall" style="margin:5px 5px 0 0;"/><font>全选</font></div>
+    <div>
+        <span>选择操作方式：</span>
+        <select id="batchdo">
+            <option>批量上架</option>
+            <option>批量下架</option>
+            <option>批量删除</option>
+        </select>
+    </div>
+    <div style="margin-top:5px;"><a class="waresBtn1" id="batchNoBtn">取消</a><a class="waresBtn2" id="batchYesBtn">完成</a></div>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+    	//去市场选货
+    	 $("#gohref").click(function(){
+    		 window.location.href="index.html";
+         });
+        //编辑弹框
+        $(".waresS1 i").click(function(){
+            $(this).parents("li").find(".waresS1 ul").toggle();
+            $(this).parents("li").siblings().find(".waresS1 ul").hide();
+        });
+        //上下架
+        $(".waresS11").click(function(){
+            var txt1 = $(this).text();//按钮中的状态
+            var txt2 = $(this).parents("li").find(".waresStatus").text();//   条目中的状态
+            var productNo = $(this).parents(".joinF1").attr("value");
+            var sign ;          //数据库中的status
+            if("上架"==txt1.trim()){
+                sign = "0" ;
+            }else {
+                sign = "1" ;
+            }
+            if(txt2.indexOf("下") >= 0){
+                txt1="下架";
+                txt2="上架";
+            }
+            else if(txt2.indexOf("上") >= 0){
+                txt1="上架";
+                txt2="下架";
+            }
+            jQuery.ajax({
+                type: "POST",
+                url: "offShelfProduct.do",
+                dataType:"json",
+                data:
+                {
+                    "productNo":productNo,
+                    "status": sign
+                },
+                success: function(data) {
+                    if(data.bizSucc){
+                       
+//                        $(".waresS1 ul").hide();
+//
+//                        $(".joinF1").each(function(){
+//                            if($(".waresS11").parents(".joinF1").attr("value")==productNo){
+//                                this.children(".joinF12").children(".joinF1L").children(".waresStatus").text(txt2);
+//                                this.children(".joinF12").children(".waresS1").children(".waresS11").text(txt1);
+//                                $(".waresS11").text(txt1);
+//                                $(".waresS11").parents("li").find(".waresStatus").text(txt2);
+//                            }
+//                        });
+
+                        window.location.href="myProduct.html";
+
+                    }
+                },
+                error: function () {
+                    alert("你错了");
+                }
+            });
+        });
+        //删除
+        $(".waresS12").click(function(){
+            var productNo = $(this).parents(".joinF1").attr("value");
+            jQuery.ajax({
+                type: "POST",
+                url: "deleteProduct.do",
+                dataType:"json",
+                data:
+                {
+                    "productNo":productNo
+                },
+                success: function(data) {
+                    if(data.bizSucc){
+                        window.location.href="myProduct.html";
+                    }
+                },
+                error: function () {
+                    alert("你错了");
+                }
+            });
+        });
+        //修改价格
+        $(".waresS13").click(function(){
+            $(".waresBot11,.waresS1 ul").hide();
+            $("#botHide1").show();
+            var productNo = $(this).parents(".joinF1").attr("value");
+            var shopId = $(this).parents().children(".joinF11").attr("value");
+            $("#sureUpdatePrice").click(function () {
+                var price = $("#price").val();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "updateProductPrice.do",
+                    dataType:"json",
+                    data:
+                    {
+                        "productNo":productNo,
+                        "price":price,
+                        "shopId":shopId
+                    },
+                    success: function(data) {
+                        if(data.bizSucc){
+                            window.location.href="myProduct.html";
+                        }
+                    },
+                    error: function () {
+                        alert("你错了");
+                    }
+                });
+            });
+        });
+        //修改库存
+        $(".waresS14").click(function(){
+            $(".waresBot11,.waresS1 ul").hide();
+            $("#botHide2").show();
+            var productNo = $(this).parents(".joinF1").attr("value");
+            $("#sureUpdateCount").click(function () {
+                var count = $("#count").val();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "updateProductCount.do",
+                    dataType:"json",
+                    data:
+                    {
+                        "productNo":productNo,
+                        "count":count
+                    },
+                    success: function(data) {
+                        if(data.bizSucc){
+                            window.location.href="myProduct.html";
+                        }
+                    },
+                    error: function () {
+                        alert("你错了");
+                    }
+                });
+            });
+
+        });
+        //修改价格、库存弹窗关闭
+        $(".waresBot12 div i").click(function(){
+            $(".waresBot12").hide();
+            $(".waresBot11").show();
+        });
+
+        //批量管理切入
+        $("#batchBtn").click(function(){
+            $(".waresS1").hide();
+            $(".waresS2").show();
+            $(".waresBot1").hide();
+            $(".waresBot2").show();
+        });
+        //批量管理切出
+        $("#batchNoBtn,#batchYesBtn").click(function(){
+            $(".waresS2").hide();
+            $(".waresS1").show();
+            $(".waresBot2").hide();
+            $(".waresBot1").show();
+        });
+        //批量管理-打钩按钮
+       $(".s_total").click(function(){
+          $(this).toggleClass("cur");
+       });
+        //批量管理-全选
+        $("#checkall").click(function(){
+                    var checkname = $("input[name='checkname']");
+                    if(this.checked){
+                        checkname.each(function(){this.checked=true;});
+                        checkname.addClass("cur");
+                    }else{
+                        checkname.each(function(){this.checked=false;});
+                        checkname.removeClass("cur");
+                    }
+                }
+        );
+
+    });
+</script>
+
+<script type="text/javascript">
+
+//批量操作
+$("#batchYesBtn").click(function(){
+	
+	var _list=[];
+	var option=$("#batchdo option:selected").text();
+	
+	$("input[name='checkname']").each(function(index,item){
+		 if($(this).is(':checked')==true){
+			 _list[index]=$(this).val();
+			 //_list.push($(this).val()); 
+			}
+		 
+	});
+	
+	alert(_list);
+	
+	if(option=="批量删除"){
+		jQuery.ajax({
+	        type: "POST",
+	        url: "deleteProduct.do",
+	        dataType:"json",
+	        data:
+	        {
+	            "productNo":_list.toString()
+	        },
+	        success: function(data) {
+	            if(data.bizSucc){
+	                window.location.href="myProduct.html";
+	            }
+	        },
+	        error: function () {
+	            alert("你错了");
+	        }
+	    }); 
+	}
+	
+	if(option=="批量上架"){
+		var txt1 = $(".waresS11").text();//按钮中的状态
+        var txt2 = $(".waresS11").parents("li").find(".waresStatus").text();//   条目中的状态
+        var sign ="0";          //数据库中的status
+        if(txt2.indexOf("下") >= 0){
+            txt1="上架";
+            txt2="下架";
+        }
+        else if(txt2.indexOf("上") >= 0){
+            txt1="下架";
+            txt2="上架";
+        }
+        alert(sign);
+        jQuery.ajax({
+            type: "POST",
+            url: "offShelfProduct.do",
+            dataType:"json",
+            data:
+            {
+                "productNo":_list.toString(),
+                "status": sign
+            },
+            success: function(data) {
+                if(data.bizSucc){
+                    window.location.href="myProduct.html";
+                }
+            },
+            error: function () {
+                alert("你错了");
+            }
+        });
+	}
+	
+	if(option=="批量下架"){
+		var txt1 = $(".waresS11").text();//按钮中的状态
+        var txt2 = $(".waresS11").parents("li").find(".waresStatus").text();//   条目中的状态
+        var sign ="1";          //数据库中的status
+        if(txt2.indexOf("下") >= 0){
+            txt1="下架";
+            txt2="上架";
+        }
+        else if(txt2.indexOf("上") >= 0){
+            txt1="上架";
+            txt2="下架";
+        }
+        alert(sign);
+        jQuery.ajax({
+            type: "POST",
+            url: "offShelfProduct.do",
+            dataType:"json",
+            data:
+            {
+                "productNo":_list.toString(),
+                "status": sign
+            },
+            success: function(data) {
+                if(data.bizSucc){
+                    window.location.href="myProduct.html";
+                }
+            },
+            error: function () {
+                alert("你错了");
+            }
+        });
+	}
+	
+});
+</script>
+
+</html>

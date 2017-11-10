@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_address">
+    <column name="" javatype="" />
+    
+    <!-- 查询收货地址信息 -->
+    <operation name="selectAddressInfoByUserIdAndDelFlg" multiplicity="many">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="delFlg" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_address
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ADDRESS_NO,
+		     DELIVERY_NAME,
+		     CELL,
+		     ADDR,
+		     FLG,
+		     DEL_FLG,
+		     PROVIENCE,
+		     CITY,
+		     DISTRICT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_address
+            <dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="delFlg" prepend="and">
+                    DEL_FLG = #delFlg#
+                </isNotNull>
+            </dynamic>
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查询收货地址信息  -->
+    <operation name="selectAddressInfoByUserId" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_address
+        </sql>
+        <sqlmap>
+			SELECT
+		     ID,
+		     USER_ID,
+		     ADDRESS_NO,
+		     DELIVERY_NAME,
+		     CELL,
+		     ADDR,
+		     FLG,
+		     DEL_FLG,
+		     PROVIENCE,
+		     CITY,
+		     DISTRICT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_address
+            WHERE USER_ID=#userId#
+        </sqlmap>
+    </operation>
+    
+    <!-- 收货地址查询（数据条数）  -->
+    <operation name="selectAddressCountByUserIdAndDelFlg" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="delFlg" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_address
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_address
+            <dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="delFlg" prepend="and">
+                    DEL_FLG = #delFlg#
+                </isNotNull>
+            </dynamic> 
+            ]]> 
+        </sqlmap>
+    </operation>
+    
+    <!-- 新增收货地址    -->
+    <operation name="addAddress" paramtype="object">
+		<sql>
+			insert into makeploy_address
+            (
+             ID,
+		     USER_ID,
+		     ADDRESS_NO,
+		     DELIVERY_NAME,
+		     CELL,
+		     ADDR,
+		     FLG,
+		     DEL_FLG,
+		     PROVIENCE,
+		     CITY,
+		     DISTRICT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 改变删除标识状态  -->
+    <operation name="changeAddressDelFlg" paramtype="object">
+		<sql>
+			update makeploy_address set
+		     DEL_FLG = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? and
+			 ADDRESS_NO = ?
+		</sql>
+	</operation>
+	
+	
+	<!-- 将所有userId的地址改成非默认  -->
+    <operation name="changeALLFlg" paramtype="object">
+		<sql>
+			update makeploy_address set
+		     FLG = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? 
+		</sql>
+	</operation>
+	
+	<!-- 改变默认标识状态  -->
+    <operation name="changeAddressFlg" paramtype="object">
+		<sql>
+			update makeploy_address set
+		     FLG = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? and
+			 ADDRESS_NO = ?
+		</sql>
+	</operation>
+	
+	<!-- 根据用户id查询默认收货地址 -->
+	 <operation name="selectDefaultAddress" >
+		<sql>
+			select * from makeploy_address where USER_ID = ? and FLG = ?
+		</sql>
+	</operation>
+	
+</table>

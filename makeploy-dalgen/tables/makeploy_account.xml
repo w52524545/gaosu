@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_account">
+	<column name="" javatype="" />
+	<column name="AMOUNT" javatype="com.onway.common.lang.Money" />
+
+	<!-- 查询流水表信息 -->
+	<operation name="selectAccountInfoByUserIdAndorderNoOld"
+		multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ORDER_NO,
+		     ACCOUNT_NO,
+		     AMOUNT,
+		     TYPE,
+		     SUB_TYPE,
+		     POINT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_account
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="orderNo" prepend="and">
+                    ORDER_NO = #orderNo#
+                </isNotNull>
+            </dynamic>
+            ]]>
+		</sqlmap>
+	</operation>
+	<!-- 查询需要提现的用户 -->
+	<operation name="selectAccountInfoByUserIdAndorderNo"
+		multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderNo" javatype="java.lang.String" />
+			<param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ORDER_NO,
+		     ACCOUNT_NO,
+		     AMOUNT,
+		     TYPE,
+		     SUB_TYPE,
+		     POINT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_account
+			where TYPE='2'
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                <isNotEmpty property="orderNo" prepend="and">
+                    ORDER_NO = #orderNo#
+                </isNotEmpty>
+                order by SUB_TYPE desc
+                 limit #offent#,#limit#
+                 
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectShopOutMoneyInfo" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ORDER_NO,
+			ACCOUNT_NO,
+			AMOUNT,
+			TYPE,
+			SUB_TYPE,
+			POINT,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM
+			makeploy_account
+			WHERE USER_ID = #userId#
+			and TYPE = '6'
+			order by GMT_MODIFIED DESC
+		</sqlmap>
+	</operation>
+
+	<!-- 查询账户明细 -->
+	<operation name="selectAccountInfoByUserId" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ORDER_NO,
+			ACCOUNT_NO,
+			AMOUNT,
+			TYPE,
+			SUB_TYPE,
+			POINT,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM
+			makeploy_account
+			WHERE USER_ID = #userId#
+		</sqlmap>
+	</operation>
+	<!-- 修改提现的状态 -->
+	<operation name="updateStatus">
+		<sql>
+			update makeploy_account
+			set SUB_TYPE=?
+			where ID=?
+		</sql>
+
+	</operation>
+	
+	<operation name="updateStatusByAccountNo">
+		<sql>
+			update makeploy_account
+			set SUB_TYPE=? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ACCOUNT_NO = ?
+		</sql>
+	</operation>
+	
+	<!-- 计算总条数 -->
+	<operation name="count">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderNo" javatype="java.lang.String" />
+		</extraparams>
+
+		<sql>
+			select count(1) from makeploy_account
+		</sql>
+		<sqlmap>
+    <![CDATA[
+    select count(1) from makeploy_account
+    where TYPE='2'
+    	<isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+        </isNotEmpty>
+        <isNotEmpty property="orderNo" prepend="and">
+                    ORDER_NO = #orderNo#
+        </isNotEmpty>
+    
+    ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 计算总条数 -->
+	<operation name="countAccountNo">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="accountNo" javatype="java.lang.String" />
+		</extraparams>
+
+		<sql>
+			select count(1) from makeploy_account
+		</sql>
+		<sqlmap>
+    <![CDATA[
+    select count(1) from makeploy_account
+    where 1=1 
+    	<isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+        </isNotEmpty>
+        <isNotEmpty property="accountNo" prepend="and">
+                    ACCOUNT_NO = #accountNo#
+        </isNotEmpty>
+        and TYPE in('2','6','7')
+    ]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 插入 -->
+	<operation name="insert" paramtype="object">
+		<sql>
+			insert into makeploy_account(
+			USER_ID,
+			ORDER_NO,
+			ACCOUNT_NO,
+			AMOUNT,
+			TYPE,
+			SUB_TYPE,
+			POINT,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES(
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			CURRENT_TIMESTAMP,
+			?,
+			CURRENT_TIMESTAMP,
+			?
+
+			)
+		</sql>
+	</operation>
+
+	<operation name="selectAccountInfoByUserIdAndAccountNo"
+		multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="accountNo" javatype="java.lang.String" />
+			<param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ORDER_NO,
+		     ACCOUNT_NO,
+		     AMOUNT,
+		     TYPE,
+		     SUB_TYPE,
+		     POINT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_account
+			where 1=1
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                <isNotEmpty property="accountNo" prepend="and">
+                    ACCOUNT_NO = #accountNo#
+                </isNotEmpty>
+             and   TYPE in ('2','6','7')
+                order by SUB_TYPE desc ,GMT_CREATE desc
+                 limit #offent#,#limit#
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 提交提现申请 -->
+	<operation name="outMoney" paramtype="object">
+		<sql>
+			insert into makeploy_account
+			(
+			ID,
+			USER_ID,
+			ORDER_NO,
+			ACCOUNT_NO,
+			AMOUNT,
+			TYPE,
+			SUB_TYPE,
+			POINT,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES
+			(
+			?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+	
+	<operation name="selectAccountInfoByID" >
+		<extraparams>
+			<param name="Id" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ORDER_NO,
+		     ACCOUNT_NO,
+		     AMOUNT,
+		     TYPE,
+		     SUB_TYPE,
+		     POINT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_account
+			<dynamic prepend="where">
+                <isNotNull property="Id" prepend="and">
+                    ID = #Id#
+                </isNotNull>
+            </dynamic>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectAccountInfoByAccountNo" >
+		<extraparams>
+			<param name="accountNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ORDER_NO,
+		     ACCOUNT_NO,
+		     AMOUNT,
+		     TYPE,
+		     SUB_TYPE,
+		     POINT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_account
+			<dynamic prepend="where">
+                <isNotNull property="accountNo" prepend="and">
+                    ACCOUNT_NO = #accountNo#
+                </isNotNull>
+            </dynamic>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+		<operation name="selectAccountInfoByType" multiplicity="many">
+		<extraparams>
+			<param name="type" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_account
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     ORDER_NO,
+		     ACCOUNT_NO,
+		     AMOUNT,
+		     TYPE,
+		     SUB_TYPE,
+		     POINT,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_account
+			<dynamic prepend="where">
+                <isNotNull property="type" prepend="and">
+                    TYPE = #type#
+                </isNotNull>
+            </dynamic>
+            order by GMT_CREATE desc
+            ]]>
+		</sqlmap>
+	</operation>
+</table>

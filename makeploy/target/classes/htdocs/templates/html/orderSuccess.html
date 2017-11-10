@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>订单详情</title>
+</head>
+<body class="marketMzw">
+<div class="orderF orderSuc"><i></i><em>交易成功</em></div>
+<div class="orderF0">
+    <i></i>
+    <div class="payF32 orderF01"><p class="p1">收货人：$!addressDO.deliveryName</p><p class="p2">$!addressDO.cell</p><span>收货地址：$!addressDO.district $!addressDO.city $!addressDO.provience $!addressDO.addr</span></div>
+</div>
+<div class="payF1">
+    <div class="payF11"><p>订单详情</p></div>
+    <div class="payF12">
+        <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+        <div class="joinF12 pay2F1T">
+            <p>$!productShow.productName</p>
+            #foreach($clothing in $clothingList)
+            <span>颜色：$!clothing.color</span>
+            <span>尺寸：$!clothing.dimensions</span>
+            #end
+            <div><font>￥$!productShow.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!productShow.ProductCount</span></div>
+        </div>
+        <div class="orderF11"><span>商品总价</span><span>￥$!productShow.money2</span></div>
+        <div class="orderF11"><span>运费</span><span>￥$!productShow.money3</span></div>
+        <div class="orderF11"><span>订单总价</span><span>￥$!productShow.money4</span></div>
+    </div>
+    <div class="orderF12"><span>订单总价</span><font>￥$!productShow.money4</font></div>
+</div>
+<div class="orderF22">
+    <span>订单编号：$!productShow.orderId</span>
+    <span>创建时间：$!dateUtils.format($!productShow.gmtcreate,"yyyy-MM-dd HH:mm:ss")</span>
+    <span>成交时间：$!dateUtils.format($!productShow.gmtModified,"yyyy-MM-dd HH:mm:ss")</span>
+</div>
+<div class="detailF6">
+    <a class="detF6M2"><i></i><small>客服</small></a>
+    <a class="detF6M1 orderF3M1"><i></i><small>电话</small></a>
+  <!--   <a class="btnRed" style="margin-top:5px;color:#ff3355;">查看物流</a> --><a class="btnGray" href="orderOpinion.html" style="margin-top:5px;">评论</a>
+</div>
+<div class="detailPop">
+    <div class="orderMain1">
+        <div class="orderM11">
+            <p>微信咨询<i></i></p>
+            <div><img src="$!shopDO.qrUrl" alt="二维码"/></div>
+            <span>长按二维码识别</span>
+        </div>
+        <div class="orderM12">取消</div>
+    </div>
+    <div class="orderMain2">
+        <div class="orderM12">客服电话：$!shopDO.cell</div>
+        <div class="orderM12">取消</div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        //客服弹窗
+        $(".detF6M2").click(function(){
+            $(".detailPop").show();
+            $(".orderMain1").slideDown();
+        });
+        //关闭弹窗
+        $(".orderM11 p i,.orderM12").click(function(){
+            $(".orderMain1").slideUp();
+            $(".detailPop").hide();
+        });
+
+        //电话弹窗
+        $(".orderF3M1").click(function(){
+            $(".detailPop").show();
+            $(".orderMain2").slideDown();
+        });
+        //关闭弹窗
+        $(".orderM12").click(function(){
+            $(".orderMain2").slideUp();
+            $(".detailPop").hide();
+        });
+    });
+</script>
+</html>

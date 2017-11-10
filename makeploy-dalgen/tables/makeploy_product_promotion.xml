@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_product_promotion">
+    <column name="PRICE" javatype="com.onway.common.lang.Money" />
+    <column name="OLD_PRICE" javatype="com.onway.common.lang.Money" />
+    
+    <!-- 查询商品促销申请表 -->
+    <operation name="selectProPromotionByShopIdAndProductNo">
+        <extraparams>
+            <param name="shopId" javatype="java.lang.String" />
+            <param name="productNo" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_product_promotion
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				CELL,
+				SHOP_ID,
+				SHOP_NAME,
+				PRODUCT_NO,
+				PRODUCT_NAME,
+				INDUSTRY,
+				STATUS,
+				TYPE,
+				NEED_PEOPLE,
+				PRICE,
+				OLD_PRICE,
+				SOLE_COUNT,
+				POST_WAY,
+				MESSAGES,
+				PRODUCT_URL,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_product_promotion
+            <dynamic prepend="where">
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+            </dynamic>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 插入商品促销申请表    -->
+    <operation name="addProPromotion" paramtype="object">
+		<sql>
+			insert into makeploy_product_promotion
+            (
+                ID,
+				USER_ID,
+				USER_NAME,
+				CELL,
+				SHOP_ID,
+				SHOP_NAME,
+				PRODUCT_NO,
+				PRODUCT_NAME,
+				INDUSTRY,
+				STATUS,
+				TYPE,
+				NEED_PEOPLE,
+				PRICE,
+				OLD_PRICE,
+				SOLE_COUNT,
+				POST_WAY,
+				MESSAGES,
+				PRODUCT_URL,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 修改状态 -->
+    <operation name="changeProPromotion">
+		<sql>
+			update makeploy_product_promotion set
+		     STATUS = ? , TYPE = ? , PRICE = ? , 
+		     OLD_PRICE = ? , NEED_PEOPLE = ? ,USER_NAME = ?,
+		     CELL = ?,INDUSTRY = ?,POST_WAY = ?,MESSAGES=?,
+		     GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 PRODUCT_NO =? and
+			 SHOP_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="selectAllProPromotion" multiplicity="many">
+        <extraparams>
+            <param name="shopId" javatype="java.lang.String" />
+            <param name="productNo" javatype="java.lang.String" />
+            <param name="offset" javatype="java.lang.Integer" />
+            <param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_product_promotion
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				CELL,
+				SHOP_ID,
+				SHOP_NAME,
+				PRODUCT_NO,
+				PRODUCT_NAME,
+				INDUSTRY,
+				STATUS,
+				TYPE,
+				NEED_PEOPLE,
+				PRICE,
+				OLD_PRICE,
+				SOLE_COUNT,
+				POST_WAY,
+				MESSAGES,
+				PRODUCT_URL,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_product_promotion
+            where STATUS = '0'
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+            ORDER BY ID DESC
+            limit #offset#,#limit#
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectAllProPromotionCount" resultClass="int">
+        <extraparams>
+            <param name="shopId" javatype="java.lang.String" />
+            <param name="productNo" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select count(1) from makeploy_product_promotion
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT count(1) FROM makeploy_product_promotion
+              where STATUS = '0'
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+	
+	<!-- 拒绝或通过审核 -->
+    <operation name="passOrReturnProPromotion">
+		<sql>
+			update makeploy_product_promotion set
+		     STATUS = ? , GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 PRODUCT_NO =? and
+			 SHOP_ID = ?
+		</sql>
+	</operation>
+	
+</table>

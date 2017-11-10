@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_faretemplate">
+    <column name="" javatype="" />
+    
+    <operation name="selectAllFaretemplate" multiplicity="many">
+        <extraparams>
+            <param name="shopId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_faretemplate
+        </sql>
+        <sqlmap>
+            <![CDATA[
+            select * from makeploy_faretemplate where DEL_FLAG = '2'
+            <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!--    -->
+    <operation name="addNewFaretemplate" paramtype="object">
+		<sql>
+			insert into makeploy_faretemplate
+            (
+				ID,
+				TEMPLATE_ID,
+				SHOP_ID,
+				TEMPLATE_NAME,
+				GOODS_ADDRESS,
+				SEND_TIME,
+				FREE_POST,
+				VALUATION_WAY,
+				CONDITION_POST,
+				DEL_FLAG,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 改变删除标识状态  -->
+    <operation name="changeDelFlg">
+		<sql>
+			update makeploy_faretemplate set
+		     DEL_FLAG = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 SHOP_ID =? and
+			 TEMPLATE_ID = ?
+		</sql>
+	</operation>
+    
+    
+    <operation name="selectAllFaretemplateByTemplateId">
+        <extraparams>
+            <param name="templateId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_faretemplate
+        </sql>
+        <sqlmap>
+            <![CDATA[
+            select * from makeploy_faretemplate where 1=1
+            <isNotNull property="templateId" prepend="and">
+                    TEMPLATE_ID = #templateId#
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+</table>

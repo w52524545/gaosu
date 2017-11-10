@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>商会管理系统</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]>
+    <script src="js/ie/html5shiv.js" cache="false"></script>
+    <script src="js/ie/respond.min.js" cache="false"></script>
+    <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<style type="text/css">
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.panel-heading {
+	font-weight: bold;
+}
+</style>
+<style type="text/css">
+.user_tit_box {
+	border: 1px solid #dcdcdc;
+	background: #fff;
+	padding: 1px;
+}
+
+.m_t10 {
+	margin-top: 10px;
+}
+
+.user_tit_box div.boxbg {
+	background: #e2edfb no-repeat 8px -196px;
+	font-weight: bold;
+	font-size: 14px;
+	color: #004499;
+	padding: 0 10px 0 18px;
+	zoom: 1;
+	height: 32px;
+	line-height: 32px;
+}
+
+.user_box {
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	padding: 10px;
+	line-height: 24px;
+}
+
+strong {
+	font-weight: bold;
+}
+
+.m_r10 {
+	margin-right: 10px;
+}
+
+.red, .red a, a.red {
+	color: #f00;
+}
+
+.dd {
+	font-family: sans-serif;
+	font-size: large;
+	text-align: left;
+	margin: 6px;
+}
+</style>
+<script type="text/javascript">
+	function inShop(shopId){
+		window.location.href="shopProduct.html?shopId="+shopId;
+		
+	}
+    </script>
+<script type="text/javascript">
+    var features = "top=20%,left=30%,width=1200,height=550,"
+        + "location=yes,menubar=no,resizable=yes,"
+        + "scrollbars=yes,status=no,toolbar=no";
+function changeShop(shopId) {
+    var url = "changeShop.html?shopId="+shopId;
+    window.location.href=url
+
+}
+    </script>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+
+		<h3 style="font-family: 微软雅黑;">商会管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+
+								<li class="active"><a href="javascript:" class="active">
+										<i class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>商会管理首页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="commerceIndex.html" class="active"> <i
+												class="fa fa-angle-right"></i> <span>商会中心</span>
+										</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商会管理后台</li>
+						<li>商会中心</li>
+					</ul>
+
+					<!-- 表格内容 -->
+					<div>
+
+						<div id="$!commerceResult.commerceDO.commerceId"
+							style="height: auto; margin: 10px 0px 35px 5px; background-color: #B0E0E6;">
+
+							<div>
+								<img src="$!commerceResult.commerceDO.commerceUrl"
+									style="position: relative; left: -30px; top: -10px; height: 200px;">
+							</div>
+							<div class="dd" style="">商会名:$!commerceResult.commerceDO.commerceName</div>
+							<div class="dd" style="">商会会长/电话:$!commerceResult.leaderCheckUser.userName / $!commerceResult.leaderCheckUser.userCell</div>
+							<div class="dd" style="">商会副会长/电话:
+							#foreach($vice in $commerceResult.viceCheckLeader)
+							$!vice.userName / $!vice.userCell
+							#end
+							</div>
+							<div class="dd" style="">商会负责人/电话:$!commerceResult.chargeCheckUser.userName / $!commerceResult.chargeCheckUser.userCell</div>
+							<div class="dd" style="">商会秘书长/电话:$!commerceResult.secretaryCheckUser.userName / $!commerceResult.secretaryCheckUser.userCell</div>
+							<div class="dd" style="">商会电话:$!commerceResult.commerceDO.commerceCell</div>
+							<div class="dd" style="">商会人数:<a href="commerceUser.html?commerceId=$!commerceResult.commerceDO.commerceId&check=1">$!commerceResult.commerceDO.peopleNum</a></div>
+							<div class="dd" style="">商会地址:$!commerceResult.commerceDO.commerceAddr</div>
+							<div class="dd" style="">商会描述:$!commerceResult.commerceDO.commerceDesc</div>
+							<div class="dd" style="">入会须知:$!commerceResult.commerceDO.message</div>
+							<div class="dd" style="">创建时间:$!dateUtils.format($!commerceResult.commerceDO.gmtCreate,'yyyy-MM-dd HH:mm:ss')</div>
+							<div class="dd" style="">公告:$!commerceResult.commerceDO.memo</div>
+							<div onclick="updateCommerce($!commerceResult.commerceDO.commerceId)" class="type-button"
+								style="position: relative; float: left; bottom: 0px;">修改商会信息</div>
+							<div onclick="changeQr($!commerceResult.commerceDO.commerceId)" class="type-button"
+								style="position: relative; float: left; bottom: 0px;">修改客服二维码</div>
+							<div onclick="changeCommerceMemo($!commerceResult.commerceDO.commerceId)" class="type-button"
+								style="position: relative; float: left; bottom: 0px;">修改商会公告</div>
+							<!--                     <a href="shopProductMng.html"><input type="button" value="进人店铺"></a>  -->
+							<div style=""></div>
+						</div>
+					</div>
+
+
+				</section>
+			</section>
+		</section>
+	</section>
+
+	<script src="js/app.v2.js"></script>
+	
+	<script type="text/javascript">
+			var features = "top=20%,left=25%,width=698px,height=490px,"
+				+ "location=yes,menubar=no,resizable=yes,"
+				+ "scrollbars=no,status=no,toolbar=no";
+			function updateCommerce(commerceId) {
+			    var url = "updateCommerce.html?commerceId="+commerceId;
+			    window.open(url, '增加一条信息', features);
+			
+			}
+    </script>
+    
+    <script type="text/javascript">
+
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function changeQr(commerceId) {
+			var url = "changeQr.html?commerceId="+commerceId;
+			window.open(url, '增加一条信息', features);
+			
+		}
+
+</script>
+
+    <script type="text/javascript">
+var features = "top=20%,left=25%,width=698px,height=490px,"
+	+ "location=yes,menubar=no,resizable=yes,"
+	+ "scrollbars=no,status=no,toolbar=no";
+function changeCommerceMemo(commerceId) {
+    var url = "changeCommerceMemo.html?commerceId="+commerceId;
+    window.open(url, '增加一条信息', features);
+
+}
+    </script>
+</body>
+</html>

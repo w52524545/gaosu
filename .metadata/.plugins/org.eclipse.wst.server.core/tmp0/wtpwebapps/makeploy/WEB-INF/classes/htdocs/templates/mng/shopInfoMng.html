@@ -1,0 +1,503 @@
+<!-- southRain -->
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-店铺信息查询</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+function toUnion(shopId){
+	var url="toUnion.do";
+	if(confirm("是否确定升级为联盟商家?")){
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"shopId":shopId},
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert(jsonResult.errMsg);
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+		}
+}
+
+function toHome(shopId,flag){
+	var shopId=shopId;
+	var url="toHome.do";
+	if(confirm("是否确定置于首页?")){
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"shopId":shopId,"flag":flag},
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert(jsonResult.errMsg);
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+		}
+}
+
+function toUp(shopId,flag,shopName){
+	var shopId=shopId;
+	var url="toUp.do";
+	var message;
+	if(flag == 0){
+		message = "确定撤离"+shopName+"？";
+	}else{
+		message = "确定置顶"+shopName+"？";
+	} 
+	if(confirm(message)){
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"shopId":shopId,"flag":flag},
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert(jsonResult.errMsg);
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+		}
+}
+
+function delFlag(shopId,flag,shopName){
+	var shopId=shopId;
+	var url="delFlag.do";
+	var message;
+	if(flag == 0){
+		message = "确定删除"+shopName+"？";
+	}else{
+		message = "确定激活"+shopName+"？";
+	} 
+	if(confirm(message)){
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"shopId":shopId,"flag":flag},
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert(jsonResult.errMsg);
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+		}
+}
+</script>
+
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.a-upload {
+	padding: 4px 10px;
+	height: 30px;
+	line-height: 20px;
+	position: relative;
+	cursor: pointer;
+	color: cadetblue;
+	background: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.a-upload  input {
+	position: absolute;
+	font-size: 15px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	cursor: pointer;
+}
+
+.a-upload:hover {
+	color: #444;
+	background: #eee;
+	border-color: #ccc;
+	text-decoration: none;
+}
+
+td {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>农村经纪人默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+
+										<li><a href="addAgent.html"> <i
+												class="fa fa-angle-right"></i> <span>区域代理添加</span>
+										</a></li>
+										<li><a href="addPartner.html"> <i
+												class="fa fa-angle-right"></i> <span>农村经纪人添加</span>
+										</a></li>
+									</ul></li>
+								<!--充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-file-text icon"> <b class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li class="active"><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+						<li>店铺信息查询</li>
+						<li>当前店铺数：$!shopInfoList.size()</li>
+						<li><a style="color: red;" href="changeProSellCount.html">&nbsp;修改店铺销售量</a></li>
+						<li><a style="color: red;" href="allcommerce.html">&nbsp;查看所有商会</a></li>
+						<li><a style="color: red;" href="#" onclick="addcommerce()">&nbsp;添加商会</a></li>
+						<li><a style="color: red;" href="mallIncomeMng.html?selectedNew=0">&nbsp;商城销售额</a></li>
+					</ul>
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form id="shopForm" action="" name="shopForm" method="post">
+							店铺ID:<input type="text" name="SHOP_ID" id="SHOP_ID"
+								value="$!shopId"> 用户ID:<input type="text" name="USER_ID"
+								id="USER_ID" value="$!userId"> <label
+								class="col-sm-2 control-label"
+								style="width: 70px; padding-left: 0px; padding-right: 0px">店铺行业：</label>
+							<div class="col-sm-2">
+								<select id="industry" name="industry" class="form-control m-b"
+									style="width: auto">
+									<option value="" selected="selected"></option> #foreach($type
+									in $industry) #if($!industries == $!type)
+									<option value="$!type" selected="selected">$!type</option>
+									#else
+									<option value="$!type">$!type</option> #end #end
+								</select>
+							</div>
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!shopForm.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!shopForm.pageSize">
+							&nbsp;&nbsp;&nbsp;&nbsp;查看已联盟商铺: <input name="unionflag"
+								value="1" type="radio" #if($unionflag== '1'||$unionflag!='0'
+								) checked="" #end><label>是</label> <input
+								name="unionflag" value="0" type="radio" #if($unionflag==
+								'0') checked="" #end><label>否</label>
+							<button type="submit" class="btn btn-primary">搜索</button>
+						</form>
+					</div>
+					<br>
+					<section class="panel panel-default"
+						style="overflow-x: auto; width: 99.9999999%">
+						<table id="announcement"
+							class="table table-striped datagrid m-b-sm" style="width: auto">
+							<thead>
+								<tr>
+									<th style="width: 10%">店铺ID</th>
+									<th style="width: 10%">用户ID</th>
+									<th>店铺名称</th>
+									<th>店铺等级</th>
+									<th>电话</th>
+									<th>星级</th>
+									<th>行业</th>
+									<th>售卖量</th>
+									<th>关注量</th>
+									<th>收藏量</th>
+									<th>店铺地址</th>
+									<th>店铺描述</th> 
+									#if($unionflag=="0")
+									<th>店铺操作</th> 
+									#else
+									<th>置于首页</th> 
+									#end
+									<th>置于前列</th>
+									<th>激活未激活</th>
+									<th width="160px;">详细信息</th>
+								</tr>
+							</thead>
+							#set($count=1) #foreach($shopInfo in $shopInfoList)
+							<tr>
+								<td>$!shopInfo.shopId <input id="shop_$count" type="hidden"
+									value="$!shopInfo.shopId">
+								</td>
+								<td>$!shopInfo.userId</td>
+								<td>$!shopInfo.shopName</td>
+								<td>$!shopInfo.creater</td>
+								<td>$!shopInfo.cell</td>
+								<td>$!shopInfo.shopStar</td>
+								<td>$!shopInfo.industry</td>
+								<td>$!shopInfo.sellCount</td>
+								<td>$!shopInfo.attentionCount</td>
+								<td>$!shopInfo.collectCount</td>
+								<td>$!shopInfo.shopAddr</td>
+								<td>$!shopInfo.shopDec</td> #if($unionflag=="0")
+								<td><input type="button" class="btn   btn-success"
+									value="升级为联盟商家" onclick="toUnion($!shopInfo.shopId)"></td>
+								#elseif($!shopInfo.homeUnion=="1")
+								<td><input type="button" class="btn   btn-success"
+									value="撤离首页" onclick="toHome($!shopInfo.shopId,0)"
+									style="background-color: red;"></td> #else
+								<td><input type="button" class="btn   btn-success"
+									value="置于首页" onclick="toHome($!shopInfo.shopId,1)"></td>
+								#end 
+								#if($!shopInfo.shopUp == '1')
+								<td><input type="button" class="btn   btn-success"
+									value="撤离前列" onclick="toUp('$!shopInfo.shopId',0,'$!shopInfo.shopName')"
+									style="background-color: red;"></td> #else
+								<td><input type="button" class="btn   btn-success"
+									value="置于前列" onclick="toUp('$!shopInfo.shopId',1,'$!shopInfo.shopName')"></td> #end
+								#if($!shopInfo.delFlag == '1')
+								<td><input type="button" class="btn   btn-success"
+									value="删除" onclick="delFlag('$!shopInfo.shopId',0,'$!shopInfo.shopName')"
+									></td> #else
+								<td><input type="button" class="btn   btn-success"
+									value="激活" onclick="delFlag('$!shopInfo.shopId',1,'$!shopInfo.shopName')" style="background-color: red;"></td> #end
+								<td>
+									<nav class="nav-primary hidden-xs">
+										<ul class="nav" style="background-color: #D4D4D4;">
+											<li><a style="cursor: pointer;"><span>详细</span> </a>
+												<ul class="nav lt">
+													<!-- <li><a href="shopIncomeMng.html?shopId=$!shopInfo.shopId"> <i
+												class="fa fa-angle-right"></i><span>店铺详细</span>
+										</a></li> -->
+													<li><a
+														href="shopProInfo.html?shopId=$!shopInfo.shopId"> <i
+															class="fa fa-angle-right"></i> <span>商品信息</span>
+													</a></li>
+													<li><a
+														href="shopIncomeMng.html?shopId=$!shopInfo.shopId&selectedNew=0"> <i
+															class="fa fa-angle-right"></i><span>收入信息</span>
+													</a></li>
+													<li><a
+														href="changeShopLevel.html?shopId=$!shopInfo.shopId">
+															<i class="fa fa-angle-right"></i><span>设置商家等级</span>
+													</a></li>
+												</ul></li>
+										</ul>
+									</nav>
+								</td>
+							</tr>
+							#set($count=$count+1) #end
+						</table>
+					</section>
+					<div class="fn-mt7" style="float: right">#set ($formName =
+						"shopForm") #parse('/mng/page.html')</div>
+				</section>
+			</section>
+
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+	</section>
+	<script src="js/app.v2.js"></script>
+
+	<script type="text/javascript">
+
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function addcommerce() {
+			var url = "addcommerce.html";
+			window.open(url, '增加一条信息', features);
+			
+		}
+
+</script>
+</body>
+</html>

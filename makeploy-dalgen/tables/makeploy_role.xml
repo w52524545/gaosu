@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_role">
+	<column name="" javatype="" />
+
+	<!-- 查询用户权限信息 -->
+	<operation name="selectRoleByUserId">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_role
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_role
+			WHERE USER_ID = #userId#
+		</sqlmap>
+	</operation>
+	<!-- 查询用户店铺权限信息 -->
+	<operation name="selectShopRoleByUserId">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_role
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_role
+			WHERE USER_ID = #userId# and ROLE='0'
+		</sqlmap>
+	</operation>
+	<!-- 添加用户权限 -->
+	<operation name="addRole" paramtype="object">
+		<sql>
+			insert into makeploy_role
+			( ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO)
+			values(?,?,?,?,CURRENT_TIMESTAMP ,?,CURRENT_TIMESTAMP ,?)
+		</sql>
+	</operation>
+
+	<!-- 查询用户权限 -->
+	<operation name="selectUserRole" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_role
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_role
+			WHERE USER_ID = #userId#
+		</sqlmap>
+	</operation>
+	
+	<operation name="checkOperativeByUserId">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_role
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_role
+			WHERE USER_ID = #userId# and ROLE='1'
+		</sqlmap>
+	</operation>
+	
+	<!-- 判断该商会是否之前已经有过权限 -->
+	<operation name="checkCommerceResult">
+		<extraparams>
+			<param name="memo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_role
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_role
+			WHERE MEMO = #memo# and ROLE='3'
+		</sqlmap>
+	</operation>
+	
+	<operation name="changeComerceRole">
+		<sql>
+			update makeploy_role
+			set 
+			USER_ID = ?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			where MEMO = ?
+		</sql>
+	</operation>
+	
+	<operation name="searchCommerceId">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_role
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			USER_ID,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_role
+			WHERE USER_ID = #userId# and ROLE='3'
+		</sqlmap>
+	</operation>
+</table>

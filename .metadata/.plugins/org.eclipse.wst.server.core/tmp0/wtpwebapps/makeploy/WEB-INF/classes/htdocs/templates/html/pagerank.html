@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="apple-touch-fullscreen" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="applicable-device" content="mobile">
+  <title>玫发现商城-排行榜</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="css/LArea.css">
+  <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+</head>
+<body>
+<style>
+.rank{margin:0 auto; width:100%; height:40px; line-height:40px; background:#fff;}
+.rank li{float:left; width:calc(100%/3); text-align:center; font-size:15px;}
+.rank li a{color:#2c2c2c;}
+.rank li.cur{height:39px; border-bottom:#ff3355 1px solid;}
+.rank li.cur a{color:#ff3355;}
+.ranklist{margin:10px 10%; width:calc(100% - 20% - 2px); height:27px; line-height:27px; border:1px #ff3355 solid; border-radius:5px; background:#f6f6f6;}
+.ranklist li{float:left; width:50%; text-align:center;}
+.ranklist li a{color:#ff3355;}
+.ranklist li.cur{background:#ff3355;}
+.ranklist li.cur a{color:#fff;}
+.ranklist_t{float:left; width:100%; height:40px; line-height:40px; background:#fff;}
+.ranklist_t span{float:left; width:30%; height:40px; text-align:center;}
+.ranklist_t span:nth-child(2){width:40%;}
+.ranklist_b,.ranklist_b li{float:left; width:100%; height:auto; overflow:hidden;}
+.ranklist_b li{height:60px; background:#fff; margin-top:5px;}
+.ranklist_b li span{float:left; width:30%; height:60px; overflow:hidden;  line-height:60px;}
+.ranklist_b li span.rank-le{line-height:60px; text-indent: 12px;color:#ff3355;}
+.ranklist_b li span.rank-cn{width:40%;}
+.ranklist_b li span.rank-cn img{float:left;width:50px; height:50px; margin:5px 10px; border-radius:50px;}
+.ranklist_b li span.rank-rt i{float:left;width:24px; height:24px; background:url(images/public.png) no-repeat; background-size:130px auto; background-position:-74px -68px; margin:17px 5px;}
+.ranklist_b li:nth-child(1) span.rank-le{background:url(images/jinp.png) no-repeat bottom left; background-size:70px 40px; color:#fff;}
+.ranklist_b li:nth-child(2) span.rank-le{background:url(images/yinp.png) no-repeat bottom left; background-size:70px 40px; color:#fff;}
+.ranklist_b li:nth-child(3) span.rank-le{background:url(images/tongp.png) no-repeat bottom left; background-size:70px 40px; color:#fff;}
+</style>
+ <div class="rank">
+   <li class="cur"><a href="pagerank.html">分红排行榜</a></li>
+   <li><a href="sumerrank.html">消费排行榜</a></li>
+   <li><a href="teamrank.html">团队排行榜</a></li>
+ </div>
+<div class="ranklist">
+  <li id="one1" class="cur"><a href="javascript:void(0);">周排行榜</a></li>
+  <li id="one2"><a href="javascript:void(0);">月排行榜</a></li>
+</div>
+<div class="ranklist_t"><span>排行</span><span>用户</span><span>分红</span></div>
+<div class="ranklist_b" id="con_one_1">
+  <li><span class="rank-le">NO.1</span><span class="rank-cn"><img src="images/s_icon.jpg">Sushine</span><span class="rank-rt"><i></i>263000</span></li>
+  <li><span class="rank-le">NO.2</span><span class="rank-cn"><img src="images/gd1.jpg">小小鱼</span><span class="rank-rt"><i></i>1800</span></li>
+  <li><span class="rank-le">NO.3</span><span class="rank-cn"><img src="images/goods2.jpg">莫某某</span><span class="rank-rt"><i></i>2790</span></li>
+  <li><span class="rank-le">NO.4</span><span class="rank-cn"><img src="images/images2.jpg">小小鱼</span><span class="rank-rt"><i></i>1800</span></li>
+  <li><span class="rank-le">NO.5</span><span class="rank-cn"><img src="images/gd1.jpg">小小鱼</span><span class="rank-rt"><i></i>1800</span></li>
+  <li><span class="rank-le">NO.6</span><span class="rank-cn"><img src="images/goods2.jpg">莫某某</span><span class="rank-rt"><i></i>2790</span></li>
+  <li><span class="rank-le">NO.7</span><span class="rank-cn"><img src="images/images2.jpg">小小鱼</span><span class="rank-rt"><i></i>1800</span></li>
+</div>
+<div class="ranklist_b" id="con_one_2">
+  <li><span class="rank-le">NO.1</span><span class="rank-cn"><img src="images/goods2.jpg">莫某某</span><span class="rank-rt"><i></i>2790</span></li>
+  <li><span class="rank-le">NO.2</span><span class="rank-cn"><img src="images/images2.jpg">小小鱼</span><span class="rank-rt"><i></i>1800</span></li>
+  <li><span class="rank-le">NO.3</span><span class="rank-cn"><img src="images/s_icon.jpg">Sushine</span><span class="rank-rt"><i></i>263000</span></li>
+  <li><span class="rank-le">NO.4</span><span class="rank-cn"><img src="images/gd1.jpg">小小鱼</span><span class="rank-rt"><i></i>1800</span></li>
+</div>
+<script type="text/javascript">
+      $(function () {
+        $("#con_one_2").hide();
+        $(".ranklist li").click(function() {
+            tabcon(this,".ranklist_b");
+        });
+        function tabcon(op,con){
+            var index = $(op).index();
+            $(con).hide().eq(index).show();
+            $(op).parent().find("li").removeClass("cur").eq(index).addClass("cur");
+            $(op).parent().find("li").removeClass("cur").eq(index).addClass("cur");
+        }
+    }); 
+</script>
+</body>
+</html>

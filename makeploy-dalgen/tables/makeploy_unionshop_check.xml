@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_unionshop_check">
+<!-- 检索联盟商家的申请 -->
+<operation name="selectUnCheck" multiplicity="many">
+    	<extraparams>
+    		<param name="shopName" javatype="java.lang.String"/>	
+    		<param name="shopCell" javaType="java.lang.String"/>
+    		<param name="offset" javaType="java.lang.String"/>
+    		<param name="limit" javaType="java.lang.String"/>
+    	</extraparams>
+			<sql>
+				select * from makeploy_unionshop_check
+			</sql>
+			<![CDATA[
+				select * from makeploy_unionshop_check
+				where 1=1
+				<isNotEmpty property="shopName" prepend="and">
+				SHOP_NAME like '%$productName$%' 
+				</isNotEmpty>
+				<isNotEmpty property="shopCell" prepend="and">
+				SHOP_CELL=#shopCell#
+				</isNotEmpty>
+				limit #offset#,#limit#
+			]]>
+</operation>
+
+<!-- 联盟商家的计数 -->
+<operation name="countUnCheck">
+	<extraparams>
+		<param name="shopName" javatype="java.lang.String"/>	
+    	<param name="shopCell" javaType="java.lang.String"/>
+	</extraparams>
+	<sql>
+		select count(1) from makeploy_unionshop_check
+	</sql>
+	<![CDATA[
+		select count(1) from makeploy_unionshop_check
+		where 1=1
+				<isNotEmpty property="shopName" prepend="and">
+				SHOP_NAME like '%$productName$%' 
+				</isNotEmpty>
+				<isNotEmpty property="shopCell" prepend="and">
+				SHOP_CELL=#shopCell#
+				</isNotEmpty>		
+	]]>
+</operation>
+</table>

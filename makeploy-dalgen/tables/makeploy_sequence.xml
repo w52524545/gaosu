@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_sequence">
+
+	<!-- 新增序列信息 -->
+	<operation name="insert" paramtype="object">
+		<sql>
+			INSERT INTO makeploy_sequence (
+			biz_name , current_value,increment_value , GMT_CREATE ,
+			gmt_modified,PLATFORM_CODE
+			)
+			VALUES
+			(? ,?,?,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP,"MERCHANT_PLATFORM")
+		</sql>
+	</operation>
+
+	<!-- 返回当前序列号 -->
+	<operation name="currentSequence" paramtype="one">
+		<sql>
+		<![CDATA[
+			SELECT
+			biz_name ,    current_value,   increment_value ,   GMT_CREATE ,  gmt_modified,PLATFORM_CODE
+			FROM makeploy_sequence
+			where biz_name = ?
+		]]>
+		</sql>
+	</operation>
+
+	<!-- 返回下一个序列号 -->
+	<operation name="nextSequence" paramtype="one">
+		<sql>
+		<![CDATA[
+			UPDATE makeploy_sequence SET
+			current_value = current_value +  increment_value,    
+			gmt_modified = CURRENT_TIMESTAMP
+			WHERE
+			biz_name = ? 
+		]]>
+		</sql>
+	</operation>
+
+	<!-- 删除指定类型的序列信息 -->
+	<operation name="deleteSequence" paramtype="one">
+		<sql>
+		<![CDATA[
+			DELETE makeploy_sequence
+			WHERE
+			biz_name = ? 
+		]]>
+		</sql>
+	</operation>
+</table>

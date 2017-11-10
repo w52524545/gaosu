@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName">
+	<!-- =================================账务中心服务================================== -->
+	<bean id="accountInfoQueryService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl"
+			value="${account_service_url}/account/accountInfoQueryService" />
+		<property name="serviceInterface"
+			value="com.onway.account.common.service.api.AccountInfoQueryService" />
+	</bean>
+
+	<!-- 提现操作服务 -->
+	<bean id="withdrawOperateService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="overloadEnabled" value="true" />
+		<property name="serviceUrl"
+			value="${account_service_url}/account/withdrawOperateService" />
+		<property name="serviceInterface"
+			value="com.onway.account.common.service.api.WithdrawOperateService" />
+	</bean>
+
+	<bean id="depositOperateService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl"
+			value="${account_service_url}/account/depositOperateService" />
+		<property name="serviceInterface"
+			value="com.onway.account.common.service.api.DepositOperateService" />
+	</bean>
+
+	<!-- =================================gotone网关服务================================== -->
+
+	<!-- 短信网关操作 -->
+	<bean id="gotoneServiceClient"
+	class="com.onway.makeploy.common.service.integration.gotone.impl.GotoneServiceClientImpl" />
+
+	<bean id="smsService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="${gotone_service_url}/gotone/smsService" />
+		<property name="serviceInterface"
+			value="com.onway.gotone.common.service.api.SmsService" />
+	</bean>
+
+	<bean id="msgService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="${gotone_service_url}/gotone/msgService" />
+		<property name="serviceInterface"
+			value="com.onway.gotone.common.service.api.MsgService" />
+	</bean>
+
+	<bean id="sysConfigService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl"
+			value="${gotone_service_url}/gotone/sysConfigService" />
+		<property name="serviceInterface"
+			value="com.onway.gotone.common.service.api.SysConfigService" />
+	</bean>
+
+
+</beans>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页图片管理</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<link rel="stylesheet" href="css/font.css" type="text/css" />
+<link rel="stylesheet" href="js/fuelux.css" type="text/css" />
+<!--[if lt IE 9]>
+    <script src="js/ie/html5shiv.js" cache="false"></script>
+    <script src="js/ie/respond.min.js" cache="false"></script>
+    <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+
+<style type="text/css">
+.picture {
+	position: relative;
+	left: 30px;
+	top: 30px;
+	margin-bottom: 30px;
+	border: solid 1px;
+	background: white;
+	border-color: black;
+	width: 700px;
+	height: 300px;
+}
+</style>
+<script type="text/javascript">
+var features = "top=20%,left=25%,width=1000,height=550,"
+	+ "location=yes,menubar=no,resizable=yes,"
+	+ "scrollbars=yes,status=no,toolbar=no";
+function upload() {
+		var url = "imgUpload.html";
+		window.open(url, '图片上传 ', features);
+		
+	}
+</script>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="vbox">
+		<section>
+			<section class="hbox stretch">
+				<!-- .aside -->
+				<aside class="bg-dark lter aside-md hidden-print" id="nav">
+					<section class="vbox">
+						<section class="w-f scrollable">
+							<div class="slim-scroll" data-height="auto"
+								data-disable-fade-out="true" data-distance="0" data-size="5px"
+								data-color="#333333">
+								<nav class="nav-primary hidden-xs">
+									<ul class="nav">
+										<li class="active"><a href=""><i
+												class="fa fa-dashboard icon"> <b class="bg-danger"></b></i>
+												<span class="pull-right"> <i
+													class="fa fa-angle-down text-active"></i> <i
+													class="fa fa-angle-up text"></i>
+											</span> <span>发布管理</span> </a>
+											<ul class="nav lt">
+												<li><a href="announceMng.html" class="active"> <i
+														class="fa fa-angle-right"></i> <span>公告管理</span>
+												</a></li>
+												<li class="active"><a href="imgMng.html"> <i
+														class="fa fa-angle-right"></i><span>首页图片管理</span>
+												</a></li>
+											</ul></li>
+										<!-- 审批中心-->
+										<li><a href=""> <i class="fa fa-columns icon"> <b
+													class="bg-warning"></b>
+											</i> <span class="pull-right"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i>
+											</span> <span>审批中心</span>
+										</a>
+											<ul class="nav lt">
+												<li><a href="goodsCheck.html"> <i
+														class="fa fa-angle-right"></i> <span>商品审核（账号类）</span>
+												</a></li>
+												<li><a href="identityCheck.html"> <i
+														class="fa fa-angle-right"></i> <span>实名认证审核</span>
+												</a></li>
+												<li><a href="emailCheck.html"> <i
+														class="fa fa-angle-right"></i><span>邮箱变更审核</span>
+												</a></li>
+												<li><a href="phoneCheck.html"> <i
+														class="fa fa-angle-right"></i> <span>手机变更审核</span>
+												</a></li>
+												<li><a href="bankAccCheck.html"> <i
+														class="fa fa-angle-right"></i><span>提现开户名变更审核</span>
+												</a></li>
+											</ul></li>
+										<!-- 交易管理 -->
+										<li><a href="businessMng.html"> <i
+												class="fa fa-pencil icon"><b class="bg-success"></b></i> <span>交易管理</span>
+										</a></li>
+<!-- 								充值中心 -->
+										<li><a href="recharge.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+										<!-- 提现审核 -->
+										<li><a href="withdrawMng.html"> <i
+												class="fa fa-jpy icon"> <b class="bg-info"></b>
+											</i> <span>提现审核</span>
+										</a></li>
+										<li><a href=""> <i class="fa fa-file-text icon">
+													<b class="bg-primary"></b>
+											</i> <span class="pull-right"> <i
+													class="fa fa-angle-down text"></i> <i
+													class="fa fa-angle-up text-active"></i>
+											</span> <span>信息查询</span>
+										</a>
+											<ul class="nav lt">
+												<li><a href="orderMng.html"> <i
+														class="fa fa-angle-right"></i> <span>订单查询</span>
+												</a></li>
+												<li><a href="userInfoMng.html"> <i
+														class="fa fa-angle-right"></i><span>用户信息查询</span>
+												</a></li>
+											</ul></li>
+										<li><a href="adviceMng.html"> <i
+												class="fa fa-envelope-o icon"> <b
+													class="bg-primary dker"></b>
+											</i> <span>意见管理</span>
+										</a></li>
+									</ul>
+								</nav>
+							</div>
+						</section>
+					</section>
+				</aside>
+				<!-- /.aside -->
+				<section id="content">
+					<section class="vbox">
+						<section class="scrollable padder">
+							<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+								<li><i class="fa fa-home"></i>&nbsp;发布管理</li>
+								<li>首页图片管理</li>
+							</ul>
+							<section class="panel panel-default">
+								<header class="panel-heading">
+									<span style="font-family: 微软雅黑;">首页图片</span>&nbsp; <a
+										onclick="upload()" href=""
+										style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px; border-color: darkgrey; color: grey">
+										<i class="fa fa-plus text">&nbsp;上传图片</i>
+									</a>
+								</header>
+								<div class="table-responsive">
+
+									<table class="table table-striped datagrid m-b-sm">
+										<thead>
+											<tr>
+												<th>图片位置</th>
+												<th>标题</th>
+												<th>图片描述</th>
+												<th>时间</th>
+											</tr>
+										</thead>
+										#foreach($item in $imgInfo)
+										<tr>
+											<td style="width: 100px">$!item.subType</td>
+											<td>$!item.title</td>
+											<td style="width: 500px">$!item.activityDesc</td>
+											<td>$!dateUtils.format($!item.gmtModified,"yyyy-MM-dd
+												HH:mm:ss")</td>
+										</tr>
+										#end
+									</table>
+
+								</div>
+							</section>
+
+						</section>
+
+					</section>
+				</section>
+
+			</section>
+		</section>
+	</section>
+
+	<script src="js/app.v2.js"></script>
+	<script src="js/fuelux.js"></script>
+	<script src="js/demo.datagrid.js"></script>
+
+	<!-- file input -->
+	<script src="js/bootstrap-filestyle.min.js"></script>
+
+</body>
+</html>

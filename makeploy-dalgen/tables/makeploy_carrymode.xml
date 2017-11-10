@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_carrymode">
+    <column name="" javatype="" />
+    <column name="FIRST_MONEY" javatype="com.onway.common.lang.Money" />
+    <column name="NEXT_MONEY" javatype="com.onway.common.lang.Money" />
+    
+    
+    <operation name="selectAllCarryModeByTemplateId">
+       <extraparams>
+            <param name="templateId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_carrymode
+        </sql>
+        <sqlmap>
+            <![CDATA[
+            select * from makeploy_carrymode where DEL_FLAG = '2'
+            <isNotNull property="templateId" prepend="and">
+                    TEMPLATE_ID = #templateId#
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="addNewCarryMode" paramtype="object">
+		<sql>
+			insert into makeploy_carrymode
+            (
+				ID,
+				TEMPLATE_ID,
+				SEND_ADDRESS,
+				FIRST_COUNT,
+				FIRST_WEIGHT,
+				FIRST_SIZE,
+				FIRST_MONEY,
+				NEXT_COUNT,
+				NEXT_WEIGHT,
+				NEXT_SIZE,
+				NEXT_MONEY,
+				POST_WAY,
+				DEL_FLAG,
+				PRETERMISSION,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 改变删除标识状态  -->
+    <operation name="changeDelFlg">
+		<sql>
+			update makeploy_carrymode set
+		     DEL_FLAG = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 TEMPLATE_ID = ?
+		</sql>
+	</operation>
+    
+</table>

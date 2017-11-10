@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+		<parent>
+		<groupId>com.onway.makeploy</groupId>
+		<artifactId>makeploy-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.makeploy</groupId>
+	<artifactId>makeploy-common-service-integration</artifactId>
+	<version>1.0</version>
+	<name>makeploy-common-service-integration</name>
+	<description>makeploy-common-service-integration</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.onway.makeploy</groupId>
+			<artifactId>makeploy-common-util</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.makeploy</groupId>
+			<artifactId>makeploy-common-service-facade</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.onway.event</groupId>
+			<artifactId>onway-common-event</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.onway.account</groupId>
+			<artifactId>account-common-service-facade</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.onway.gotone</groupId>
+			<artifactId>gotone-common-service-facade</artifactId>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_shop">
+
+
+	<!-- 查询我的店铺信息 -->
+	<operation name="selectShopInfoByUserId">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			SELECT
+			*
+			from makeploy_shop
+			WHERE USER_ID = #userId#
+		</sqlmap>
+	</operation>
+
+	<!-- 我的店铺查询（数据条数） -->
+	<operation name="selectShopCountByUserId" resultClass="int">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			SELECT
+			count(1)
+			FROM makeploy_shop
+			WHERE USER_ID = #userId#
+		</sqlmap>
+	</operation>
+
+	<!-- 查询任意店铺信息 -->
+	<operation name="selectShopInfoByShopId">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			SHOP_ID,
+			USER_ID,
+			SHOP_NAME,
+			SHOP_DEC,
+			CELL,
+			SHOP_STAR,
+			SHOP_ADDR,
+			INDUSTRY,
+			LOACTION_X,
+			LOACTION_Y,
+			SHOP_URL,
+			SELL_COUNT,
+			ATTENTION_COUNT,
+			COLLECT_COUNT,
+			QR_URL,
+			UNION_FLG,
+			SHOP_UP,
+			DEL_FLAG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_shop
+			WHERE SHOP_ID = #shopId#
+		</sqlmap>
+	</operation>
+
+	<operation name="selectShopInfoByShopCell">
+		<extraparams>
+			<param name="cell" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			SHOP_ID,
+			USER_ID,
+			SHOP_NAME,
+			SHOP_DEC,
+			CELL,
+			SHOP_STAR,
+			SHOP_ADDR,
+			INDUSTRY,
+			LOACTION_X,
+			LOACTION_Y,
+			SHOP_URL,
+			SELL_COUNT,
+			ATTENTION_COUNT,
+			COLLECT_COUNT,
+			QR_URL,
+			UNION_FLG,
+			SHOP_UP,
+			DEL_FLAG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_shop
+			WHERE CELL = #cell#
+		</sqlmap>
+	</operation>
+
+	<!-- 修改店铺信息 -->
+	<operation name="updateShopInfo" paramtype="object">
+		<sql>
+			update makeploy_shop set
+			SHOP_NAME =?,
+			SHOP_DEC =?,
+			CELL=?,
+			SHOP_ADDR=?,
+			SHOP_URL=?,
+			INDUSTRY = ?,
+			LOACTION_X = ?,
+			LOACTION_Y = ?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 根据店铺id查询店铺信息 -->
+	<operation name="selectShopByShopId">
+		<sql>
+			select * from makeploy_shop where SHOP_ID = ?
+		</sql>
+	</operation>
+	<!-- 查询所有的店铺 -->
+	<operation name="selectAllShop" multiplicity="many">
+		<sql>select * from makeploy_shop</sql>
+	</operation>
+
+
+
+	<!-- 随机展示三个联盟商铺 首页 -->
+	<operation name="selectUnionShopOnHome" multiplicity="many">
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			SELECT
+			ID,
+			SHOP_ID,
+			USER_ID,
+			SHOP_NAME,
+			CELL,
+			SHOP_STAR,
+			SHOP_DEC,
+			SHOP_ADDR,
+			INDUSTRY,
+			LOACTION_X,
+			LOACTION_Y,
+			SHOP_URL,
+			SELL_COUNT,
+			ATTENTION_COUNT,
+			COLLECT_COUNT,
+			QR_URL,
+			UNION_FLG,
+			SHOP_UP,
+			DEL_FLAG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM makeploy_shop
+			WHERE UNION_FLG = '1' AND DEL_FLAG = '1'
+			order by rand() limit 3
+		</sqlmap>
+	</operation>
+
+	<!-- 联盟商铺查询（数据条数） -->
+	<operation name="selectUnionShopCount" resultClass="int">
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			SELECT
+			count(1)
+			FROM makeploy_shop
+			WHERE UNION_FLG = 1
+		</sqlmap>
+	</operation>
+
+	<!-- 查找联盟商铺 UNION_FLG=1 -->
+	<operation name="selectUnionShop" multiplicity="many">
+		<extraparams>
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     SHOP_ID,
+		     USER_ID,
+		     SHOP_NAME,
+		     CELL,
+		     SHOP_STAR,
+		     SHOP_DEC,
+		     CELL,
+		     SHOP_ADDR,
+		     INDUSTRY,
+		     LOACTION_X,
+		     LOACTION_Y,
+		     SHOP_URL,
+		     SELL_COUNT,
+		     ATTENTION_COUNT,
+		     COLLECT_COUNT,
+		     QR_URL,
+		     UNION_FLG,
+		     SHOP_UP,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_shop
+            WHERE UNION_FLG = 1
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 搜索商品 -->
+	<operation name="search" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+            <![CDATA[
+				select * from makeploy_shop where SHOP_ID LIKE #shopId#
+				<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+                </isNotNull>
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 插入店铺总评 <operation name = "insertShopStar" > <extraparams> <param name="shopId" 
+		javatype="java.lang.String" /> </extraparams> <sql> insert into makeploy_shop 
+		(SHOP_STAR) VALUES (?) </sql> <sqlmap> insert into makeploy_shop ( SHOP_STAR 
+		) VALUES ( ? ) WHERE SHOP_ID= ? </sqlmap> </operation> -->
+
+	<!-- 查询我的店铺信息列表 -->
+	<operation name="selectShopListByUserId" multiplicity="many">
+
+		<sql>
+			select * from makeploy_shop
+			WHERE USER_ID =?
+		</sql>
+
+	</operation>
+	<!-- 根据店铺ID和店铺电话查询店铺信息 -->
+	<operation name="selectShopIdandCellInfo" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="cell" javatype="java.lang.String" />
+			<param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select *from makeploy_shop
+		</sql>
+		<sqlmap>
+    <![CDATA[
+    SELECT
+		     ID,
+		     SHOP_ID,
+		     USER_ID,
+		     SHOP_NAME,		     
+		     SHOP_DEC,
+		     CELL,
+		     SHOP_STAR,
+		     SHOP_ADDR,
+		     INDUSTRY,
+		     LOACTION_X,
+		     LOACTION_Y,
+		     SHOP_URL,
+		     SELL_COUNT,
+		     ATTENTION_COUNT,
+		     COLLECT_COUNT,
+		     QR_URL,
+		     UNION_FLG,
+		     SHOP_UP,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_shop WHERE 1=1
+				<isNotEmpty property="shopId" prepend="and">
+	                SHOP_ID = #shopId#
+	            </isNotEmpty>   
+	            <isNotEmpty property="cell" prepend="and">
+	                CELL = #cell#
+	            </isNotEmpty>   
+	            limit #offent#,#limit#
+          
+    ]]>
+		</sqlmap>
+	</operation>
+	<operation name="updateUnion">
+		<sql>
+			update makeploy_shop set
+			UNION_FLG =?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+	<operation name="count">
+		<sql>
+			select count(1) from makeploy_shop
+		</sql>
+	</operation>
+
+
+	<!-- 组合查询店铺信息（已联盟） southRain -->
+	<operation name="selectShopInfo" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="userId" javatype="java.lang.String" />
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+			<param name="unionFlag" javatype="java.lang.String" />
+			<param name="industry" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop
+		</sql>
+		<sqlmap>
+			<![CDATA[ 
+				select * from  makeploy_shop WHERE UNION_FLG = #unionFlag#
+				
+				<isNotEmpty property="shopId" prepend="and">
+	                    SHOP_ID = #shopId#
+	                </isNotEmpty>
+	            <isNotEmpty property="userId" prepend="and">
+	                    USER_ID = #userId#
+	                </isNotEmpty>
+	            <isNotEmpty property="industry" prepend="and">
+	                    INDUSTRY = #industry#
+	                </isNotEmpty>
+	                limit #offset#,#limit#
+			 ]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 查询店铺信息总数量（已联盟） southRain -->
+	<operation name="selectShopInfoCount">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="userId" javatype="java.lang.String" />
+			<param name="unionflag" javatype="java.lang.String" />
+			<param name="industry" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_shop
+		</sql>
+		<sqlmap>
+			<![CDATA[ 
+				select count(1) from  makeploy_shop WHERE UNION_FLG = #unionflag#
+				
+				<isNotEmpty property="shopId" prepend="and">
+	                    SHOP_ID = #shopId#
+	                </isNotEmpty>
+	            <isNotEmpty property="userId" prepend="and">
+	                    USER_ID = #userId#
+	                </isNotEmpty>
+	            <isNotEmpty property="industry" prepend="and">
+	                    INDUSTRY = #industry#
+	                </isNotEmpty>
+			 ]]>
+		</sqlmap>
+	</operation>
+	<!-- 加入农村经纪人后创建新店铺 -->
+	<operation name="creatNewShop" paramtype="object">
+		<sql>
+			insert into makeploy_shop
+			(
+			ID,
+			SHOP_ID,
+			USER_ID,
+			UNION_FLG,
+			SHOP_URL,
+			DEL_FLAG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES
+			(
+			?, ?, ?,?, ?,?,?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+
+
+	<!-- 添加审核通过的店铺（农村经纪人） -->
+	<operation name="addCheckedShop">
+		<sql>
+			insert into makeploy_shop
+			(
+			SHOP_ID,
+			USER_ID,
+			SHOP_NAME,
+			CELL,
+			SHOP_STAR,
+			SHOP_DEC,
+			SHOP_ADDR,
+			UNION_FLG,
+			DEL_FLAG,
+			INDUSTRY,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES
+			(
+			?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+
+	<!-- 查询我的店铺信息 -->
+	<operation name="selectAllShopInfo" multiplicity="many">
+		<sql>
+			select * from makeploy_shop
+		</sql>
+	</operation>
+
+	<!-- 修改店铺经纬度 -->
+	<operation name="updateShopLngAndLat">
+		<sql>
+			update makeploy_shop set
+			LOACTION_X = ?,
+			LOACTION_Y = ?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 修改店铺信息 -->
+	<operation name="updateShopLevel">
+		<sql>
+			update makeploy_shop set
+			CREATER = ? ,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 放置前列或撤离 -->
+	<operation name="setShopUp">
+		<sql>
+			update makeploy_shop set
+			SHOP_UP = ?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 修改店铺销售量 -->
+	<operation name="changeShopCellCount">
+		<sql>
+			update makeploy_shop set
+			SELL_COUNT =?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 删除或激活 -->
+	<operation name="changeShopDelFlag">
+		<sql>
+			update makeploy_shop set
+			DEL_FLAG = ?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+		</sql>
+	</operation>
+</table>

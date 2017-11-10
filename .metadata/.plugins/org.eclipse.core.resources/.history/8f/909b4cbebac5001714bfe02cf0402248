@@ -1,0 +1,14 @@
+database.driver=com.mysql.jdbc.Driver
+database.url=jdbc:mysql://60.205.188.103:3306/makeploy?useUnicode=true&characterEncoding=utf-8
+database.userid=root
+database.password=root#123
+database.schema=makeploy
+database.catalog=
+
+
+
+app.name=makeploy
+dao.deploy.dir=./../app/common/dal/src/main
+dao.spring.dir=./../app/deploy/src/main/
+app.dao.dir=com/onway/makeploy/common/dal
+app.dao.package=com.onway.makeploy.common.dal

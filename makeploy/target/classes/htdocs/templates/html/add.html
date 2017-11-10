@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="apple-touch-fullscreen" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="applicable-device" content="mobile">
+  <title>玫发现商城-选择收货地址</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="css/LArea.css">
+  <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+</head>
+<body>
+
+ #foreach ( $result in $address )
+  <div class="add">
+    <div class="add_t">
+      收货人：$!result.deliveryName $!result.cell<br>
+      <span>收货地址：$!result.detialAddr</span>
+    </div>
+    #if($!result.flg == 0)
+    <div class="add_b"><input class="cur" type="checkbox" >默认地址<div class="add_rt"><span><i class="icon_b"></i>编辑</span><span onclick="deleteAddr('$!result.addressNo')" ><i class="icon_t"></i>删除</span></div></div>
+    #else
+    <div class="add_b"><input type="checkbox" onclick="editAddr('$!result.addressNo')" >默认地址<div class="add_rt"><span><i class="icon_b"></i>编辑</span><span onclick="deleteAddr('$!result.addressNo')" ><i class="icon_t"></i>删除</span></div></div>
+    #end
+  </div>
+  #end
+ 
+  <div class="add_new"><a href="newadd.html">新增收获地址</a></div>
+<script type="text/javascript">
+  window.onload = function() {
+//      选中默认地址置顶
+    var toFir = $("input.cur").parents(".add");
+    var parent = $(".add").parent();
+    parent.prepend(toFir);
+  };
+  $(function(){
+    $(".icon_t").click(function(){
+      $(this).parents(".add").hide();
+    });
+    $(".add_b input").click(function(){
+      $(this).toggleClass("cur").parents(".add").siblings().find(".add_b input").removeClass("cur");
+    });
+  })
+</script>
+
+<!-- 删除收货地址   -->
+<script type="text/javascript">
+
+function deleteAddr(obj){
+	var url = "deleteAddress.do";
+    jQuery.ajax({
+    	type: "POST",
+   		url: url,
+   		data: 
+   		{
+   			addressNo:obj,
+   		},
+   		success: function(data) {
+   			alert("删除成功");
+       }
+   });
+}
+</script>
+
+<!-- 设置默认地址   -->
+<script type="text/javascript">
+
+function editAddr(obj){
+	var url = "editAddr.do";
+    jQuery.ajax({
+    	type: "POST",
+   		url: url,
+   		data: 
+   		{
+   			addressNo:obj,
+   		},
+   		success: function(data) {
+   			alert("默认修改成功");
+       }
+   });
+}
+</script>
+
+</body>
+</html>

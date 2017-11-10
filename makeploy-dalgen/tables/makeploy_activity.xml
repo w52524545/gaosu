@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_activity">
+	<column name="" javatype="" />
+	<column name="AMOUNT" javatype="com.onway.common.lang.Money" />
+
+	<!-- 查询公告信息 -->
+	<operation name="selectInfoByType" multiplicity="many">
+		<extraparams>
+			<param name="type" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_activity
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     TITLE,
+		     INFO,
+		     TYPE,
+		     SUB_TYPE,
+		     POSTER,
+		     URL,
+		     STATE,
+		     NUM,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_activity
+			where TYPE=#type#
+			ORDER BY state desc , GMT_CREATE desc
+            ]]>
+		</sqlmap>
+	</operation>
+	<!-- 插入三类信息 -->
+	<operation name="addInfo" paramtype="object">
+		<sql>
+			insert
+			into makeploy_activity
+			( ID,
+			TITLE,
+			INFO,
+			TYPE,
+			SUB_TYPE,
+			POSTER,
+			URL,
+			STATE,
+			NUM,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO)
+			values(?,?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP ,?)
+		</sql>
+	</operation>
+	<!-- 更新置顶状态state By Id -->
+	<operation name="updateStateById">
+		<sql>
+
+			update makeploy_activity
+			set STATE=?,
+			GMT_MODIFIED=CURRENT_TIMESTAMP
+			where
+			ID=?
+
+		</sql>
+	</operation>
+	<!-- state复位By type -->
+	<operation name="resetStateByType">
+		<sql>
+			update makeploy_activity
+			set STATE=0,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			WHERE type=?
+		</sql>
+	</operation>
+	<!-- 删除activity ById，不分type -->
+	<operation name="deleteActivityById" paramtype="one">
+		<sql>
+		<![CDATA[
+			DELETE  makeploy_activity
+			where ID=?
+		]]>
+		</sql>
+	</operation>
+	<!-- 修改banner图片By id -->
+	<operation name="updateBannerById">
+		<sql>
+			update makeploy_activity
+			set POSTER=?,
+			GMT_MODIFIED=CURRENT_TIMESTAMP
+			where id=?
+		</sql>
+	</operation>
+	<!-- 首推相关 -->
+	<!-- 联盟商家置顶 -->
+	<operation name="updateUnion">
+		<sql>
+			update makeploy_activity
+			set TYPE=?,STATE=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where TITLE=?
+		</sql>
+	</operation>
+
+	<operation name="deleteHomeUnion">
+		<sql>
+			delete from makeploy_activity
+			where TITLE=?
+		</sql>
+	</operation>
+
+	<operation name="countUnion" resultClass="int">
+		<sql>
+			select count(1) from makeploy_activity
+			where TYPE=8 AND STATE=1
+		</sql>
+	</operation>
+
+	<operation name="selectByTitle">
+		<sql>
+			select * from makeploy_activity
+			where TITLE=?
+		</sql>
+	</operation>
+</table>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+    <settings cacheModelsEnabled="true" enhancementEnabled="false" lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000" maxTransactions="3000" useStatementNamespaces="false"/>
+    
+    <sqlMap resource="sqlmap/common-sqlmap-mapping.xml"/>
+    <sqlMap resource="sqlmap/CacheManager-sqlmap-mapping.xml"/>
+	    
+		    <sqlMap resource="sqlmap/Account-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Activity-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Address-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Agent-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Area-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/BorrowMoney-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Carrymode-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Category-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Collection-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Commerce-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/CommerceCheck-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Discount-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Faretemplate-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Inclpostageproviso-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Msg-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Option-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Order-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Partner-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/PartnerRank-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ProImage-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Product-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ProductComment-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ProductParameter-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ProductPromotion-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Role-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Sequence-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/Shop-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ShopCheck-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ShopComment-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ShopIncome-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/ShoppingCart-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/SysConfig-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/TeamGo-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/TeamIncome-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/UnionshopCheck-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/User-sqlmap-mapping.xml"/>
+		    <sqlMap resource="sqlmap/VerifyCode-sqlmap-mapping.xml"/>
+	
+</sqlMapConfig>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑店铺信息</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js">
+	
+</script>
+<script type="text/javascript">
+$(function () {
+            var fanxiBox = $("#post_free input:checkbox");
+            fanxiBox.click(function () {
+               if(this.checked || this.checked=='checked'){
+                   fanxiBox.removeAttr("checked");
+                   //这里需注意jquery1.6以后必须用prop()方法
+                   //$(this).attr("checked",true);
+                   $(this).prop("checked", true);
+                   var postFree = $(this).val();
+                   $('#postFree').val(postFree);
+                   if(postFree == '不包邮'){
+                	   $('#post_way').show();
+                	   $('#post_weight').hide();
+                	   $('#post_count').hide();
+                   }
+                   if(postFree == '包邮'){
+                	   $('#post_way').hide();
+                	   $('#post_weight').hide();
+                	   $('#post_count').hide();
+                   }
+             }
+        });
+});   
+</script>
+
+<script type="text/javascript">
+$(function () {
+            var fanxiBox = $("#post_way input:checkbox");
+            fanxiBox.click(function () {
+               if(this.checked || this.checked=='checked'){
+                   fanxiBox.removeAttr("checked");
+                   //这里需注意jquery1.6以后必须用prop()方法
+                   //$(this).attr("checked",true);
+                   $(this).prop("checked", true);
+                   var postWay = $(this).val();
+                   $('#postWay').val(postWay);
+                   if(postWay == '按件数'){
+                	   $('#post_count').show();
+                	   $('#post_weight').hide();
+                	   $('#post_stock').hide();
+                   }
+                   if(postWay == '按重量'){
+                	   $('#post_weight').show();
+                	   $('#post_count').hide();
+                	   $('#post_stock').hide();
+                   }
+                   if(postWay == '几件包邮'){
+                	   $('#post_weight').hide();
+                	   $('#post_count').hide();
+                	   $('#post_stock').show();
+                   }
+             }
+        });
+});   
+</script>
+
+<script type="text/javascript">
+function checkFrom(){
+	var templateName = document.getElementById("templateName").value;
+	if(templateName == ''){
+		alert("请填写模板名称");
+		return false;
+	}
+	var province = document.getElementById("s_province").value;
+	var city = document.getElementById("s_city").value;
+	var district = 	document.getElementById("s_county").value;
+	if(province == '' || city == ''  || district == ''){
+		alert("请选择发货地址");
+		return false;
+	}
+    var obj = document.getElementsByName("test");
+    var check_val = [];
+    for(k in obj){
+        if(obj[k].checked)
+            check_val.push(obj[k].value);
+    }
+    $('#chinaArea').val(check_val);
+}
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+
+		<h3 style="font-family: 微软雅黑;">商户管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+
+								<li><a href="javascript:"> <i
+										class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>卖家管理首页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOwerMng.html" class="active"> <i
+												class="fa fa-angle-right"></i> <span>卖家中心</span>
+										</a></li>
+									</ul></li>
+								<li><a href="" class="active"> <i
+										class="fa fa-columns icon"> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>店铺管理页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOrderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单管理</span>
+										</a></li>
+										<li><a href="shopProductMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品管理</span>
+										</a></li>
+										<li><a href="shopProductAddMng.html" class="active"> <i
+												class="fa fa-angle-right"></i><span>添加商品</span>
+										</a></li>
+									</ul></li>
+								<li class="active"><a> <i class="fa fa-columns icon">
+											<b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>运费模板</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="faretemplate.html"> <i
+												class="fa fa-angle-right"></i>现有运费模板<span></span>
+										</a></li>
+									</ul>
+									<ul class="nav lt">
+										<li class="active"><a href="addFaretemplate.html"
+										> <i class="fa fa-angle-right"></i>增加运费模板<span></span>
+										</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+		<!-- 导航栏 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+						<li>运费模板</li>
+						<li>添加运费模板</li>
+					</ul>
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<header class="panel-heading font-bold">增加运费模板</header>
+							<div class="panel-body">
+								<form role="form" action="addFaretemplate.do" method="POST"
+									enctype="multipart/form-data">
+
+									<div class="form-group">
+										<label>模板名称</label> <input name="templateName"
+											id="templateName" type="text" class="form-control" />
+									</div>
+									<div class="form-group">
+										<label>宝贝发货地址</label>
+										<select id="s_province" name="province"></select>   <select
+											id="s_city" name="city"></select>   <select id="s_county"
+											name="district"></select>
+										<script class="resources library" src="js/area.js"
+											type="text/javascript">
+										</script>
+										<script type="text/javascript">
+											_init_area();
+										</script>
+										<br>
+									</div>
+									<div class="form-group" id="post_free">
+										<label>是否包邮</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" value="不包邮" ><label>自定义运费</label>
+										<input type="checkbox" value="包邮" ><label>卖家承担运费</label>
+									</div>
+									<div class="form-group" id="post_way" style="display: none">
+										<label>计价方式</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" value="按件数" ><label>按件数</label>
+										<input type="checkbox" value="按重量" ><label>按重量</label>
+										<input type="checkbox" value="几件包邮" ><label>几件包邮</label>
+										<!-- <input type="radio" value="" ><label>按体积</label> -->
+									</div>
+									
+									<div class="form-group" id="post_weight" style="display: none">
+										<label>运送方式</label><br>
+										<!-- <input type="checkbox" id="post1" value="快递" > --><label>快递</label>
+										<!-- <div class="addType">
+										<label> <input type="button" onclick="addtype()"
+											value="增加方案" class="btn btn-sm btn-info">
+										</label>
+									    </div> -->
+										<table style="border-width:0px 1px 1px 0px" id="weight1">
+											<tr>
+												<th style="width:auto">运送到</th>
+												<th style="width:auto">首重（kg）</th>
+												<th style="width:auto">首费（元）</th>	
+												<th style="width:auto">续重（kg）</th>
+												<th style="width:auto">续费（元）</th>
+											</tr>
+											<tr>
+												<td style="width:auto">
+												#foreach($area in $areaList)
+												<input type="checkbox" name="test" value="$!area.area" ><label>$!area.area</label>
+												#end
+												</td>
+												<td style="width:auto"><input type="text" name="post11" /></td>
+												<td style="width:auto"><input type="text" name="post12"/></td>
+												<td style="width:auto"><input type="text" name="post13"/></td>
+												<td style="width:auto"><input type="text" name="post14"/></td>
+											</tr>
+										</table>
+										
+									</div>
+									
+									<div class="form-group" id="post_stock" style="display: none">
+										<label>运送方式</label><br>
+										<!-- <input type="checkbox" id="post1" value="快递" > --><label>快递</label>
+										<!-- <div class="addType">
+										<label> <input type="button" onclick="addtype()"
+											value="增加方案" class="btn btn-sm btn-info">
+										</label>
+									    </div> -->
+										<table style="border-width:0px 1px 1px 0px" id=stock1>
+											<tr>
+												<th style="width:auto">运送到</th>
+												<th style="width:auto">首件（个）</th>
+												<th style="width:auto">首费（元）</th>	
+												<th style="width:auto">续件（个）</th>
+												<th style="width:auto">续费（元）</th>
+												<th style="width:auto">多少件包邮</th>
+											</tr>
+											<tr>
+												<td style="width:auto">
+												#foreach($area in $areaList)
+												<input type="checkbox" name="test" value="$!area.area" ><label>$!area.area</label>
+												#end
+												</td>
+												<td style="width:auto"><input type="text" name="post71" /></td>
+												<td style="width:auto"><input type="text" name="post72"/></td>
+												<td style="width:auto"><input type="text" name="post73" /></td>
+												<td style="width:auto"><input type="text" name="post74"/></td>
+												<td style="width:auto"><input type="text" name="post75" /></td>
+											</tr>
+										</table>
+									</div>
+									
+									<div class="form-group" id="post_count" style="display: none">
+										<label>运送方式</label><br>
+										<!-- <input type="checkbox" id="post1" value="快递" > --><label>快递</label>
+										<!-- <div class="addType">
+										<label> <input type="button" onclick="addOnetype()"
+											value="增加方案" class="btn btn-sm btn-info">
+										</label>
+									    </div> -->
+										<table style="border-width:0px 1px 1px 0px" id="count1">
+											<tr>
+												<th style="width:auto">运送到</th>
+												<th style="width:auto">首件（个）</th>
+												<th style="width:auto">首费（元）</th>	
+												<th style="width:auto">续件（个）</th>
+												<th style="width:auto">续费（元）</th>
+											</tr>
+											<tr>
+												<td style="width:auto">
+												#foreach($area in $areaList)
+												<input type="checkbox" name="test" value="$!area.area" ><label>$!area.area</label>
+												#end
+												</td>
+												<td style="width:auto"><input type="text" name="post41"/></td>
+												<td style="width:auto"><input type="text" name="post42"/></td>
+												<td style="width:auto"><input type="text" name="post43"/></td>
+												<td style="width:auto"><input type="text" name="post44"/></td>
+											</tr>
+										</table>
+										
+										<input id="postFree" name="postFree" value='' style="display: none" />
+										<input id="postWay" name="postWay" value='' style="display: none" />
+										<input id="chinaArea" name="chinaArea" value='' style="display: none" />
+										<input id="countnumber" name="countnumber" value='' style="display: none" />
+										<input id="weightnumber" name="weightnumber" value='' style="display: none" />
+										
+										<input id="postWeight1" name="postWeight1" value='' style="display: none" />
+										<input id="postWeight2" name="postWeight2" value='' style="display: none" />
+										<input id="postWeight3" name="postWeight3" value='' style="display: none" />
+										<input id="postCount1" name="postCount1" value='' style="display: none" />
+										<input id="postCount2" name="postCount2" value='' style="display: none" />
+										<input id="postCount3" name="postCount3" value='' style="display: none" />
+									</div>
+									
+
+									<div class="line line-dashed line-lg pull-in"></div>
+									<!-- #foreach($area in $areaList)
+									  <label>$!area.area : $!area.areaCity</label><br>
+									#end
+									<br> -->
+									<input type="submit" class="btn btn-sm btn-success" value="提交" onclick="return checkFrom()">
+								</form>
+							</div>
+						</section>
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+<script src="js/app.v2.js"></script>
+</body>
+<!-- 计件 -->
+<!-- <script type="text/javascript">
+var countnumber = 0;
+function addOnetype() {
+	        countnumber++
+			$('#countnumber').val(countnumber)
+			var text1 = '<tr>'+
+			'<td style="width:auto">'+
+			'#foreach($area in $areaList)'+
+			'<input type="checkbox" name="test" value="$!area.area" ><label>$!area.area</label>'+
+			'#end'+
+			'</td>'+
+			'<td style="width:auto"><input type="text" name="post41"/></td>'+
+			'<td style="width:auto"><input type="text" name="post42"/></td>'+
+			'<td style="width:auto"><input type="text" name="post43"/></td>'+
+			'<td style="width:auto"><input type="text" name="post44"/></td>'+
+		'</tr>';
+			$('#count1').append(text1);
+		}
+</script> -->
+<!-- 计重 -->
+<!-- <script type="text/javascript">
+var weightnumber = 1;
+function addtype() {
+	        weightnumber++;
+			$('#weightnumber').val(weightnumber);
+
+			var text2 = '<tr>'+
+			'<td style="width:auto">'+
+			'#foreach($area in $areaList)'+
+			'<input type="checkbox" name="test" value="$!area.area" ><label>$!area.area</label>'+
+			'#end'+
+			'</td>'+
+			'<td style="width:auto"><input type="text" name="post11"/></td>'+
+			'<td style="width:auto"><input type="text" name="post12"/></td>'+
+			'<td style="width:auto"><input type="text" name="post13"/></td>'+
+			'<td style="width:auto"><input type="text" name="post14"/></td>'+
+		'</tr>';
+			$('#weight1').append(text2);
+		}
+</script> -->
+</html>

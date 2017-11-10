@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_msg">
+    <column name="" javatype="" />
+    
+    <!-- 查询信息列表 -->
+    <operation name="selectMsgInfoByUserId" multiplicity="many">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_msg
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     S_USER_ID,
+		     R_USER_ID,
+		     STATUS,
+		     MSG,
+		     SEND_TIME,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_msg
+            WHERE USER_ID = #userId# 
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 我的消息查询（数据条数）  -->
+    <operation name="selectMsgCountByUserId" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_msg
+        </sql>
+        <sqlmap>
+			SELECT
+		    count(1)
+			FROM makeploy_msg
+            WHERE USER_ID = #userId# 
+        </sqlmap>
+    </operation>
+    
+    <!-- 添加 系统 发出的消息 -->
+    <operation name="addSystemMsg" paramtype="object">
+    <sql>
+    	insert into makeploy_msg
+    	(	 ID,
+		     USER_ID,
+		     S_USER_ID,
+		     R_USER_ID,
+		     STATUS,
+		     MSG,
+		     SEND_TIME,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+		     )values(?,?,?,?,'1',?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?)
+    </sql>
+    </operation>
+    <operation name="selectInfoById">
+    	<sql>
+    	select * from makeploy_msg
+    	where ID=?
+    	
+    	</sql>
+    </operation>
+</table>

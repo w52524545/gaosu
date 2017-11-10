@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	/* 	function pullback(flg) {
+	 if(flg==1){
+	 $("#withDrawRate").val('$!withDrawRate');
+	 }else{
+	 $("#buyReurnRate").val('$!buyReurnRate');
+	 }
+	 } */
+	function confirm(flg) {
+		var url = "editRate.do";
+		if (flg == 1) {/* 提现费率 */
+			var withDrawRate = $("#withDrawRate").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : withDrawRate
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		} else if (flg == "2") {/* 一级消费返利率 */
+			var firstBuyReurnRate = $("#firstBuyReurnRate").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : firstBuyReurnRate
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		} else if (flg == "3") {/*下线开通农村经纪人返利率 */
+			var partnerReturnRate = $("#partnerReturnRate").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : partnerReturnRate
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		} else if (flg == "4") {/* 农村经纪人折扣率 */
+			var partnerOffRate = $("#partnerOffRate").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : partnerOffRate
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		} else if (flg == "5") {/* 区域代理收入手续费 */
+			var agentIncomeRate = $("#agentIncomeRate").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : agentIncomeRate
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		} else if (flg == "6") {//二级消费反利率
+			var secondBuyReurnRate = $("#secondBuyReurnRate").val();
+			jQuery
+					.ajax({
+						url : url, 
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : secondBuyReurnRate
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		} else if (flg == "7") {
+			var unionReturnPartner = $("#unionReturnPartner").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : unionReturnPartner
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}else if (flg == "8") {
+			var indexTitleName = $("#indexTitleName").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : indexTitleName
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}else if (flg == "9") {//几次出局
+			var outNum = $("#outNum").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : outNum
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}else if (flg == "10") {//几分之一往后排
+			var numOfAll = $("#numOfAll").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : numOfAll
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}else if (flg == "11") {//几分之一往后排
+			var limitRank = $("#limitRank").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : limitRank
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}else if (flg == "12") {//返还期限
+			var returnTimes = $("#returnTimes").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : returnTimes
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}else if (flg == "13") {//定时开关
+			var accountReturnMenu = $("#accountReturnMenu").val();
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"flg" : flg,
+							"newRate" : accountReturnMenu
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert("修改成功！");
+								window.location.reload(true);
+							} else {
+								alert("操作失败");
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}
+	}
+</script>
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>农村经纪人默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li class="active" style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li class="active"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+										<li><a href="addAgent.html"> <i
+												class="fa fa-angle-right"></i> <span>区域代理添加</span>
+										</a></li>
+										<li><a href="addPartner.html"> <i
+												class="fa fa-angle-right"></i> <span>农村经纪人添加</span>
+										</a></li>
+									</ul></li>
+								<!-- 充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li><a href=""> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content" style="background-color: #e8e8e8">
+			<section class="panel panel-default form-horizontal"
+				style="width: calc(100% - 800px); margin-left: 30%; margin-top: 10%">
+				<header class="panel-heading" style="text-align: center">
+					<strong>手续费管理</strong>
+				</header>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">提现费率:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="withDrawRate" name="withDrawRate" type="text"
+								class="form-control parsley-validated"
+								placeholder="$!withDrawRate" value="$!withDrawRate">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(1)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(1)" value="确认" name="a_up">
+					</div>
+					<div class="line line-dashed line-lg pull-in"></div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">一级消费返利率:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="firstBuyReurnRate" name="firstBuyReurnRate"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!firstBuyReurnRate" value="$!firstBuyReurnRate">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(2)" value="确认" name="a_up">
+					</div>
+					<div class="form-group">
+							<label class="col-sm-3 control-label" style="width:35%">二级消费返利率:</label>
+							<div class="col-sm-9" style="width:40%">
+								<input id="secondBuyReurnRate" name="secondBuyReurnRate" type="text"
+									class="form-control parsley-validated"  placeholder="$!secondBuyReurnRate" value="$!secondBuyReurnRate">
+								<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+							</div>
+							<input class="btn   btn-success" style="width:20%;padding:5px 6px;"type="button" onclick="confirm(6)"
+										value="确认" name="a_up">
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">农村经纪人折扣率:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="partnerOffRate" name="partnerOffRate" type="text"
+								class="form-control parsley-validated"
+								placeholder="$!partnerOffRate" value="$!partnerOffRate">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(4)" value="确认" name="a_up">
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">下线开通农村经纪人返利率:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="partnerReturnRate" name="partnerReturnRate"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!partnerReturnRate" value="$!partnerReturnRate">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(3)" value="确认" name="a_up">
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">区域代理收入手续费:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="agentIncomeRate" name="agentIncomeRate" type="text"
+								class="form-control parsley-validated"
+								placeholder="$!agentIncomeRate" value="$!agentIncomeRate">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(5)" value="确认" name="a_up">
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">店铺收益:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="unionReturnPartner" name="unionReturnPartner"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!unionReturnPartner" value="$!unionReturnPartner">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(7)" value="确认" name="a_up">
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">手机端首页title展示:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="indexTitleName" name="indexTitleName"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!indexTitleName" value="$!indexTitleName">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(8)" value="确认" name="a_up">
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">修改几次出局:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="outNum" name="outNum"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!outNum" value="$!outNum">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(9)" value="确认" name="a_up">
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">修改几分之一往后排:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="numOfAll" name="numOfAll"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!numOfAll" value="$!numOfAll">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(10)" value="确认" name="a_up">
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">限制数:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="limitRank" name="limitRank"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!limitRank" value="$!limitRank">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(11)" value="确认" name="a_up">
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">返还期限:</label>
+						<div class="col-sm-9" style="width: 40%">
+							<input id="returnTimes" name="returnTimes"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!returnTimes" value="$!returnTimes">
+							<!-- <input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete"> -->
+						</div>
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(12)" value="确认" name="a_up">
+					</div>
+					
+					<!-- <div class="form-group">
+						<label class="col-sm-3 control-label" style="width: 35%">返现定时任务开关:</label>
+						<div class="col-sm-9" style="width: 40%;" hidden=""> 
+							<input id="accountReturnMenu" name="accountReturnMenu"
+								type="hidden" class="form-control parsley-validated"
+								placeholder="$!accountReturnMenu" value="$!accountReturnMenu">
+							<input class="btn   btn-default" style="width:20%;padding:5px 6px" type="button" onclick="pullback(2)"
+										value="撤回" name="a_delete">
+						</div>
+						#if($!accountReturnMenu == 'OPEN')
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(13)" value="点击关闭" name="a_up">
+						#end
+						#if($!accountReturnMenu == 'CLOSE')
+						<input class="btn   btn-success"
+							style="width: 20%; padding: 5px 6px;" type="button"
+							onclick="confirm(13)" value="点击开启" name="a_up">
+						#end	
+					</div> -->
+				</div>
+			</section>
+		</section>
+	</section>
+
+	<script src="js/app.v2.js"></script>
+	
+		<script type="text/javascript">
+
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function changeQr() {
+			var url = "changeQr.html";
+			window.open(url, '增加一条信息', features);
+			
+		}
+
+</script>
+</body>
+</html>

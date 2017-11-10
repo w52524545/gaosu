@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_shop_check">
+	<!-- 查询店铺的审核情况 -->
+	<operation name="selectShopCheckStatus" multiplicity="many">
+		<extraparams>
+			<param name="shopName" javatype="java.lang.String" />
+			<param name="shopCell" javatype="java.lang.String" />
+			<param name="flag" javatype="java.lang.String" />
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop_check
+		</sql>
+		<sqlmap>
+		 <![CDATA[
+			SELECT
+			* FROM makeploy_shop_check
+			WHERE CHECK_STATUS &lt;&gt; 3
+			<isNotEmpty property="shopName" prepend="and">
+	                SHOP_NAME LIKE '%$shopName$%' 
+	        </isNotEmpty>  
+	        <isNotEmpty property="shopCell" prepend="and">
+	                SHOP_CELL = #shopCell#
+	        </isNotEmpty> 
+	        <isNotEmpty property="flag" prepend="and">
+	                APPLY_TYPE = #flag#
+	        </isNotEmpty>   
+	            order by CHECK_STATUS , MEMO
+	            limit #offset#,#limit#
+			
+		]]>
+		</sqlmap>
+	</operation>
+	<!-- 列表的条数 -->
+	<operation name="countitmes" resultClass="int">
+		<extraparams>
+			<param name="shopName" javatype="java.lang.String" />
+			<param name="shopCell" javatype="java.lang.String" />
+			<param name="flag" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_shop_check
+		</sql>
+		<sqlmap>
+	<![CDATA[
+		select count(1) from makeploy_shop_check
+		where CHECK_STATUS &lt;&gt; 3
+			<isNotEmpty property="shopName" prepend="and">
+	                SHOP_NAME LIKE '%$shopName$%' 
+	        </isNotEmpty> 
+			<isNotEmpty property="shopCell" prepend="and">
+	                SHOP_CELL = #shopCell#
+	        </isNotEmpty>   
+	        <isNotEmpty property="flag" prepend="and">
+	                APPLY_TYPE = #flag#
+	        </isNotEmpty> 
+	]]>
+		</sqlmap>
+	</operation>
+	<!-- 修改审核状态 -->
+	<operation name="updateCheckStatusByshopId">
+		<sql>
+			update makeploy_shop_check
+			set CHECK_STATUS=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			where SHOP_ID=?
+		</sql>
+	</operation>
+	<operation name="updatePartnerCheckStatusByshopId">
+		<sql>
+			update makeploy_shop_check
+			set CHECK_STATUS=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP,MEMO = ?
+			where SHOP_ID=?
+		</sql>
+	</operation>
+	<operation name="updateCheckStatusByUserId">
+		<sql>
+			update makeploy_shop_check
+			set CHECK_STATUS=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			where USER_ID=?
+		</sql>
+	</operation>
+
+	<operation name="changeApplytype">
+		<sql>
+			update makeploy_shop_check
+			set CHECK_STATUS=?,APPLY_TYPE
+			=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where USER_ID=?
+		</sql>
+	</operation>
+
+	<operation name="changePartnerApplytype">
+		<sql>
+			update makeploy_shop_check
+			set CHECK_STATUS=?,APPLY_TYPE
+			=?,GMT_MODIFIED = CURRENT_TIMESTAMP ,MEMO =?
+			where USER_ID=?
+		</sql>
+	</operation>
+
+	<!-- 通过shopId查询 -->
+	<operation name="selectByShopId">
+		<sql>
+			select * from makeploy_shop_check
+			where SHOP_ID=?
+		</sql>
+	</operation>
+	<!-- 通过userId查询 -->
+	<operation name="selectByUserIdApplyType">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="applyType" javatype="java.lang.String" />
+			<param name="checkStatus" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_shop_check
+		</sql>
+		<sqlmap>
+		    <![CDATA[
+			select * from makeploy_shop_check
+			where 1=1
+			<isNotEmpty property="userId" prepend="and">
+	                USER_ID LIKE #userId# 
+	        </isNotEmpty> 
+			<isNotEmpty property="applyType" prepend="and">
+	                APPLY_TYPE = #applyType#
+	        </isNotEmpty>   
+	        <isNotEmpty property="checkStatus" prepend="and">
+	                CHECK_STATUS = #checkStatus#
+	        </isNotEmpty> 
+			]]>
+		</sqlmap>
+	</operation>
+
+	<operation name="addCheckedPartner" paramtype="object">
+		<sql>
+			insert into makeploy_shop_check
+			( ID,
+			SHOP_ID,
+			USER_NAME,
+			USER_ID,
+			SHOP_NAME,
+			USER_CELL,
+			SHOP_CELL,
+			SHOP_DEC,
+			SHOP_ADDR,
+			CARD_ADDR,
+			NOW_ADDR,
+			SHOP_URL,
+			USER_JOB,
+			CHECK_STATUS,
+			APPLY_TYPE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?)
+		</sql>
+	</operation>
+	<operation name="updateInfo">
+		<sql>
+			update makeploy_shop_check set
+			SHOP_NAME = ?,
+			SHOP_CELL = ?,
+			SHOP_DEC = ?,
+			SHOP_ADDR = ?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE
+			SHOP_ID =?
+		</sql>
+	</operation>
+
+	<operation name="updateShopId">
+		<sql>
+			update makeploy_shop_check set
+			SHOP_ID = ?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			WHERE
+			USER_ID =?
+		</sql>
+	</operation>
+
+
+</table>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_collection">
+    <column name="" javatype="" />
+    
+    <!-- 查询收藏信息列表 -->
+    <operation name="selectCollectionInfoByUserIdAndTypeAndStatus" multiplicity="many" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="type" javatype="java.lang.String" />
+            <param name="status" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_collection
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     SHOP_ID,
+		     TYPE,
+		     STATUS,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_collection
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="type" prepend="and">
+                    TYPE = #type#
+                </isNotNull>
+                <isNotNull property="status" prepend="and">
+                    STATUS = #status#
+                </isNotNull>
+            </dynamic>
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查询收藏信息列表（判断收藏列表是否存在该收藏，包括已经取消Status的） -->
+    <operation name="selectCollectionInfoByUserIdAndProductNoAndShopId" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="productNo" javatype="java.lang.String" />
+            <param name="shopId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_collection
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     SHOP_ID,
+		     TYPE,
+		     STATUS,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_collection
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+            </dynamic>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 收藏查询（数据条数）  -->
+    <operation name="selectCollectionCountByUserIdAndType" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="type" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_collection
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_collection
+			where STATUS = 0
+            <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+            </isNotNull>
+            <isNotNull property="type" prepend="and">
+                    TYPE = #type#
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 收藏查询（数据条数）  -->
+    <operation name="selectCollectionCount" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_collection
+        </sql>
+        <sqlmap>
+			SELECT
+		    count(1)
+			FROM makeploy_collection
+			where STATUS = 0
+            and USER_ID = #userId#
+        </sqlmap>
+    </operation>
+    
+    <!-- 添加收藏  -->
+    <operation name="addCollection" paramtype="object">
+		<sql>
+			insert into makeploy_collection
+            (
+             ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     SHOP_ID,
+		     TYPE,
+		     STATUS,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ? ,  ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 取消宝贝收藏  -->
+    <operation name="changeGoodsCollectionStatus" paramtype="object">
+		<sql>
+			update makeploy_collection set
+		     STATUS = 1 ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? AND
+		     PRODUCT_NO =? AND
+		     SHOP_ID =? AND
+		     TYPE = 0
+		</sql>
+	</operation>
+	
+	<!-- 取消店铺收藏  -->
+    <operation name="changeShopCollectionStatus" paramtype="object">
+		<sql>
+			update makeploy_collection set
+		     STATUS = 1 ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? AND
+		     SHOP_ID =? AND
+		     TYPE = 1
+		</sql>
+	</operation>
+	
+	
+</table>

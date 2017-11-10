@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>区域店铺</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="js/sort.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="goods_list store_list" >
+        #foreach($result in $unionShop)
+        <div class="goods_item store_item">
+            <a href="onlinestore.html?shopId=$!result.shopId">
+            <img src="$!result.shopUrl"/>
+            <p>$!result.shopName</p>
+            </a>
+        </div>
+        #end
+    </div>
+    <div class="s_search"><a href="search.html"><img src="images/search.png"/></a></div>
+</body>
+</html>

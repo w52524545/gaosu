@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_borrow_money">
+    <column name="BORROW_MONEY" javatype="com.onway.common.lang.Money" />
+    
+    <!-- 查询借款信息 -->
+	<operation name="selectInfoByState" multiplicity="many">
+		  <extraparams>
+            <param name="state" javatype="java.lang.String" />
+            <param name="offset"  javatype="java.lang.Integer"/>
+            <param name="limit"  javatype="java.lang.Integer"/>
+        </extraparams>
+		<sql>
+			select * from  makeploy_borrow_money
+		</sql>
+		<sqlmap>
+			<![CDATA[ 
+				select * from  makeploy_borrow_money WHERE 1 = 1
+				
+				<isNotEmpty property="state" prepend="and">
+	                    BORROW_STATE = #state#
+	                </isNotEmpty>
+	                limit #offset#,#limit#
+			 ]]>
+		</sqlmap>
+	</operation>
+	
+	
+	<!-- 查询借款信息总数量  southRain-->
+	<operation name="selectInfoCount" >
+		  <extraparams>
+            <param name="state" javatype="java.lang.String" />
+        </extraparams>
+		<sql>
+			select count(1) from  makeploy_borrow_money
+		</sql>
+		<sqlmap>
+			<![CDATA[ 
+				select count(1) from  makeploy_borrow_money WHERE 1 = 1
+				
+				<isNotEmpty property="state" prepend="and">
+	                    BORROW_STATE = #state#
+	                </isNotEmpty>
+			 ]]>
+		</sqlmap>
+	</operation>
+    
+    
+    <!-- 根据借款号查询借款信息 -->
+	<operation name="selectByBorrowId" >
+		<sql>
+			select * from  makeploy_borrow_money where BORROW_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 修改申请状态 -->
+	<operation name="modifyState">
+		<sql>
+			update makeploy_borrow_money set BORROW_STATE = ?,GMT_MODIFIED = CURRENT_TIMESTAMP where BORROW_ID = ?
+		</sql>
+	</operation>
+</table>

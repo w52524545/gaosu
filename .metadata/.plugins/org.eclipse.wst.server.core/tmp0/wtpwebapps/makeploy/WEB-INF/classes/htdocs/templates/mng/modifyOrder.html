@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑店铺信息</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js">
+	
+</script>
+
+<script type="text/javascript">
+	function Trim(str)
+	{ 
+	    return str.replace(/(^\s*)|(\s*$)/g, ""); 
+	}
+	
+function fun(){
+	var userName = $("#userName").val();
+	var cell = $("#cell").val();
+	var provience = $("#provience").val();
+	var city = $("#city").val();
+	var district = $("#district").val();
+	var addr = $("#addr").val();
+	if(Trim(userName)==""){
+		alert("请填写收货人姓名！");
+		return false;
+	}
+	if(Trim(cell)==""){
+		alert("请填写收货人预留手机号！");
+		return false;
+	}
+	if(Trim(provience)==""){
+		alert("请填写省！");
+		return false;
+	}
+	if(Trim(city)==""){
+		alert("请填写市！");
+		return false;
+	}
+	if(Trim(district)==""){
+		alert("请填写区！");
+		return false;
+	}
+	if(Trim(addr)==""){
+		alert("请填写收货详细地址");
+		return false;
+	}
+	
+	if(confirm("确定修改数据么？")){
+		jQuery.ajax({
+	        url : "orderModifyByOrderId.do",// 跳转到 action  
+	        type : 'post',
+	        cache : false,
+	        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+	        dataType : 'json',
+	        data:$("#modifyOrder").serialize(),
+	        success : function(data) {
+	            if (data.bizSucc) {
+	                alert("成功");
+	                window.opener.location.reload();
+	                window.close();
+	            } else{
+	             alert("失败");
+	           }
+	        },
+	        error : function() {  
+	                       alert("异常！");  
+	            }  
+	      });
+	}
+	
+
+}
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+</style>
+</head>
+<body>
+	<section class="hbox stretch">
+		<!-- 导航栏 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+						<li>修改订单信息</li>
+					</ul>
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<div class="panel-body">
+								<form role="form" id="modifyOrder" method="POST"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<label>订单号</label>
+										<span class="form-control" style="border: 0px">$!orderId</span>
+										<input type="hidden" name="orderId" value="$!orderId">
+									</div>
+									<div class="form-group">
+										<label>收货人姓名</label> <input name="userName"
+											id="userName" type="text" class="form-control" value="$!orderDO.userName"/>
+									</div>
+									<div class="form-group">
+										<label>预留手机号</label> <input name="cell"
+											id="cell" type="text" class="form-control" value="$!orderDO.cell"/>
+									</div>
+									<div class="form-group">
+										<label>订单金额（不含运费）</label> <input name="orderPrice"
+											id="orderPrice" type="text" class="form-control" value="$!orderDO.orderPrice"/>
+									</div>
+									<div class="form-group">
+										<label>运费</label> <input name="luggage"
+											id="luggage" type="text" class="form-control" value="$!orderDO.luggage"/>
+									</div>
+									<div class="form-group">
+										<label>省</label>
+										<input type="text" class="form-control" id="provience" name="provience" value="$!orderDO.provience">
+									</div>
+									<div class="form-group">
+										<label>市</label>
+										<input type="text" class="form-control" id="city" name="city" value="$!orderDO.city">
+									</div>
+									<div class="form-group">
+										<label>区</label>
+										<input type="text" class="form-control" id="district" name="district" value="$!orderDO.district">
+									</div>
+									<div class="form-group">
+										<label>收货地址详情</label> 
+										<textarea id="addr" name="addr" rows="" cols="" class="form-control">$!orderDO.addr</textarea>
+									</div>
+
+									<div class="line line-dashed line-lg pull-in"></div>
+									<!-- #foreach($area in $areaList)
+									  <label>$!area.area : $!area.areaCity</label><br>
+									#end
+									<br> -->
+									<input type="button" class="btn btn-sm btn-success" value="提交" onclick="fun()">
+								</form>
+							</div>
+						</section>
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+<script src="js/app.v2.js"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_partner">
+    <column name="" javatype="" />
+    <column name="PARTNER_ACCOUT" javatype="com.onway.common.lang.Money" />
+    
+    <!-- 查询农村经纪人需要金额  -->
+    <operation name="selectPartnerMoney">
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+			SELECT * FROM makeploy_partner WHERE USER_ID = '1' AND PARTNER_USER_ID= '1'
+        </sqlmap>
+    </operation>
+    
+    <operation name="changePartnerSum">
+		<sql>
+			update makeploy_partner set MEMO = ?, GMT_MODIFIED = CURRENT_TIMESTAMP  
+			where USER_ID = '1' AND PARTNER_USER_ID= '1'
+		</sql>
+	</operation>
+    
+    <!-- 修改农村经纪人需要金额  -->
+    <operation name="updatePartnerMoney">
+		<sql>
+			update makeploy_partner set PARTNER_ACCOUT = ?, GMT_MODIFIED = CURRENT_TIMESTAMP  
+			where USER_ID = ? AND PARTNER_USER_ID= ?
+		</sql>
+	</operation>
+    
+    
+    <!-- 查询农村经纪人数-->
+    <operation name="selectPartnerCount" resultClass="int">
+        <sql>
+            select count(1) from makeploy_partner
+        </sql>
+    </operation>
+    
+    <!-- 加入农村经纪人  -->
+    <operation name="joinPartner">
+        <sql>
+        insert into makeploy_partner
+            (
+                ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+             ?, ?,?, ?,?, ?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+        </sql>
+    </operation>
+    
+    <!-- 查询是否已经开通农村经纪人  -->
+    <operation name="checkPartnerByPUserId">
+        <extraparams>
+            <param name="partnerUserId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner WHERE PARTNER_USER_ID = #partnerUserId# 
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectPartnerUserId" multiplicity="many">
+        <extraparams>
+            <param name="partnerUserId" javatype="java.lang.String" />
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner WHERE PARTNER_USER_ID &lt;&gt; 1
+			<isNotEmpty property="partnerUserId" prepend="and">
+	            PARTNER_USER_ID = #partnerUserId# 
+	        </isNotEmpty>
+	        order by PARTNER_NUM 
+	        <isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectAll" multiplicity="many">
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectPartnerUserIdCount" >
+        <extraparams>
+            <param name="partnerUserId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select count(1) from makeploy_partner
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT count(1)
+			FROM makeploy_partner WHERE PARTNER_USER_ID &lt;&gt; 1
+			<isNotEmpty property="partnerUserId" prepend="and">
+	            PARTNER_USER_ID = #partnerUserId# 
+	        </isNotEmpty>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查找倒序农村经纪人 -->
+    <operation name="selectLastPartner" multiplicity="many">
+         <extraparams>
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner 
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner 
+			order by PARTNER_NUM desc limit 
+			<isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+        ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查找正序农村经纪人 -->
+    <operation name="selectLastPartnerIncreasc" multiplicity="many">
+         <extraparams>
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner 
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner 
+			order by PARTNER_NUM 
+            <isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 修改农村经纪人排序 -->
+    <operation name="changePartnerNum">
+		<sql>
+			update makeploy_partner set PARTNER_NUM = ? 
+			where PARTNER_USER_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="selectAllPartnerNumIsNotNull" multiplicity="many">
+	   <extraparams>
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner where MEMO is not null  AND id &lt;&gt; 1 order by PARTNER_NUM
+			<isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectAllPartnerNumIsNotNullDesc" multiplicity="many">
+	   <extraparams>
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner where MEMO is not null  AND id &lt;&gt; 1 order by PARTNER_NUM desc
+			<isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="checkOutYesOrNot" multiplicity="many">
+        <sql>
+            select * from makeploy_partner
+        </sql>
+         <sqlmap>
+			SELECT
+			    ID,
+				USER_ID,
+				PARTNER_USER_ID,
+				PARTNER_ACCOUT,
+				PARTNER_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner where PARTNER_NUM = MEMO
+        </sqlmap>
+    </operation>
+</table>

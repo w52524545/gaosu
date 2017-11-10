@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>日用品</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="js/sort.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="sort_type" >
+        <li><a href="javascript:void(0);" class="cur">综合排序<i  class="cur"></i></a><span class="sort_s">|</span></li>
+        <li><a href="javascript:void(0);">筛选<i></i></a></li>
+    </div>
+    <div class="sort_type_cont sort_type_cont1"  style="display:none;">
+        <ul class="sort_total">
+            <li class="cur" onclick="sorting('$!productType')">综合排序<i class="cur"></i></li>
+             <li onclick="sortingAsc('$!productType')">价格从低到高<i></i></li>
+             <li onclick="sortingDesc('$!productType')">价格从高到低<i></i></li>
+        </ul>
+    </div>
+    <div class="sort_type_cont sort_type_cont1" style="display:none;">
+        <ul class="filter">
+            <li><a href="#">全部分类</a></li>
+            <li><a href="#">家居用品</a></li>
+            <li><a href="#">日用品</a></li>
+            <li><a href="#">护肤</a></li>
+            <li><a href="#">家纺</a></li>
+            <li><a href="#">家居</a></li>
+        </ul>
+    </div>
+    <div class="goods_list" >
+    	#foreach($pro in $proList)
+        <div class="goods_item">
+            <a href="productDetail.html?shopId=$!pro.shopId&productNo=$!pro.productNo&productType=$!pro.productType">
+            <img src="$!pro.productUrl" alt="商品图"/>
+            <p>$!pro.productName</p>
+            <p><span class="goods_price">&yen;$!pro.price</span></p>
+            </a>
+        </div>
+        #end
+    
+    </div>
+    <div class="s_search"><a href="search.html"><img src="images/search.png"/></a></div>
+</body>
+<!-- 根据价格倒序 -->
+<script type="text/javascript">
+function sortingDesc(father){
+	var url = "selectTypeByChildrenNameSortDesc.do";
+	jQuery.ajax({
+        url : url,// 跳转到 action  
+        type : 'post',
+        cache : false,
+        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+        dataType : 'json',
+        data:{"father":father},
+        success : function(result) {
+        	var resultList = result.listObject;
+        	var bodyHtml = "";
+        	jQuery.each(resultList, function(i, item){
+        		bodyHtml +='<div class="goods_item">'+
+        					'<a href="productDetail.html?shopId='+item.shopId+'&productNo='+item.productNo+'&productType='+item.productType+'">'+
+        					'<img src="'+item.productUrl+'" alt="商品图"/>'+
+        					'<p>'+item.productName+'</p>'+
+        					'<span>&yen;'+item.price.amount+'</span>'+
+        					'</a>'+'</div>';
+        	});
+        	var new_content = bodyHtml;
+			$(".goods_list").html(new_content);
+        },
+        error : function() {  
+                       alert("异常！");  
+            }  
+      });
+}
+
+</script>
+<!-- 综合排序 -->
+<script type="text/javascript">
+function sorting(father){
+	var url = "selectTypeByChildrenNameSort.do";
+	jQuery.ajax({
+        url : url,// 跳转到 action  
+        type : 'post',
+        cache : false,
+        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+        dataType : 'json',
+        data:{"father":father},
+        success : function(result) {
+        	var resultList = result.listObject;
+        	var bodyHtml = "";
+        	jQuery.each(resultList, function(i, item){
+        		bodyHtml +='<div class="goods_item">'+
+        					'<a href="productDetail.html?shopId='+item.shopId+'&productNo='+item.productNo+'&productType='+item.productType+'">'+
+        					'<img src="'+item.productUrl+'" alt="商品图"/>'+
+        					'<p>'+item.productName+'</p>'+
+        					'<span>&yen;'+item.price.amount+'</span>'+
+        					'</a>'+'</div>';
+        	});
+        	var new_content = bodyHtml;
+			$(".goods_list").html(new_content);
+        },
+        error : function() {  
+                       alert("异常！");  
+            }  
+      });
+}
+</script>
+<!-- 根据价格升序 -->
+<script type="text/javascript">
+function sortingAsc(father){
+	var url = "selectTypeByChildrenNameSortAsc.do";
+	jQuery.ajax({
+        url : url,// 跳转到 action  
+        type : 'post',
+        cache : false,
+        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+        dataType : 'json',
+        data:{"father":father},
+        success : function(result) {
+        	var resultList = result.listObject;
+        	var bodyHtml = "";
+        	jQuery.each(resultList, function(i, item){
+        		bodyHtml +='<div class="goods_item">'+
+        					'<a href="productDetail.html?shopId='+item.shopId+'&productNo='+item.productNo+'&productType='+item.productType+'">'+
+        					'<img src="'+item.productUrl+'" alt="商品图"/>'+
+        					'<p>'+item.productName+'</p>'+
+        					'<span>&yen;'+item.price.amount+'</span>'+
+        					'</a>'+'</div>';
+        	});
+        	var new_content = bodyHtml;
+			$(".goods_list").html(new_content);
+        },
+        error : function() {  
+                       alert("异常！");  
+            }  
+      });
+}
+</script>
+</html>

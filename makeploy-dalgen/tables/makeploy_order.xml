@@ -1,0 +1,1489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_order">
+	<column name="ORDER_PRICE" javatype="com.onway.common.lang.Money" />
+	<column name="EACHPRO_PRICE" javatype="com.onway.common.lang.Money" />
+	<column name="EXPECTED_RETURN" javatype="com.onway.common.lang.Money" />
+	<column name="ACTUAL_RETURN" javatype="com.onway.common.lang.Money" />
+	<column name="LUGGAGE" javatype="com.onway.common.lang.Money" />
+	<column name="POINT" javatype="com.onway.common.lang.Money" />
+
+
+	<!-- 查询我的订单列表信息 -->
+	<operation name="selectOrdersByStatusAndUserId" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_order
+			where ORDER_TYPE &lt;&gt; '6'
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                <isNotEmpty property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotEmpty>
+                <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 <isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+                </isNotEmpty>
+            ORDER BY GMT_CREATE DESC
+			<isNotEmpty property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotEmpty>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectOrdersByStatusAndUserIdAndShopId" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_order
+			where 1=1
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                <isNotEmpty property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotEmpty>
+                <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 <isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+                </isNotEmpty>
+                <isNotEmpty property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotEmpty>
+            ORDER BY GMT_CREATE DESC
+			<isNotEmpty property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotEmpty>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectTeamGoOrdersByStatusAndUserIdAndShopId" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_order where 1=1
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                <isNotEmpty property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotEmpty>
+                <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 <isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+                </isNotEmpty>
+                <isNotEmpty property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotEmpty>
+               and  ORDER_TYPE = '2' OR ORDER_TYPE = '3'
+                ORDER BY GMT_CREATE DESC
+			<isNotEmpty property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotEmpty>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectPartnerRankOrder" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_order where ORDER_TYPE = '6'
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                ORDER BY ORDER_NUM 
+			<isNotEmpty property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotEmpty>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectPartnerRankOrderCount"
+		resultClass="int">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_order
+			where ORDER_TYPE = '6'
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+			]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 订单查询（数据条数） -->
+	<operation name="selectOrdersCountByStatusAndUserId"
+		resultClass="int">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_order
+			where ORDER_TYPE &lt;&gt; '6'
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                <isNotEmpty property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotEmpty>
+                <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 <isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+                </isNotEmpty>
+			]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectOrdersCountByStatusAndUserIdAndShopId"
+		resultClass="int">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_order
+			<dynamic prepend="where">
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                <isNotEmpty property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotEmpty>
+                <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 <isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+                </isNotEmpty>
+                <isNotEmpty property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotEmpty>
+            </dynamic>
+			]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectTeamGoOrdersCountByStatusAndUserIdAndShopId"
+		resultClass="int">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_order  where ORDER_TYPE = '2' OR ORDER_TYPE = '3'
+                <isNotEmpty property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotEmpty>
+                 <isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+                </isNotEmpty>
+                <isNotEmpty property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotEmpty>
+                <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 <isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+                </isNotEmpty>
+                <isNotEmpty property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotEmpty>
+			]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 查询订单详细信息 -->
+	<operation name="selectOrdersByOrderId" >
+		<extraparams>
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+		<![CDATA[
+			SELECT
+			*
+			FROM makeploy_order
+			WHERE 
+			<isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+            </isNotEmpty>
+            <isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+            </isNotEmpty>
+		]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="updateOrderUserId">
+		<sql>
+			UPDATE makeploy_order set USER_ID = ?,GMT_MODIFIED = CURRENT_TIMESTAMP where ORDER_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 取消订单 -->
+	<operation name="updateOrderStatusByOrderId">
+		<sql>
+			UPDATE makeploy_order set ORDER_STATUS = ?,GMT_MODIFIED = CURRENT_TIMESTAMP where ORDER_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 删除订单 -->
+	<operation name="updateDelFlagByOrderId">
+		<sql>
+			UPDATE makeploy_order set DELFLAG = ?,GMT_MODIFIED = CURRENT_TIMESTAMP where ORDER_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 确认收货 -->
+	<operation name="updateOrderStatusAndOrderSendGoodsByOrderId">
+		<sql>
+			UPDATE makeploy_order set ORDER_STATUS = ? , SEND_GOODS = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ORDER_ID = ?
+		</sql>
+	</operation>
+	<!-- 添加物流单号 -->
+	<operation name="addTransportNoByOrderId">
+		<sql>
+			update makeploy_order
+			set TRANSPORT_NO=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ORDER_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 根据商品号查询订单详情 -->
+	<operation name="selectOrderByProductNO"
+		resultClass="com.onway.makeploy.common.dal.dataobject.ProductShow"
+		multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="product" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+    		<![CDATA[
+    			select
+    			 o.USER_ID userId,
+    		     o.ORDER_ID orderId,
+	    		 o.ORDER_PRICE orderPrice,
+	    		 o.PRODUCT_COUNT ProductCount,
+	    		 o.LUGGAGE luggage,
+	    		 o.SEND_GOODS sendGoods,
+	    		 o.PAY_STATUS payStatus,
+	    		 o.ORDER_STATUS orderStatus,
+	    		 o.PRODUCT_NO productNo,
+	    		 p.PRODUCT_NAME productName,
+	    		 p.PRICE price,
+	    		 p.SHOP_ID shopId,
+	    		 p.PRODUCT_URL productImg
+    		 	 from
+    		 	 makeploy_order o,makeploy_product p where
+    		 	 o.PRODUCT_NO = p.PRODUCT_NO 
+    		 	 <isNotEmpty property="userId" prepend="and">
+                    o.USER_ID = #userId#
+               	 </isNotEmpty>
+               	  <isNotEmpty property="delflag" prepend="and">
+                    o.DELFLAG = #delflag#
+               	 </isNotEmpty>
+    		 	  <isNotEmpty property="product" prepend="and">
+                    o.PRODUCT_NO = #product#
+               	 </isNotEmpty>
+                <isNotEmpty property="sendGoods" prepend="and">
+                    o.PRODUCT_NAME = #sendGoods#
+                </isNotEmpty>
+                 <isNotEmpty property="payStatus" prepend="and">
+                    o.PAY_STATUS = #payStatus#
+                </isNotEmpty>
+                 ORDER BY o.CREATER limit #offset#,#limit#
+    		 	 
+    		 ]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 根据商品号查询订单数 -->
+	<operation name="selectorderCountByProductNO" >
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="product" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_order
+		</sql>
+		<sqlmap>
+    		<![CDATA[ 
+    			select count(1)  from makeploy_order o,makeploy_product p 
+    			where
+    		 	 o.PRODUCT_NO = p.PRODUCT_NO 
+    		 	  <isNotEmpty property="userId" prepend="and">
+                    o.USER_ID = #userId#
+               	  </isNotEmpty>
+               	 
+               	  <isNotEmpty property="delflag" prepend="and">
+                    o.DELFLAG = #delflag#
+               	  </isNotEmpty>
+               	 
+    		 	  <isNotEmpty property="product" prepend="and">
+                    o.PRODUCT_NO = #product#
+                  </isNotEmpty>
+                
+                  <isNotEmpty property="sendGoods" prepend="and">
+                    o.PRODUCT_NAME = #sendGoods#
+                  </isNotEmpty>
+                
+                  <isNotEmpty property="payStatus" prepend="and">
+                    o.PAY_STATUS = #payStatus#
+                  </isNotEmpty>
+                 ORDER BY o.CREATER 
+    		]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 根据订单号查询订单详情 -->
+	<operation name="selectOrderAllByOrderId"
+		resultClass="com.onway.makeploy.common.dal.dataobject.ProductShow">
+		<extraparams>
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+    		<![CDATA[ 
+	    		select
+	    			 o.USER_ID userId,
+	    		     o.ORDER_ID orderId,
+		    		 o.ORDER_PRICE orderPrice,
+		    		 o.PRODUCT_COUNT ProductCount,
+		    		 o.LUGGAGE luggage,
+		    		 o.SEND_GOODS sendGoods,
+		    		 o.PAY_STATUS payStatus,
+		    		 o.ORDER_STATUS orderStatus,
+		    		 o.PRODUCT_NO productNo,
+		    		 o.GMT_CREATE gmtcreate,
+		    		 o.GMT_MODIFIED gmtModified,
+		    		 p.PRODUCT_NAME productName,
+		    		 p.PRICE price,
+		    		 p.SHOP_ID shopId,
+		    		 p.PRODUCT_URL productImg
+	    		 	 from
+	    		 	 makeploy_order o,makeploy_product p where
+	    		 	 o.PRODUCT_NO = p.PRODUCT_NO  and o.ORDER_ID = #orderId# and o.DELFLAG = #delflag#
+    		 	]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 生成订单 -->
+	<operation name="creatPartnerOrder" paramtype="object">
+		<sql>
+			insert into makeploy_order
+			(
+			    ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			)
+			VALUES
+			(
+			?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,3,4,CURRENT_TIMESTAMP,?,6,0,?,0,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+
+	<operation name="selectByShopID" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select *
+			from makeploy_order
+			where SHOP_ID
+		</sql>
+		<sqlmap>
+	
+	<![CDATA[ 
+    			select *
+				from makeploy_order
+				where SHOP_ID=#shopId#
+    		 	<isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+               	  </isNotEmpty>
+               	<isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                  </isNotEmpty>
+                
+                  <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                  </isNotEmpty>
+                 ORDER BY CREATER 
+    		]]>
+
+		</sqlmap>
+
+	</operation>
+
+
+	<operation name="selectCountByShopID" resultclass="int">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="orderStatus" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1)
+			from makeploy_order
+			where SHOP_ID
+		</sql>
+		<sqlmap>
+	
+	<![CDATA[ 
+    			select count(1)
+				from makeploy_order
+				where SHOP_ID=#shopId# and ORDER_TYPE &lt;&gt; 4
+    		 	<isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+               	  </isNotEmpty>
+               	<isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                  </isNotEmpty>
+                
+                  <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                  </isNotEmpty>
+                  <isNotEmpty property="orderStatus" prepend="and">
+                    ORDER_STATUS = #orderStatus#
+                  </isNotEmpty>
+    		]]>
+
+		</sqlmap>
+
+	</operation>
+	<!-- 根据店铺ID 搜索框 查询 -->
+	<operation name="selectByShopIDSearchBox"
+		resultClass="com.onway.makeploy.common.dal.dataobject.OrderInfo"
+		multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="orderStatus" javatype="java.lang.String" />
+			<param name="startDate" javatype="java.util.Date" />
+			<param name="endDate" javatype="java.util.Date" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			SELECT * from makeploy_order
+
+		</sql>
+		<sqlmap>
+	
+	<![CDATA[ 
+		    			SELECT 
+				a.USER_NAME AS userName,
+				b.NICK_NAME AS nickName,
+				a.CELL AS cell,
+				a.ORDER_ID AS orderId,
+				a.ORDER_NO AS orderNo,
+				a.TRANSPORT_NO AS transportNo,
+				a.PARFLAG as parflag,
+				a.SHOP_ID as shopId,
+				a.ORDER_TYPE as orderType,
+				a.PROVIENCE AS provience,
+				a.CITY AS city,
+				a.DISTRICT AS district,
+				a.ADDR AS addr,
+				a.PRODUCT_NO AS productNo,
+				d.PRODUCT_NAME AS productName,
+				e.CHILDREN_NAME AS productSizeType,
+				a.EACHPRO_COUNT AS eachproCount,
+				a.PRODUCT_COUNT AS productCount,
+				a.EACHPRO_PRICE AS eachproPrice,
+				a.ORDER_PRICE AS orderPrice,
+				a.PAY_STATUS AS payStatus,
+				a.SEND_GOODS AS sendGoods,
+				a.PAY_TIME AS payTime,
+				a.PAY_WAY AS payWay,
+				a.ORDER_STATUS AS orderStatus,
+				a.LUGGAGE AS luggage,
+				a.DELFLAG AS delflag,
+				a.EXPECTED_RETURN AS expectedReturn,
+				a.EXPECTED_INTEGRAL AS expectedIntegral,
+				a.GMT_CREATE AS gmtCreat,
+				a.MEMO AS memo
+				FROM
+				makeploy_order AS a
+				LEFT JOIN makeploy_user AS b ON a.USER_ID = b.USER_ID
+				LEFT JOIN makeploy_address AS c ON a.ADDRESS_NO = c.ADDRESS_NO
+				LEFT JOIN makeploy_product AS d ON a.PRODUCT_NO=d.PRODUCT_NO AND a.SHOP_ID=d.SHOP_ID
+				LEFT JOIN makeploy_product_parameters AS e ON a.PRODUCT_NO=e.PRODUCT_NO and a.SHOP_ID=e.SHOP_ID and e.PARFLAG=a.PARFLAG
+				where a.ORDER_TYPE &lt;&gt; 4
+				<isNotEmpty property="shopId" prepend="and">
+                   a.SHOP_ID=#shopId#
+               	  </isNotEmpty>
+               	  <isNotEmpty property="orderId" prepend="and">
+                    a.ORDER_ID = #orderId#
+               	  </isNotEmpty>
+    		 	<isNotEmpty property="delflag" prepend="and">
+                    a.DELFLAG = #delflag#
+               	  </isNotEmpty>
+               	<isNotEmpty property="sendGoods" prepend="and">
+                    a.SEND_GOODS = #sendGoods#
+                  </isNotEmpty>
+                
+                  <isNotEmpty property="payStatus" prepend="and">
+                    a.PAY_STATUS = #payStatus#
+                  </isNotEmpty>
+                  <isNotEmpty property="orderStatus" prepend="and">
+                    a.ORDER_STATUS = #orderStatus#
+                  </isNotEmpty>
+                   <isNotNull prepend="and" property="startDate" >
+          			${cdata-start}
+						a.GMT_CREATE >= #startDate#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="endDate" >
+          			${cdata-start}
+						a.GMT_CREATE <= #endDate#
+					${cdata-end}
+ 			</isNotNull>
+                 ORDER BY a.GMT_CREATE desc 
+                 
+                limit #startRow#,#pageSize#
+    		]]>
+
+		</sqlmap>
+
+	</operation>
+
+
+	<operation name="selectCountByShopIDSearchBox" resultclass="int">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="orderId" javatype="java.lang.String" />
+			<param name="delflag" javatype="java.lang.String" />
+			<param name="sendGoods" javatype="java.lang.String" />
+			<param name="payStatus" javatype="java.lang.String" />
+			<param name="orderStatus" javatype="java.lang.String" />
+			<param name="startDate" javatype="java.util.Date" />
+			<param name="endDate" javatype="java.util.Date" />
+		</extraparams>
+		<sql>
+			select count(1)
+			from makeploy_order
+			where SHOP_ID
+		</sql>
+		<sqlmap>
+	
+	<![CDATA[ 
+    			select count(1)
+				from makeploy_order
+				where SHOP_ID=#shopId# and ORDER_TYPE &lt;&gt; 4
+				<isNotEmpty property="orderId" prepend="and">
+                    ORDER_ID = #orderId#
+               	  </isNotEmpty>
+    		 	<isNotEmpty property="delflag" prepend="and">
+                    DELFLAG = #delflag#
+               	  </isNotEmpty>
+               	<isNotEmpty property="sendGoods" prepend="and">
+                    SEND_GOODS = #sendGoods#
+                  </isNotEmpty>
+                
+                  <isNotEmpty property="payStatus" prepend="and">
+                    PAY_STATUS = #payStatus#
+                  </isNotEmpty>
+                  
+                  <isNotEmpty property="orderStatus" prepend="and">
+                    ORDER_STATUS = #orderStatus#
+                  </isNotEmpty>
+                   <isNotNull prepend="and" property="startDate" >
+          			${cdata-start}
+						GMT_CREATE >= #startDate#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="endDate" >
+          			${cdata-start}
+						GMT_CREATE <= #endDate#
+					${cdata-end}
+ 			</isNotNull>
+    		]]>
+
+		</sqlmap>
+
+	</operation>
+
+	<!-- 通过地区和时间区间查看地区收入 -->
+	<operation name="selectIncome" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="payWay" javatype="java.lang.String" />
+			<!-- <param name="province" javatype="java.lang.String"/> -->
+			<!-- <param name="city" javatype="java.lang.String"/> -->
+			<!-- <param name="district" javatype="java.lang.String"/> -->
+			<param name="start" javaType="java.util.Date" />
+			<param name="end" javaType="java.util.Date" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+    		SELECT
+                ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+				FROM makeploy_order 
+				WHERE ORDER_STATUS='0' and SEND_GOODS &lt;&gt; '3'
+				<isNotEmpty property="shopId" prepend="and">
+					SHOP_ID=#shopId#
+				</isNotEmpty>
+				<isNotEmpty property="payWay" prepend="and">
+					PAY_WAY=#payWay#
+			    </isNotEmpty>
+	            <isNotEmpty property="start" prepend="and">
+	            ${cdata-start}
+	            	 PAY_TIME >#start# 
+	            ${cdata-end}  
+	             </isNotEmpty>
+	             <isNotEmpty property="end" prepend="and">
+	             ${cdata-start}
+	            	 PAY_TIME <=#end#   
+	             ${cdata-end}
+	             </isNotEmpty>
+	             
+    	]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectSuccees" multiplicity="many">
+	    <extraparams>
+			<param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			SELECT
+			*
+			FROM
+			makeploy_order
+			where
+			PAY_STATUS='3' and SEND_GOODS='4'
+			and ORDER_TYPE='1' and ORDER_STATUS='0' and
+			RETURN_FLG='0'
+		</sql>
+		<sqlmap>
+		    <![CDATA[
+		    SELECT
+			*
+			FROM
+			makeploy_order
+			where
+			PAY_STATUS='3' and SEND_GOODS='4'
+			and ORDER_TYPE='1' and ORDER_STATUS='0' and
+			RETURN_FLG='0'
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectSucceesCount" resultClass="int">
+		<sql>
+			SELECT
+			count(1)
+			FROM
+			makeploy_order
+			where
+			PAY_STATUS='3' and SEND_GOODS='4'
+			and ORDER_TYPE='1' and ORDER_STATUS='0' and
+			RETURN_FLG='0'
+		</sql>
+	</operation>
+
+	<operation name="updateReturn">
+		<sql>
+			update makeploy_order
+			set ACTUAL_RETURN=?,ACTUAL_INTEGRAL=?,RETURN_FLG=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ORDER_ID=? and ORDER_NO=?
+
+		</sql>
+	</operation>
+
+	<!-- 查询开通农村经纪人的订单 -->
+	<operation name="partnerOrderByUserId" multiplicity="many">
+		<sql>
+			select * from makeploy_order
+			where ORDER_TYPE=4 AND USER_ID=?
+		</sql>
+	</operation>
+	
+	<!-- 更改代发货订单信息 -->
+	<operation name="updateInfoBySendsGoods">
+		<sql>
+			update makeploy_order set USER_NAME = ?,CELL = ?,PROVIENCE = ?,CITY = ?,DISTRICT = ?,
+			ADDR = ?,ORDER_PRICE = ?,LUGGAGE = ?,GMT_MODIFIED = CURRENT_TIMESTAMP  where ORDER_ID = ? and DELFLAG = '0'
+			
+		</sql>
+	</operation>
+	
+	<!-- 所有待确认收货订单 -->
+	<operation name="selectConfirm" multiplicity="many">
+	    <extraparams>
+			<param name="weekAgo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			SELECT
+			*
+			FROM
+			makeploy_order
+		</sql>
+		<sqlmap>
+		    SELECT
+			*
+			FROM
+			makeploy_order
+			where SEND_GOODS='2' 
+			and #weekAgo# > GMT_MODIFIED 
+		</sqlmap>
+	</operation>
+	
+	<!-- 所有未删除的待支付订单 -->
+	<operation name="selectCancle" multiplicity="many">
+	    <extraparams>
+			<param name="minuteAgo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			SELECT
+			*
+			FROM
+			makeploy_order
+		</sql>
+		<sqlmap>
+		    SELECT
+			*
+			FROM
+			makeploy_order
+			where PAY_STATUS='1' AND DELFLAG = '0'
+			and  #minuteAgo# > GMT_MODIFIED  and ORDER_STATUS = '3' OR ORDER_STATUS = '1'
+		</sqlmap>
+	</operation>
+	
+	<operation name="cancleOrder">
+		<sql>
+			UPDATE makeploy_order set ORDER_STATUS = ? where ORDER_ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="selectMounthOrder" multiplicity="many">
+	    <extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="payWay" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+		    <![CDATA[
+		    select * from makeploy_order where DATE_FORMAT(PAY_TIME,'%Y-%m')=DATE_FORMAT(NOW(),'%Y-%m') and ORDER_STATUS='0' 
+		    and SEND_GOODS &lt;&gt; '3'
+		    <isNotEmpty property="shopId" prepend="and">
+					SHOP_ID=#shopId#
+			</isNotEmpty>
+			<isNotEmpty property="payWay" prepend="and">
+					PAY_WAY=#payWay#
+			</isNotEmpty>
+		    ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectWeekOrder" multiplicity="many">
+	    <extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="payWay" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+		    <![CDATA[
+		    select * from makeploy_order where YEARWEEK(DATE_FORMAT(PAY_TIME,'%Y-%m-%d')) = YEARWEEK(NOW()) and ORDER_STATUS='0' 
+		    and SEND_GOODS &lt;&gt; '3'
+		    <isNotEmpty property="shopId" prepend="and">
+					SHOP_ID=#shopId#
+			</isNotEmpty>
+			<isNotEmpty property="payWay" prepend="and">
+					PAY_WAY=#payWay#
+			</isNotEmpty>
+		    ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectMounthProductOrder" multiplicity="many">
+	    <extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="praflag" javatype="java.lang.String" />
+			<param name="payWay" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+		    <![CDATA[
+		    select * from makeploy_order where DATE_FORMAT(PAY_TIME,'%Y-%m')=DATE_FORMAT(NOW(),'%Y-%m') and ORDER_STATUS='0' 
+		    and SEND_GOODS &lt;&gt; '3'
+		    <isNotEmpty property="productNo" prepend="and">
+					PRODUCT_NO=#productNo#
+			</isNotEmpty>
+		    <isNotEmpty property="shopId" prepend="and">
+					SHOP_ID=#shopId#
+			</isNotEmpty>
+			<isNotEmpty property="praflag" prepend="and">
+					PARFLAG=#praflag#
+			</isNotEmpty>
+			<isNotEmpty property="payWay" prepend="and">
+					PAY_WAY=#payWay#
+			</isNotEmpty>
+		    ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectWeekProductOrder" multiplicity="many">
+	    <extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="praflag" javatype="java.lang.String" />
+			<param name="payWay" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+		    <![CDATA[
+		    select * from makeploy_order where YEARWEEK(DATE_FORMAT(PAY_TIME,'%Y-%m-%d')) = YEARWEEK(NOW()) and ORDER_STATUS='0' 
+		    and SEND_GOODS &lt;&gt; '3'
+		    <isNotEmpty property="productNo" prepend="and">
+					PRODUCT_NO=#productNo#
+			</isNotEmpty>
+		    <isNotEmpty property="shopId" prepend="and">
+					SHOP_ID=#shopId#
+			</isNotEmpty>
+			<isNotEmpty property="praflag" prepend="and">
+					PARFLAG=#praflag#
+			</isNotEmpty>
+			<isNotEmpty property="payWay" prepend="and">
+					PAY_WAY=#payWay#
+			</isNotEmpty>
+		    ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectProductIncome" multiplicity="many">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="praflag" javatype="java.lang.String" />
+			<param name="payWay" javatype="java.lang.String" />
+			<param name="start" javaType="java.util.Date" />
+			<param name="end" javaType="java.util.Date" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+    		SELECT
+                ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+				FROM makeploy_order 
+				WHERE ORDER_STATUS='0' and SEND_GOODS &lt;&gt; '3'
+				<isNotEmpty property="productNo" prepend="and">
+					PRODUCT_NO=#productNo#
+			    </isNotEmpty>
+		        <isNotEmpty property="shopId" prepend="and">
+					SHOP_ID=#shopId#
+			    </isNotEmpty>
+			    <isNotEmpty property="praflag" prepend="and">
+					PARFLAG=#praflag#
+			    </isNotEmpty>
+			    <isNotEmpty property="payWay" prepend="and">
+					PAY_WAY=#payWay#
+			    </isNotEmpty>
+	            <isNotEmpty property="start" prepend="and">
+	            ${cdata-start}
+	            	 PAY_TIME >#start# 
+	            ${cdata-end}  
+	             </isNotEmpty>
+	             <isNotEmpty property="end" prepend="and">
+	             ${cdata-start}
+	            	 PAY_TIME <=#end#   
+	             ${cdata-end}
+	             </isNotEmpty>
+    	]]>
+		</sqlmap>
+	</operation>
+	
+	<!-- 查询最新已支付合伙人订单-->
+	<operation name="selectLastPartnerOrder">
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+			SELECT
+			    ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_order
+			WHERE order_type = '6' AND pay_time IS NOT NULL ORDER BY pay_time DESC LIMIT 0,1
+		</sqlmap>
+	</operation>
+	
+	<operation name="insertCreate">
+		<sql>
+			UPDATE makeploy_order set CREATER = ? where ORDER_ID = ?
+		</sql>
+	</operation>
+	
+	
+	<operation name="selectBigThan" multiplicity="many">
+		<extraparams>
+			<param name="orderNum" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_order
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		        ID,
+				USER_ID,
+				USER_NAME,
+				ADDRESS_NO,
+				ORDER_NO,
+				ORDER_ID,
+				ORDER_NUM,
+				CELL,
+				PAY_NO,
+				PARFLAG,
+				TRANSPORT_NO,
+				PRODUCT_NO,
+				EACHPRO_COUNT,
+				PRODUCT_COUNT,
+				EACHPRO_PRICE,
+				POINT,
+				SHOP_ID,
+				ORDER_PRICE,
+				PAY_STATUS,
+				SEND_GOODS,
+				PAY_TIME,
+				PAY_WAY,
+				ORDER_TYPE,
+				ORDER_STATUS,
+				LUGGAGE,
+				DELFLAG,
+				EXPECTED_RETURN,
+				EXPECTED_INTEGRAL,
+				ACTUAL_RETURN,
+				ACTUAL_INTEGRAL,
+				RETURN_FLG,
+				PROVIENCE,
+				CITY,
+				DISTRICT,
+				ADDR,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_order
+			where ORDER_TYPE = '6'
+            <isNotEmpty property="orderNum" prepend="and">
+                    ORDER_NUM >= #orderNum#
+            </isNotEmpty>
+            ORDER BY ORDER_NUM 
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="changeOrderNum">
+		<sql>
+			UPDATE makeploy_order set ORDER_NUM = ? where ORDER_ID = ?
+		</sql>
+	</operation>
+	
+</table>

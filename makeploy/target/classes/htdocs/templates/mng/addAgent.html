@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	/* $(document).ready(function(){
+	 $("#cell").blur(function(){
+	 alert("111");
+	 var cell=$("#cell").val();
+	 var url="checkCell.do";
+	 jQuery.ajax({
+	 url : url,// 跳转到 action  
+	 type : 'post',
+	 cache : false,
+	 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+	 dataType : 'json',
+	 data:{"cell":cell},
+	 success : function(jsonResult) {
+	 if (jsonResult.bizSucc) {
+	
+	 } else{
+	 alert("请输入手机号码!");
+	 }
+	 },
+	 error : function() {  
+	 alert("异常！");  
+	 }  
+	 });
+	 });
+	 }) */
+
+	function addAgent() {
+		if ($("#cell").val() == "") {
+			alert("请输入手机号码!");
+			$("#cell").focus();
+		} else if ($("#s_province").val() == "") {
+			alert("请输入代理区域!");
+		} else {
+			var cell = $("#cell").val();
+			var province = $("#s_province").val();
+			var city = $("#s_city").val();
+			var district = $("#s_county").val();
+			var url = "addAgent.do";
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"cell" : cell,
+							"province" : province,
+							"city" : city,
+							"district" : district
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert(jsonResult.information);
+								window.location.reload(true);
+							} else {
+								alert(jsonResult.information);
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}
+	}
+</script>
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li> #else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li> #end
+								<!-- 审核中心-->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-columns icon"> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+
+									</ul></li>
+								<!--充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li><a href=""> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>玫发现商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content" style="background-color: #e8e8e8">
+			<section class="panel panel-default form-horizontal"
+				style="width: calc(100% - 800px); margin-left: 30%; margin-top: 10%">
+				<header class="panel-heading" style="text-align: center">
+					<strong>地区代理添加</strong>
+				</header>
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">手机号码:</label>
+						<div class="col-sm-9">
+							<input id="cell" name="cell" type="text"
+								class="form-control parsley-validated" data-type="eamil"
+								data-required="true">
+						</div>
+					</div>
+					<div class="line line-dashed line-lg pull-in"></div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">代理区域:</label>
+						<div class="info">
+							<div class="col-sm-9" style="margin-top: 5px">
+								<select id="s_province" name="province"></select>   <select
+									id="s_city" name="city"></select>   <select id="s_county"
+									name="district"></select>
+								<script class="resources library" src="js/area.js"
+									type="text/javascript"></script>
+
+								<script type="text/javascript">
+									_init_area();
+								</script>
+
+							</div>
+							<div id="show"></div>
+						</div>
+					</div>
+					<div class="line line-dashed line-lg pull-in"></div>
+					<div class="form-group">
+						<div class="col-sm-9" style="width: 100%">
+							<p style="text-align: center; font-weight: bold">
+								*在添加代理时请先进行<a style="color: red;" href="agentInfo.html">区域代理信息查询</a>,避免代理的冲突
+							</p>
+						</div>
+					</div>
+					<!--  
+                      <div class="line line-dashed line-lg pull-in"></div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">区级</label>
+                        <div class="col-sm-9">
+                          <input type="text" data-type="digits" class="form-control parsley-validated" placeholder="digits">
+                        </div>
+                      </div>
+                      </div> -->
+					<footer class="panel-footer text-right bg-light lter">
+						<button type="submit" class="btn btn-success btn-s-xs"
+							onclick="addAgent()">提交</button>
+					</footer>
+				</div>
+			</section>
+		</section>
+	</section>
+
+	<script src="js/app.v2.js"></script>
+	<script type="text/javascript">
+		var Gid = document.getElementById;
+		var showArea = function() {
+			Gid('show').innerHTML = "<h3>省" + Gid('s_province').value + " - 市"
+					+ Gid('s_city').value + " - 县/区" + Gid('s_county').value
+					+ "</h3>"
+		}
+		Gid('s_county').setAttribute('onchange', 'showArea()');
+	</script>
+</body>
+</html>

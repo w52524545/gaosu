@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-订单管理</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!-- <link rel="stylesheet" href="css/font.css" type="text/css" /> -->
+<!-- <link rel="stylesheet" href="css/fuelux.css" type="text/css"> -->
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=1000,height=550,"
+			+ "location=yes,menubar=no,resizable=yes,"
+			+ "scrollbars=yes,status=no,toolbar=no";
+	function upload() {
+		var url = "announceUpload.html";
+		window.open(url, '发布公告 ', features);
+
+	}
+</script>
+
+<script type="text/javascript">
+	function activityDelect(id) {
+		jQuery.ajax({
+			url : 'activityDelect.do',// 跳转到 action  
+			type : 'post',
+			cache : false,
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			dataType : 'json',
+			data : {
+				"activityId" : id
+			},
+			success : function(data) {
+
+				document.getElementById("shuaxin").click();
+
+			},
+			error : function() {
+				alert("异常！");
+			}
+
+		});
+	}
+</script>
+
+<!-- 导出excel文件 -->
+<script language="JavaScript" type="text/javascript">
+var idTmr;  
+function  getExplorer() {  
+    var explorer = window.navigator.userAgent ;  
+    //ie  
+    if (explorer.indexOf("MSIE") >= 0) {  
+        return 'ie';  
+    }  
+    //firefox  
+    else if (explorer.indexOf("Firefox") >= 0) {  
+        return 'Firefox';  
+    }  
+    //Chrome  
+    else if(explorer.indexOf("Chrome") >= 0){  
+        return 'Chrome';  
+    }  
+    //Opera  
+    else if(explorer.indexOf("Opera") >= 0){  
+        return 'Opera';  
+    }  
+    //Safari  
+    else if(explorer.indexOf("Safari") >= 0){  
+        return 'Safari';  
+    }  
+}  
+function method5(tableid) { 
+	
+    if(getExplorer()=='ie') 
+    {   
+        var curTbl = document.getElementById(tableid);  
+        var oXL = new ActiveXObject("Excel.Application");  
+        var oWB = oXL.Workbooks.Add();  
+        var xlsheet = oWB.Worksheets(1);  
+        var sel = document.body.createTextRange();  
+        sel.moveToElementText(curTbl);  
+        sel.select();  
+        sel.execCommand("Copy");  
+        xlsheet.Paste();  
+        oXL.Visible = true;  
+
+        try {  
+            var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");  
+        } catch (e) {  
+            print("Nested catch caught " + e);  
+        } finally {  
+            oWB.SaveAs(fname);  
+            oWB.Close(savechanges = false);  
+            oXL.Quit();  
+            oXL = null;  
+            idTmr = window.setInterval("Cleanup();", 1);  
+        }
+    }  
+    else  
+    {   
+        tableToExcel(tableid);
+    }  
+}  
+function Cleanup() {  
+    window.clearInterval(idTmr);  
+    CollectGarbage();  
+}  
+var tableToExcel = (function() {
+    var uri = 'data:application/vnd.ms-excel;base64,',  
+            template = '<html><head><meta charset="UTF-8"></head><body><table>{table}</table></body></html>',  
+            base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },  
+            format = function(s, c) {  
+                return s.replace(/{(\w+)}/g,  
+                        function(m, p) { return c[p]; }) }  
+    return function(table, name) {
+        if (!table.nodeType) table = document.getElementById(table)  
+        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}  
+        window.location.href = uri + base64(format(template, ctx))  
+    }  
+})()  
+</script>
+
+</head>
+<body>
+	<section class="vbox">
+		<section>
+			<section class="hbox stretch">
+				<!-- .aside -->
+				
+				<!-- /.aside -->
+				<section id="content">
+					<section class="vbox">
+						<section class="scrollable padder">
+
+							<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+								<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+								<li>订单查询</li>
+								<li>当前信息数：$!orderList.size()</li>
+							</ul>
+							<!-- 搜索框 -->
+							<div class="panel-body" style="padding-bottom: 0px;">
+								<form class="form-horizontal" id="selectOrderMng"
+									action="teamGoOrder.html" name="selectOrderMng" method="post">
+									<input type="hidden" name="currentPage" id="currentPage"
+										value="$!selectOrderMng.currentPage"> <input
+										type="hidden" name="pageSize" id="pageSize"
+										value="$!selectOrderMng.pageSize">
+									<div class="form-group">
+										<div class="col-sm-11">
+											<div class="row">
+												<label class="col-sm-2 control-label"
+													style="width: 70px; padding-left: 0px; padding-right: 0px">用户ID：</label>
+												<div class="col-sm-2">
+													<input type="text" name="USER_ID" id="orderUserId"
+														class="form-control" value="$!userId">
+												</div>
+												<label class="col-sm-2 control-label"
+													style="width: 70px; padding-left: 0px; padding-right: 0px">订单号：</label>
+												<div class="col-sm-2">
+													<input type="text" name="ORDER_ID" id="orderId"
+														class="form-control" value="$!orderId">
+												</div>
+												<label class="col-sm-2 control-label"
+													style="width: 70px; padding-left: 0px; padding-right: 0px">商品号：</label>
+												<div class="col-sm-2">
+													<input type="text" name="PRODUCT_NO" id="productNo"
+														class="form-control" value="$!productNo">
+												</div>
+												<p></p>
+												<br>
+												<p></p>
+
+												<label class="col-sm-2 control-label"
+													style="width: 70px; padding-left: 0px; padding-right: 0px">支付状态：</label>
+												<div class="col-sm-2">
+													<select name="PAY_STATUS" id="payStatus"
+														class="form-control m-b" style="font-size: 10px">
+														<option value="" #if($!payStatus== "")selected="true" #end></option>
+														<option value="1" #if($!payStatus== '1')selected="true"
+															#end>未支付</option>
+														<option value="2" #if($!payStatus== '2')selected="true"
+															#end>支付中</option>
+														<option value="3" #if($!payStatus== '3')selected="true"
+															#end>已支付</option>
+													</select>
+												</div>
+												<label class="col-sm-2 control-label"
+													style="width: 70px; padding-left: 0px; padding-right: 0px">发货状态：</label>
+												<div class="col-sm-2">
+													<select name="SEND_DOODS" id="sendDoods"
+														class="form-control m-b" style="font-size: 10px">
+														<option value="" #if($!sendGoods== "")selected="true" #end></option>
+														<option value="1" #if($!sendGoods== '1')selected="true"
+															#end>未发货</option>
+														<option value="2" #if($!sendGoods== '2')selected="true"
+															#end>已发货</option>
+														<option value="3" #if($!sendGoods== '3')selected="true"
+															#end>退货中</option>
+														<option value="4" #if($!sendGoods== '4')selected="true"
+															#end>完成</option>
+													</select>
+												</div>
+												<label class="col-sm-2 control-label"
+													style="width: 70px; padding-left: 0px; padding-right: 0px">删除状态：</label>
+												<div class="col-sm-2">
+													<select name="DELFLAG" id="delflag"
+														class="form-control m-b" style="font-size: 10px">
+														<option value="" #if($!delflag== '')selected="true" #end></option>
+														<option value="0" #if($!delflag== '0')selected="true" #end>未删除</option>
+														<option value="1" #if($!delflag== '1')selected="true" #end>已删除</option>
+													</select>
+												</div>
+
+
+												<input type="submit" id="btnTransfer" value=" 搜索 "
+													class="btn btn-primary" />
+												<input type="button" id="btnTransfer" value="导出本業"
+									        class="btn btn-primary" style="font-size:10px;" onclick="method5('tableExcel')"/>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							
+							
+							<!-- 表格内容 -->
+							<section class="panel panel-default" style="overflow-x:auto;width:99.9999999%">
+									<table id="tableExcel" class="table table-striped datagrid m-b-sm" >
+										<thead>
+											<tr>
+											    <th style="width:10%">收货人姓名/收货号码</th>
+												<th style="width:10%">店铺名称</th>
+												<th style="width:10%">大订单号/子订单号</th>
+												<th style="width:10%">商品名称/号</th>
+												<th style="width:10%">数量</th>
+												<th style="width:10%">支付方式/支付状态</th>
+												<th style="width:10%">货运状态</th>
+												<th style="width:10%">订单状态</th>
+												<th style="width:10%">收货地址</th>
+												<th style="width:10%">订单金额（元）</th>
+												<th style="width:10%">创建时间</th>
+												<th style="width:10%">详细信息</th>
+											</tr>
+										</thead>
+										#foreach($order in $results)
+										<tr>
+										    <td align="center">$!order.orderDO.userName<br>$!order.orderDO.cell</td>
+										 	<td align="center">$!order.shopDO.shopName</td>
+											<td align="center">$!order.orderDO.orderNo / $!order.orderDO.orderId</td>
+											<td align="center">$!order.productDO.productName / $!order.productDO.productNo</td>
+											<td align="center">$!order.orderDO.productCount
+										    </td>
+											<td align="center">#if($!order.orderDO.payWay=='1')
+											<p style="color: red">微信支付</p>
+											#elseif($!order.orderDO.payWay=='2')
+											<p style="color: red">支付宝</p>
+											#elseif($!order.orderDO.payWay=='3')
+											<p style="color: red">银行卡</p>
+											#elseif($!order.orderDO.payWay=='4')
+											<p style="color: blue">余额支付</p> #else
+											<p>wrong</p> #end #if($!order.orderDO.payStatus=='1')未支付
+											#elseif($!order.orderDO.payStatus=='2')已支付
+											#elseif($!order.orderDO.payStatus=='3')已完成 #else wrong #end
+										    </td>
+											<td align="center">#if($!order.orderDO.sendGoods=='1')未发货
+											#elseif($!order.orderDO.sendGoods=='2')已发货
+											#elseif($!order.orderDO.sendGoods=='3')发货中
+											#elseif($!order.orderDO.sendGoods=='4')完成
+											#else wrong
+											#end</td>
+											<td align="center">#if($!order.orderDO.orderStatus=='0')交易成功
+											#elseif($!order.orderDO.orderStatus=='1')交易失败
+											#elseif($!order.orderDO.orderStatus=='2')取消
+											#elseif($!order.orderDO.orderStatus=='3')交易中
+											#else wrong
+											#end</td>
+											<td align="center">$!order.orderDO.provience/$!order.orderDO.city/$!order.orderDO.district/$!order.orderDO.addr</td>
+											<td align="center">$!order.orderDO.orderPrice(运费：$!order.orderDO.luggage)</td>
+											<td align="center">$!dateUtils.format($!order.orderDO.gmtCreate,'yyyy-MM-dd HH:mm:ss')</td>
+											<!-- <td><input onclick="dealOrder($!order.orderId,1)" type="button" id="btnCancel"  value="取消"
+													class="btn btn-primary" /></td> -->
+											<!-- <td><input onclick="dealOrder($!order.orderId,2)" type="button" id="btnConfirm" value="确认 "
+												    class="btn btn-primary" /></td> -->
+											<!-- <td><input onclick="dealOrder($!order.orderId,3)" type="button" id="btnDelete"  value="删除 "
+												    class="btn btn-primary" /></td>	 -->
+											<td align="center"><input onclick="detailOrder($!order.orderDO.orderId)" type="button" id="btnDelete"  value="详细信息 "
+												    class="btn btn-primary" /></td>
+										</tr>
+										#end
+									</table>
+							</section>
+							<div class="fn-mt7">#set ($formName = "selectOrderMng")
+								#parse('/mng/page.html')</div>
+							<div style="height:200px;"></div>
+							<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+						</section>
+					</section>
+				</section>
+			</section>
+	 </section>
+</section>
+<!--弹出层时背景层DIV-->
+<div id="fade" class="black_overlay">
+</div>
+<div id="MyDiv" class="white_content">
+    <div style="text-align: right; cursor: default; ">
+       
+    </div>
+    
+</div>
+			<script src="js/app.v2.js"></script>
+</body>
+<script>
+function detailOrder(orderId){
+	var url='orderDetail.do'
+		jQuery.ajax({
+			 url : url, 
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"orderId":orderId},
+			 success : function(item) {
+			 if (item=="0") {
+				alert("网络异常!")
+				//alert("$!delflag")
+			 	//刷新页面
+			 } 
+			 else{
+				 var div='<span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:11px;top:11px" onclick="CloseDiv()">关闭</span><section class="panel panel-default" style="margin:10px 10px 10px 10px;overflow-x:auto;width:1024px;height:150px"><table style="text-align:center" id="" class="table table-striped datagrid m-b-sm" >'+
+				'<thead><tr> <th  style="width:10% ;">订单号</th><th style="width:10% ;" >买家</th><th style="auto">商品名</th><th style="auto">商品样式尺寸</th><th>商品数量</th><th>订单总金额</th><th>留言备注</th><th>创建时间</th><th>状态</th><th style="width:10%">地址</th><th></th>  </tr>'
+				 div+='<tr class="" title=""><td style="width: 10%;">'+item.orderId+'</td>'+
+                 '<td class="edit-category w85">'+
+                      item.nickName+
+                 ' </td><td class="edit-category w85">'+item.productName+
+                  '</td><td class="edit-category w85">'+item.productSizeType+
+                  '</td><td class="edit-category w50">'+item.productCount+
+                  '</td><td class="edit-price w85">'+item.orderPrice+
+                  '元</td><td class="edit-price w85">'+item.memo+
+                  '</td><td class="edit-price w70">'+item.stringgmtCreat+
+                  '</td><td class="edit-price w50">'+item.payStatus+
+                         '</td><td>'+item.provience+'-'+item.city+'-'+item.district+'-'+item.addr+
+                  '</p></td><td class="edit-price w100"><div id="operate_font_size_14" class="operation"> </div>'+' </td></tr>';
+                      
+				 $("#MyDiv").html(div);
+				 ShowDiv('MyDiv','fade')	;			 
+			 }
+			 },
+			 error : function() {  
+				 
+				  alert("网络异常！");  
+			     }  
+			   });
+}
+
+    function ShowDiv(show_div,bg_div){
+        document.getElementById(show_div).style.display='block';
+        document.getElementById(bg_div).style.display='block' ;
+        var bgdiv = document.getElementById(bg_div);
+        bgdiv.style.width = document.body.scrollWidth;
+//bgdiv.style.height = $(document).height();
+        $("#"+bg_div).height($(document).height());
+    }
+    //关闭弹出层
+    function CloseDiv()
+    {
+        document.getElementById('MyDiv').style.display='none';
+        document.getElementById('fade').style.display='none';
+    }
+</script>
+
+<script type="text/javascript">
+     function goback(){
+    	 window.location.href="orderMng.html";
+     }
+</script>
+ <style>
+        .black_overlay{
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            /*background-color: black;*/
+            z-index:1001;
+            -moz-opacity: 0.8;
+            opacity:.80;
+            filter: alpha(opacity=80);
+             -webkit-filter: blur(10px); /* Chrome, Opera */
+       -moz-filter: blur(10px);
+        -ms-filter: blur(10px);    
+            filter: blur(10px); 
+        }
+        .white_content {
+            display: none;
+            position: absolute;
+            top: 15%;
+            left: 20%;
+/*             width: 550px; */
+/*             height: 400px; */
+            border: 1px solid lightblue;
+            background-color: white;
+            z-index:1002;
+            overflow: auto;
+        }
+        .white_content_small {
+            display: none;
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            width: 40%;
+            height: 50%;
+            border: 16px solid lightblue;
+            background-color: white;
+            z-index:1002;
+            overflow: auto;
+        }
+    </style>
+</html>

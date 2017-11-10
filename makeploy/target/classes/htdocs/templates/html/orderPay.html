@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <title>确认订单</title>
+    <style type="text/css">
+    .payF13 i.seled{float: left;background: url(images/public.png) no-repeat;width: 20px;height: 20px;background-size: 120px auto;background-position: -89px -33px;margin: 0;}
+    .payF13 i.sele{background-position: -66px -33px;}
+    </style>
+</head>
+<body class="marketMzw">
+<!--未添加收货地址-->
+<div class="joinF0">
+    <a class="payF0" href="newadd.html">
+        <i></i><font style="font-size:16px">添加收货地址</font>
+    </a>
+</div>
+<!--已添加收货地址-->
+<div class="payF3">
+    <div class="payF31"><a href="add.html"><i class="i1"></i><p>收货地址</p><i class="i2"></i></a></div>
+    #if($defaultAddress)
+    <div class="payF32"><p class="p1">收货人：$!defaultAddress.deliveryName</p><p class="p2">$!defaultAddress.cell</p><span>收货地址：$!defaultAddress.provience $!defaultAddress.city $!defaultAddress.district $!defaultAddress.addr</span></div>
+    #end
+</div>
+<div class="payF1">
+    <div class="payF11"><i></i>$!shopDo.shopName</div>
+    <div class="payF12">
+        <div class="joinF11"><img src="$!productDo.productUrl" alt="商品图"></div>
+        <div class="joinF12 pay2F1T">
+            <p>$!productDo.productName</p>
+            <span>颜色：藏青色</span>
+            <span>尺寸：M</span>
+            <div><font>￥$!productDo.price</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!payCount</span></div>
+        </div>
+    </div>
+    <div class="payF13">
+        <p>可用$!point积分可抵&yen;8.00元</p>
+        <i class="seled"></i>
+    </div>
+    <div class="pay3F11">
+        <P>买家留言：</P>
+        <textarea></textarea>
+    </div>
+    <div class="payF14">
+        <div><span>运费：$!productDo.luggage&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!productMoney</font></div>
+    </div>
+</div>
+<div class="payF2">
+    <div><p>合计：</p><font>￥$!productMoney</font><a class="creatOrder">提交订单</a></div>
+</div>
+<script type="text/javascript">
+ $(document).ready(function() { 
+   $(".payF13 i").click(function(){
+       if($(this).hasClass("sele")){$(this).removeClass("sele");}
+          else{$(this).addClass("sele");}
+         });
+ });
+</script>
+
+<script type="text/javascript">
+
+   $(".creatOrder").click(function(){
+	   var url="creatOrder.do";
+	   jQuery.ajax({
+       	    type: "POST",
+      		url: url,
+      		data: 
+      		{
+      			productNo:$!productDo.productNo,
+      			productCount:$!payCount,
+      			orderPrice:$!productMoney,
+      			luggage:$!productDo.luggage,
+      			provience:'$!defaultAddress.provience',
+      			city:'$!defaultAddress.city',
+      			district:'$!defaultAddress.district'
+      		},
+      		error: function(request) {
+      			alert("生成订单失败");
+      			},
+      		success: function(data) {
+      			if(data.bizSucc)
+      		    {
+      				alert("生成订单成功");
+      				var orderId=data.information;
+      				alert(orderId);
+      				location.href="payorder.html?orderId="+orderId;
+      			}
+          }
+      });
+   
+   });
+ 
+</script>
+</body>
+</html>

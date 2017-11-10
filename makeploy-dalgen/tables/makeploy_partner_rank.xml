@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_partner_rank">
+    
+    <operation name="insert">
+        <sql>
+        insert into makeploy_partner_rank
+            (
+                ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+             ?, ?, ?, ?, ?, ?, ?,CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?
+            )
+        </sql>
+    </operation>
+    
+    <operation name="delete">
+        <sql>
+        delete from makeploy_partner_rank where ID = ?
+        </sql>
+    </operation>
+    
+    <operation name="selectPartnerUserIdCount" resultClass="int">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="orderId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select count(1) from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT count(1)
+			FROM makeploy_partner_rank WHERE 1=1
+			<isNotEmpty property="userId" prepend="and">
+	            USER_ID = #userId# 
+	        </isNotEmpty>
+	        <isNotEmpty property="orderId" prepend="and">
+	            ORDER_ID = #orderId# 
+	        </isNotEmpty>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectPartnerUserId" multiplicity="many">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="orderId" javatype="java.lang.String" />
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank WHERE 1=1
+			<isNotEmpty property="userId" prepend="and">
+	            USER_ID = #userId# 
+	        </isNotEmpty>
+	        <isNotEmpty property="orderId" prepend="and">
+	            ORDER_ID = #orderId# 
+	        </isNotEmpty>
+	        order by PARTNER_NUM 
+	        <isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectAll" multiplicity="many">
+        <extraparams>
+            <param name="dayAgo" javatype="java.lang.String" />
+            <param name="today" javatype="java.lang.String" />
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank 
+			where 1=1
+			<isNotEmpty property="today" prepend="and">
+	            #today#  > GMT_CREATE
+	        </isNotEmpty>
+	        <isNotEmpty property="dayAgo" prepend="and">
+	            GMT_CREATE  >= #dayAgo#
+	        </isNotEmpty>
+			order by PARTNER_NUM
+			<isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectAllDesc" multiplicity="many">
+        <extraparams>
+            <param name="dayAgo" javatype="java.lang.String" />
+            <param name="today" javatype="java.lang.String" />
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+            <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank 
+			where 1=1
+			<isNotEmpty property="today" prepend="and">
+	            #today#  > GMT_CREATE
+	        </isNotEmpty>
+	        <isNotEmpty property="dayAgo" prepend="and">
+	            GMT_CREATE  >= #dayAgo#
+	        </isNotEmpty>
+			order by PARTNER_NUM desc
+			<isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="count" resultClass="int">
+        <extraparams>
+            <param name="dayAgo" javatype="java.lang.String" />
+            <param name="today" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select count(1) from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+            <![CDATA[
+			SELECT
+			    count(1)
+			FROM makeploy_partner_rank 
+			where 1=1
+			<isNotEmpty property="today" prepend="and">
+	            #today#  > GMT_CREATE
+	        </isNotEmpty>
+	        <isNotEmpty property="dayAgo" prepend="and">
+	            GMT_CREATE  >= #dayAgo#
+	        </isNotEmpty>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 查找正序农村经纪人 -->
+    <operation name="selectLastPartner">
+         <extraparams>
+            <param name="dayAgo" javatype="java.lang.String" />
+            <param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank 
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+			    ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank 
+			where 1=1
+			<isNotEmpty property="dayAgo" prepend="and">
+	            #dayAgo#  > GMT_CREATE
+	        </isNotEmpty>
+			order by PARTNER_NUM desc
+            <isNotNull property="offent">
+                limit $offent$,$limit$
+            </isNotNull>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="changePartnerNum">
+		<sql>
+			update makeploy_partner_rank set PARTNER_NUM = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changeOrderNum">
+		<sql>
+			update makeploy_partner_rank set ORDER_NUM = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changeOutNum">
+		<sql>
+			update makeploy_partner_rank set OUT_NUM = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="changePartnerMemo">
+		<sql>
+			update makeploy_partner_rank set MEMO = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ID = ?
+		</sql>
+	</operation>
+	
+	 <operation name="selectByOrderId">
+        <extraparams>
+            <param name="orderId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+                ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank WHERE 1=1
+			<isNotEmpty property="orderId" prepend="and">
+	            ORDER_ID = #orderId# 
+	        </isNotEmpty>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectByOrderIdAndUserId">
+        <extraparams>
+            <param name="orderId" javatype="java.lang.String" />
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+                ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank WHERE 1=1
+			<isNotEmpty property="orderId" prepend="and">
+	            ORDER_ID = #orderId# 
+	        </isNotEmpty>
+	        <isNotEmpty property="userId" prepend="and">
+	            USER_ID = #userId# 
+	        </isNotEmpty>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 把所有大于该partnerNum的排单查出 -->
+    <operation name="selectAllBigThan" multiplicity="many">
+        <extraparams>
+            <param name="partnerNum" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+                ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank WHERE
+	        PARTNER_NUM > #partnerNum# 
+	        order by PARTNER_NUM
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="changePartnerUserId">
+		<sql>
+			update makeploy_partner_rank set USER_ID = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where ID = ?
+		</sql>
+	</operation>
+	
+	<operation name="selectByPartnerNum">
+        <extraparams>
+            <param name="partnerNum" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+                ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank WHERE 1=1
+			<isNotEmpty property="partnerNum" prepend="and">
+	            PARTNER_NUM = #partnerNum# 
+	        </isNotEmpty>
+			]]>
+        </sqlmap>
+    </operation>
+    
+    <operation name="selectAllBigEqualThan" multiplicity="many">
+        <extraparams>
+            <param name="partnerNum" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_partner_rank
+        </sql>
+         <sqlmap>
+         <![CDATA[
+			SELECT
+                ID,
+				USER_ID,
+				ORDER_ID,
+				PARTNER_NUM,
+				ORDER_NUM,
+				OUT_NUM,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_partner_rank WHERE
+	        PARTNER_NUM >= #partnerNum# 
+	        order by PARTNER_NUM
+			]]>
+        </sqlmap>
+    </operation>
+    
+</table>

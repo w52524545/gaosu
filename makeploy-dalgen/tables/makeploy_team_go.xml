@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_team_go">
+        
+    <!-- 查询团购商品参团信息 -->
+    <operation name="selectTeamGo" >
+        <extraparams>
+            <param name="productNo" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_team_go
+        </sql>
+        <sqlmap>
+			SELECT
+		     ID,
+		     PRODUCT_NO,
+		     NEED_PEOPLE,
+		     NOW_PEOPLE,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_team_go
+            WHERE PRODUCT_NO = #productNo#
+        </sqlmap>
+    </operation>
+
+</table>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+function passOrReturnProductPromotion(shopId,proNo,flag) {
+	var url="passOrReturnProductPromotion.do";
+	jQuery.ajax({
+		 url : url,// 跳转到 action  
+		 type : 'post',
+		 cache : false,
+		 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		 dataType : 'json',
+		 data:{"shopId":shopId,"productNo":proNo,"flag":flag},
+		 success : function(data) {
+			 if(data.bizSucc){
+				 alert("成功");
+				 window.location.reload();
+			 }else{
+				 alert(data.errMsg);
+				 window.location.reload();
+			 }
+		 },
+		 error : function() {  
+		            alert("异常！");  
+		     }  
+		   });
+}
+</script>
+<style>
+	img {
+	margin-top:10px;
+	margin-left:5px;
+	width:128px;
+	}
+	.morePic {
+	padding-top:10px;
+	font-size:15px;
+	cursor: pointer;
+	}
+	td {
+	vertical-align:middle;
+	}
+</style>
+<script type="text/javascript">
+function PassTrue(){
+	var url = "productCheckSet.do?shoId="+s +"&productNo="+p+"&flag="+f;
+	var returnMoney=document.getElementById("returnMoney").value
+	var returnPoint=document.getElementById("returnPoint").value
+	jQuery.ajax({
+		url : url,// 跳转到 action  
+		type : 'post',
+		cache : false,
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		dataType : 'json',
+		data:{
+			"returnMoney":returnMoney,
+			"returnPoint":returnPoint
+		},
+		success : function(data) {
+			
+				if (f=="1") {
+					alert("审核商品成功！");
+					window.location.reload(true);
+				} else if (f=="0"){
+					alert("拒绝审核成功！");
+					window.location.reload(true);
+				}
+			
+			
+		},
+			      error : function() {  
+			           alert("网络异常！");  
+			      }  
+	});
+}
+function Pass1(shoId,productNo,flag) {
+	var dialog
+	if(flag=="1"){
+		dialog="确认同意审核?"
+	}else if (flag=="0"){
+		dialog="确认拒绝审核?"
+	}
+	if (!confirm(dialog)) {
+		return false;
+	}
+	
+	
+	 var url = "productCheckSet.do?shoId="+ shoId+"&productNo="+productNo+"&flag="+flag;
+	//提交表单
+	jQuery.ajax({
+		url : url,// 跳转到 action  
+		type : 'post',
+		cache : false,
+		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		dataType : 'json',
+		success : function(data) {
+			
+				if (flag=="1") {
+					alert("审核商品成功！");
+					window.location.reload(true);
+				} else if (flag=="0"){
+					alert("拒绝审核成功！");
+					window.location.reload(true);
+				}
+			
+			
+		},
+			      error : function() {  
+			           alert("网络异常！");  
+			      }  
+	});
+}
+
+//弹出隐藏层
+function ShowDiv(show_div,bg_div){
+    document.getElementById(show_div).style.display='block';
+    document.getElementById(bg_div).style.display='block' ;
+    var bgdiv = document.getElementById(bg_div);
+    bgdiv.style.width = document.body.scrollWidth;
+//bgdiv.style.height = $(document).height();
+    $("#"+bg_div).height($(document).height());
+}
+//关闭窗口
+function CloseDivText(){
+	document.getElementById('inputText').style.display='none';
+    document.getElementById('fade').style.display='none';
+}
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+tr{
+text-align:center
+}
+</style>
+</head>
+<body>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<!-- 弹出层 banner -->
+					
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;促销商品审核</li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="productCheckMng.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage" value="$!formName.currentPage">
+							<input type="hidden" name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商铺ID：</label>
+										<div class="col-sm-2">
+											<input type="text" name="shopId" value="$!shopId"
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商品号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="productNo" value="$!productNo"
+												class="form-control">
+										</div>
+										<input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<header class="panel-heading">
+							<span style="font-family: 微软雅黑;">商品列表</span>&nbsp; 
+						</header>
+						<!-- 搜索商品 -->
+						<div class="table-responsive">
+							<table id="announcement" 
+								class="table table-striped datagrid m-b-sm">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width: 10%">商品图片/商品名称</th>
+										<th style="width: 10%">店铺名称/行业</th>
+										<th style="width: 10%">联系人/联系电话</th>
+										<th style="width: 10%">审核状态</th>
+										<th style="width: 10%">参加活动类型</th>
+										<th style="width: 10%">所在地</th>
+										<th style="width: 10%">供货价（元）/商品原价（元）</th>
+										<th style="width: 10%">物流方式/留言备注</th>
+										<th style="text-align: center">操作</th>
+									</tr>
+								</thead>
+								#foreach($product in $result)
+								<tr>
+								    <td style="vertical-align:middle;"><img style="width:50px;height:50px"src="$!product.productPromotionDO.productUrl"><br>$!product.productPromotionDO.productName</td>
+									<td style="vertical-align:middle;">$!product.productPromotionDO.shopName<br>$!product.productPromotionDO.industry</td>
+									<td style="vertical-align:middle;">$!product.productPromotionDO.userName<br>$!product.productPromotionDO.cell</td>
+									<td style="vertical-align:middle;">
+									 #if($!product.productPromotionDO.status == '0') 未审核
+									 #elseif($!product.productPromotionDO.status == '1') 审核成功
+									 #elseif($!product.productPromotionDO.status == '2') 审核不通过
+									 #else 错误信息
+									 #end
+									</td>
+									<td style="vertical-align:middle;">
+									 #if($!product.productPromotionDO.type == '1') 团购
+									 #elseif($!product.productPromotionDO.type == '2') 限时秒杀
+									 #elseif($!product.productPromotionDO.type == '3') 积分商城
+									 #elseif($!product.productPromotionDO.type == '4') 赞助
+									 #elseif($!product.productPromotionDO.type == '5') 其他
+									 #else 错误信息
+									 #end
+									</td>
+									<td style="vertical-align:middle;">$!product.shopDO.shopAddr</td>
+									<!-- <td style="vertical-align:middle;">$!product.productPromotionDO.needPeople</td> -->
+									<td style="vertical-align:middle;">$!product.productPromotionDO.price<br>$!product.productPromotionDO.oldPrice</td>
+									<td style="vertical-align:middle;">$!product.productPromotionDO.postWay<br>$!product.productPromotionDO.messages</td>
+									<td style="width: 20%; padding: 20px 20px;vertical-align:middle;">
+										<input class="btn   btn-danger" style="width:35%;padding:5px 6px;margin-left:15px;"  type="button" onclick="passOrReturnProductPromotion('$!product.shopId','$!product.productNo','1')"
+										value="同意" name="a_up">
+										<input class="btn   btn-danger" style="width:35%;padding:5px 6px;margin-left:15px;"  type="button" onclick="passOrReturnProductPromotion('$!product.shopId','$!product.productNo','0')"
+										value="拒绝" name="a_up">
+									</td> </tr>
+									#end
+							</table>
+						</div>
+						<div style="height: 40px"></div>
+					</section>
+					<!-- ---列表主体--- -->
+					<div style="clear:both" class="fn-mt7">#set ($formName = "formName")
+						#parse('/mng/page.html')</div>
+						<div  style="height:100px;"></div>
+						
+						<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+				</section>
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+	</section>
+<!--弹出层时背景层DIV-->
+<div id="fade" class="black_overlay">
+</div>
+<div id="MyDiv" class="white_content">
+    <div style="text-align: right; cursor: default; height: 40px;">
+       
+    </div>
+    
+</div>
+<div id="inputText" class="white_content" style="position:absolute;left:800px;top:170px;width:420px;height:37px;">
+
+</div>
+<div  id="showBannerF" style="display:none;padding:10px;position: absolute;right:15%;top:20%; width:auto;height:auto;background-color:#E0FFFF">
+<span id="showpicSpan" onclick="closeD()" style="font-size: 16px;font-weight:bold;cursor: pointer;float:left;position:absolute;right:10px;top:0px">关闭</span>
+<div id="showBanner" style="margin-top:5px"></div>
+<!-- 		<div style="position:relative;">
+			<img alt="" style="width:128px;height:auto"src="http://lsh5.cn/image/1486641757679.jpeg" onload="fn(this)">
+			<p style="position:relative;left:10px;bottom:0px;color:red"></p>
+		</div>
+				<div style="position:relative;">
+			<img alt="" style="width:128px;height:auto"src="http://lsh5.cn/image/1486641757679.jpeg" onload="fn(this)">
+			<p style="position:relative;left:10px;bottom:0px;color:red"></p>
+		</div> -->
+</div>
+	<script src="js/app.v2.js"></script>
+	
+	<script type="text/javascript">
+     function goback(){
+    	 window.location.href="productCheckMng.html";
+     }
+</script>
+</body>
+</html>

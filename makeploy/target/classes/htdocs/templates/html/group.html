@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <title>拼团</title>
+</head>
+<body class="marketMzw">
+<ul class="group">
+    #foreach($result in $TeamGo)
+    <li>
+        <div class="group1"><img src="$!result.productUrl"></div>
+        <div class="group2">
+            <p>$!result.productOff%off$!result.productName</p>
+            <i></i><span>$!result.needPeople人团</span><font>&nbsp;&nbsp;￥<big>$!result.price</big>&nbsp;&nbsp;</font><span style="text-decoration:line-through">￥$!result.oldPrice</span><a href="groupDetail.html?shopId=$!result.shopId&productNo=$!result.productNo">去开团</a>
+        </div>
+    </li>
+    #end 
+</ul>
+</body>
+</html>

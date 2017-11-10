@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="app">
+<head>
+<meta charset="UTF-8">
+<title>商户管理系统</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+<script type="text/javascript">
+function checkform(form){
+	var obj = document.getElementsByName("test");
+    var check_val = [];
+    for(k in obj){
+        if(obj[k].checked)
+            check_val.push(obj[k].value);
+    }
+    if (check_val==''){
+		alert("运费模板为空，请选择正确运费模板!");
+		return false;
+	}
+    $('#templateId').val(check_val);
+	var price=form.price.value;
+	if (form.productName.value==''){
+		alert("请输入商品名称!");
+		return false;
+	}
+	if (price==''){
+		alert("商品价格不能为空!");
+		return false;
+	}else if (isNaN(price)) {
+		alert("请输入正确格式的商品价格,不可带空格或是文字!");
+		return false;
+	}
+	if (form.flag.value==''){
+		alert("请选择商品的样式!");
+		return false;
+	}
+	return true;
+}
+
+</script>
+
+<!-- <script type="text/javascript">
+$(function () {
+            var fanxiBox = $("#post input:checkbox");
+            fanxiBox.click(function () {
+               if(this.checked || this.checked=='checked'){
+                   fanxiBox.removeAttr("checked");
+                   //这里需注意jquery1.6以后必须用prop()方法
+                   //$(this).attr("checked",true);
+                   $(this).prop("checked", true);
+                   var templateId = $(this).val();
+                   $('#templateId').val(templateId);
+             }
+        });
+});   
+</script> -->
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+
+		<h3 style="font-family: 微软雅黑;">商户管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+
+								<li><a href="javascript:"> <i
+										class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>卖家管理首页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOwerMng.html" class="active"> <i
+												class="fa fa-angle-right"></i> <span>卖家中心</span>
+										</a></li>
+									</ul></li>
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-columns icon"> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>店铺管理页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOrderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单管理</span>
+										</a></li>
+										<li><a href="shopProductMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品管理</span>
+										</a></li>
+										<li class="active"><a href="shopProductAddMng.html" class="active">
+												<i class="fa fa-angle-right"></i><span>添加商品</span>
+										</a></li>
+									</ul></li>
+									<li><a> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>运费模板</span>
+								    </a>
+									<ul class="nav lt">
+										<li><a href="faretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>现有运费模板<span></span>
+										</a></li>
+									</ul>
+									<ul class="nav lt">
+										<li><a href="addFaretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>增加运费模板<span></span>
+										</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;店铺管理页</li>
+						<li>添加商品</li>
+					</ul>
+					<form role="form" action="ShopAddProduct.do" method="POST"
+									enctype="multipart/form-data">
+					<!--正文开始 -->
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<header class="panel-heading font-bold">添加商品</header>
+							<div class="panel-body">
+								
+									<div class="form-group">
+										<label class="col-sm-2 control-label">请选择分类：</label>
+										<div class="col-sm-3">
+											<select id="s_fatherType" name="s_fatherType"class="form-control m-b">
+												#foreach($type in $fathertype)
+												<option value="$!type">$!type</option>
+												#end
+												</select>
+										</div>
+										<div class="col-sm-3">
+											<select id="s_childType" name="s_childType"
+												class="form-control m-b"></select>
+										</div>
+									</div>
+									<div class="form-group" style="height: 50px;"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">请选择行业分类：</label>
+										<div class="col-sm-3">
+											<select id="otherType" name="otherType"
+												class="form-control m-b">
+												#foreach($industry in $industryList)
+												<option value="$!industry">$!industry</option>
+												#end
+											</select>
+										</div>
+									</div>
+									<div class="form-group" style="height: 50px;"></div>
+									<div class="form-group">
+										<label>商品名</label> <input name="productName" value=""
+											type="text" class="form-control"placeholder="请输入商品名" />
+									</div>
+									<div class="form-group">
+										<label>商品价格</label> <input name="price" value="" type="text"
+											class="form-control" placeholder="请输入商品价格" />
+									</div>
+									<div class="form-group">
+										<label>单件商品重量（单位：kg）（如果商品是按重量计算运费，务必填写）</label> <input name="weight" value="" type="text"
+											class="form-control" placeholder="请输入商品单件重量" />
+									</div>
+									#if($!shopDO.memo=="1")
+									<div class="form-group">
+										<label>购买所需积分</label> <input name="usePoint" value="" type="text"
+											class="form-control" placeholder="请输入积分,不填为0" />
+									</div>
+									#end
+									<div class="form-group" id="post">
+									    <label>选择运费模板</label><br>
+									    #if($!faretemplateList.size() == 0)
+									        <label>当前没有运费模板，请设置</label>
+									    #else
+											#foreach($fare in $faretemplateList)
+											<input type="checkbox" name="test" value="$!fare.templateId" ><label>$!fare.templateName</label>
+											#end
+										#end
+									</div>
+									</div> 
+									<div class="line line-dashed line-lg pull-in"></div>
+									<div class="addType">
+										
+										<label> <input type="button" onclick="notype()"
+											value="商品无样式尺寸颜色" class="btn btn-sm btn-info">
+										</label>
+										
+										<label> <input type="button" onclick="addOnetype()"
+											value="单一样式尺寸颜色" class="btn btn-sm btn-info">
+										</label>
+										<label> <input type="button" onclick="addtype()"
+											value="双样式尺寸颜色" class="btn btn-sm btn-info">
+										</label>
+										<p>添加单/双样式时,请先选择好样式参数,再添加下一样式</p>
+										
+									</div>
+									<div class="line line-dashed line-lg pull-in"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">上传首页展示商品图片：</label>
+										<p>(选择一张首页展示图片)</p>
+										<div class="col-sm-3">
+											<input type="file" name="image1" class="filestyle"
+												data-icon="false" id="f1" data-classButton="btn btn-default"
+												data-classInput="form-control inline input-s"
+												onchange="changeImg1()"  /> 
+												<input id="number" name="number" value='' style="display: none" />
+												<input id="flag" name="flag" value='' style="display: none" />
+											    <input id="imgNumber1" name="imgNumber1" value='' style="display: none" />
+										</div>
+										<!-- 预览 -->
+										<div class="col-sm-10">
+											<label class="col-sm-2 control-label" style="margin-top:20px;">预览</label>
+											<div class="row aaaa1" style="position: relative; left: 0px;">
+
+											</div>
+											<div style="height: 200px"></div>
+										</div>
+									</div>
+									
+									<div class="form-group" style="clear:both;">
+									<label class="col-sm-2 control-label">上传banner商品图片：</label>
+										<p>(按住Ctrl选择多张)</p>
+										<div class="col-sm-3">
+											<input type="file" name="image2" class="filestyle"
+												data-icon="false" id="f2" data-classButton="btn btn-default"
+												data-classInput="form-control inline input-s"
+												onchange="changeImg2()" multiple="multiple" /> 
+												<input id="number2" name="number2" value='' style="display: none" />
+											    <input id="imgNumber2" name="imgNumber2" value='' style="display: none" />
+										</div>
+										<!-- 预览 -->
+										<div class="col-sm-10">
+											<label class="col-sm-2 control-label" style="margin-top:20px;">预览</label>
+											<div class="row aaaa2" style="position: relative; left: 0px;">
+
+											</div>
+											<div style="height: 200px"></div>
+										</div>
+									</div>
+									
+									<div class="form-group" style="clear:both;">
+									<label class="col-sm-2 control-label">上传非首页展示商品图片：</label>
+										<p>(按住Ctrl选择多张)</p>
+										<div class="col-sm-3">
+											<input type="file" name="image3" class="filestyle"
+												data-icon="false" id="f3" data-classButton="btn btn-default"
+												data-classInput="form-control inline input-s"
+												onchange="changeImg3()" multiple="multiple" /> 
+												<input id="number3" name="number3" value='' style="display: none" />
+											    <input id="imgNumber3" name="imgNumber3" value='' style="display: none" />
+										</div>
+										<!-- 预览 -->
+										<div class="col-sm-10">
+											<label class="col-sm-2 control-label" style="margin-top:20px;">预览</label>
+											<div class="row aaaa3" style="position: relative; left: 0px;">
+
+											</div>
+											<div style="height: 200px"></div>
+										</div>
+									</div>
+									<input id="templateId" name="templateId" value='' style="display: none" />
+									<!-- <div class="form-group"> -->
+										<input type="submit" class="btn btn-sm btn-success" value="提交" onclick="return checkform(this.form)">
+										<input type="reset" class="btn btn-sm btn-default" value="取消">
+									<!-- </div> -->
+									<div style="height: 100px"></div>
+						</section>
+					    </div>
+					</form>
+				</section>
+
+				<!--                 正文结束 -->
+			</section>
+		</section>
+	</section>
+	<script src="js/app.v2.js"></script>
+	<script src="js/type.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript">
+	window.onload=changeS_childType();
+	 document.getElementById("s_fatherType").onchange=new Function("changeS_childType()");
+	 
+	 //document.getElementsByClassName("cho").onchange=new Function("changeChildSize()");
+/* 	 function changeChildSize(fatherType){
+		 var id=fatherType
+		 var ChirldId="#"+id
+		 ChirldId=ChirldId.replace("father", "child")
+		 var fSize= document.getElementById(id).value
+		 var url ="getChildSize.do"
+			 jQuery.ajax({
+			        type: "POST",
+			        url:  url,
+				    data:{
+				    "fSize":fSize
+				    },	
+		    	   error: function(request) {
+					      alert("Connection error");
+				},
+				  success: function(result) {
+					  var div=''
+					  jQuery.each(result,function(i,item){
+						  div+='<option value="'+item+'">'+item+'</option>'
+						  
+					  	})
+					  $(ChirldId).html(div)
+					  }
+			    	});
+		
+	 } */
+	function changeS_childType(){
+		var fType= document.getElementById("s_fatherType").value
+		var url ="getChildType.do"
+			jQuery.ajax({
+		        type: "POST",
+		        url:  url,
+			    data:{
+			    "fatherType":fType
+			    },	
+	    	   error: function(request) {
+				      alert("Connection error");
+			},
+			  success: function(result) {
+				  var div=''
+				  jQuery.each(result,function(i,item){
+					  div+='<option value="'+item.childrenName+'">'+item.childrenName+'</option>'
+					  
+				  	})
+				  $("#s_childType").html(div)
+				  }
+		    	});
+	}
+	
+	function getProductsize(id){
+		var url="getProductSize.do"
+			jQuery.ajax({
+		        type: "POST",
+		        url:  url,
+			    data:{
+			    },	
+	    	   error: function(request) {
+				      alert("Connection error");
+			},
+			  success: function(result) {
+				  var div='<option value="样式">样式</option>'
+				  jQuery.each(result,function(i,item){
+					  div+='<option value="'+item.fatherName+'">'+item.fatherName+'</option>'
+					  
+				  	})
+				  	id="#"+id
+				  $(id).html(div)
+				  }
+		    	});
+	}
+	
+	
+		//init_area();
+		var flag=11; //只能选择一种添加样式  事件
+function notype(){
+	if(flag==11){
+		flag=0
+		$('#number').val("0")
+		
+		$('#flag').val(flag)
+		var div='</tr><tr><td> <label style="margin-left:40px"><span>库存:</span></label><input name="0" value="" class=" " type="text" id="" style="margin-left:30px;" placeholder="输入库存"></td>'
+		$('.addType').append(div)
+	}
+}
+		
+		</script>
+	<script type="text/javascript">
+		var addIndex = 0
+		function addtype() {
+			if(flag!=11&&flag!=2){
+				return false
+			}
+			flag=2
+			addIndex++
+			$('#number').val(addIndex)
+			$('#flag').val(flag)
+			var fatherType = 'fatherType' + addIndex
+			var childType = 'childType' + addIndex
+			var fatherSize = 'fatherSize' + addIndex
+			var childSize = 'childSize' + addIndex
+
+			var text1 = '<div><tr></tr><td><select id="'
+				+ fatherType
+				+ '" name="'
+				+ fatherType
+				+ '" class="form-control m-b cho" style="margin-left:5px;width:auto"></select></td><td>'
+				+ '<input id="'+childType+'" name="'+childType+'"  type="text" style="margin-left:5px;width:auto" placeholder="输入一种样式"/></td> '
+				+ '<td width="20px;"></td><td ><select  id="'
+				+ fatherSize
+				+ '" name="'
+				+ fatherSize
+				+ '" class="form-control m-b cho" style="margin-left:5px;width:auto"></select></td><td>'
+				+ '<input id="'+childSize+'" name="'+childSize+'" type="text" style=" margin-left:5px;width:auto" placeholder="输入各样式库存用 / 分割"/></td> '
+				+ '<td> '
+				+'<label style="margin-left:40px">'
+				+ '<span >库存(输入各样式库存用 / 分割 与前面输入对应):</span></label></span>'
+				+ '<input name="'+addIndex+'" value="" class=" " type="text" id="" style="margin-left:5px;width:auto" placeholder="" /></td>'
+				+'<td><input type="button" class="btn btn-sm btn-default" value="删除" onclick="remove(this)"></td></div>'
+		    $('.addType').append(text1)
+			
+/* 			var a='"'+fatherType+'"'
+			var b='"'+fatherSize+'"' */
+			
+			getProductsize(fatherType)
+			getProductsize(fatherSize)
+/* 			document.getElementById(fatherType).onchange=new Function("changeChildSize("+a+")");
+			document.getElementById(fatherSize).onchange=new Function("changeChildSize("+b+")");
+ 			changeChildSize(fatherType);
+			changeChildSize(fatherSize); */ 
+		}
+		function addOnetype() {
+			if(flag!=11&&flag!=1){
+				return false
+			}
+			flag=1
+			addIndex++
+			$('#number').val(addIndex)
+			$('#flag').val(flag)
+			var fatherType = 'fatherType' + addIndex
+			var childType = 'childType' + addIndex
+			var fatherSize = 'fatherSize' + addIndex
+			var childSize = 'childSize' + addIndex
+
+			var text1 = '<div><tr></tr><td><select id="'
+				+ fatherType
+				+ '" name="'
+				+ fatherType
+				+ '" class="form-control m-b cho" style="margin-left:5px;width:auto"></select></td><td>'
+				+ '<input id="'+childType+'" name="'+childType+'" type="text" style="margin-left:5px;width:auto"  placeholder="输入各样式用/分割" /></td> '
+				+ '<td width="20px;"></td><td ></td><td>'
+				+'<label style="margin-left:40px">'
+				+ '<span >库存(输入各样式库存用 / 分割 与前面输入对应):</span></label></span>'
+				+ '<input name="'+addIndex+'" value="" class=" " type="text" id="" style="margin-left:5px;width:auto" placeholder="" /></td>'
+				+'<td><input type="button" class="btn btn-sm btn-default" value="删除" onclick="remove(this)"></td></div>'
+		    $('.addType').append(text1)
+			//add2ini_area(adds2)
+/* 			var a='"'+fatherType+'"' */
+			getProductsize(fatherType)
+/* 			document.getElementById(fatherType).onchange=new Function("changeChildSize("+a+")");
+ 			changeChildSize(fatherType); */
+		}
+		function changeImg1() {
+			$('.aaaa1').html('')
+			var pic, file;
+			pic = document.getElementById("preview1");
+			file = document.getElementById("f1");
+
+			var ext = file.value.substring(file.value.lastIndexOf(".") + 1)
+					.toLowerCase();
+
+			// gif在IE浏览器暂时无法显示
+			if (ext != 'png' && ext != 'jpg' && ext != 'jpeg') {
+				alert("图片的格式必须为png或者jpg或者jpeg格式！");
+				return;
+			}
+			var isIE = navigator.userAgent.match(/MSIE/) != null, isIE6 = navigator.userAgent
+					.match(/MSIE 6.0/) != null;
+
+			if (isIE) {
+				file.select();
+				var reallocalpath = document.selection.createRange().text;
+
+				// IE6浏览器设置img的src为本地路径可以直接显示图片
+				if (isIE6) {
+					pic.src = reallocalpath;
+				} else {
+					// 非IE6版本的IE由于安全问题直接设置img的src无法显示本地图片，但是可以通过滤镜来实现
+					pic.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src=\""
+							+ reallocalpath + "\")";
+					// 设置img的src为base64编码的透明图片 取消显示浏览器默认图片
+					pic.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+				}
+			} else {
+				html5Reader1(file);
+			}
+		}
+
+		function html5Reader1(file) {
+			var index = file.files.length
+			$('#imgNumber1').val(index)
+			for (var i = 0; i < file.files.length; i++) {
+				var f = file.files[i];
+				var reader = new FileReader();
+				reader.readAsDataURL(f);
+				reader.onload = function(e) {
+					var teet = '<div> <img id="preview1" name="pic"style=" height: 200px; float: left; position: relative;margin: 1px 1px " src=' + this.result + '><div>'
+					$('.aaaa1').append(teet)
+				}
+
+			}
+		}
+		
+		
+		function changeImg2() {
+			$('.aaaa2').html('')
+			var pic, file;
+			pic = document.getElementById("preview2");
+			file = document.getElementById("f2");
+
+			var ext = file.value.substring(file.value.lastIndexOf(".") + 1)
+					.toLowerCase();
+
+			// gif在IE浏览器暂时无法显示
+			if (ext != 'png' && ext != 'jpg' && ext != 'jpeg') {
+				alert("图片的格式必须为png或者jpg或者jpeg格式！");
+				return;
+			}
+			var isIE = navigator.userAgent.match(/MSIE/) != null, isIE6 = navigator.userAgent
+					.match(/MSIE 6.0/) != null;
+
+			if (isIE) {
+				file.select();
+				var reallocalpath = document.selection.createRange().text;
+
+				// IE6浏览器设置img的src为本地路径可以直接显示图片
+				if (isIE6) {
+					pic.src = reallocalpath;
+				} else {
+					// 非IE6版本的IE由于安全问题直接设置img的src无法显示本地图片，但是可以通过滤镜来实现
+					pic.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src=\""
+							+ reallocalpath + "\")";
+					// 设置img的src为base64编码的透明图片 取消显示浏览器默认图片
+					pic.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+				}
+			} else {
+				html5Reader2(file);
+			}
+		}
+
+		function html5Reader2(file) {
+			var index = file.files.length
+			$('#imgNumber2').val(index)
+			for (var i = 0; i < file.files.length; i++) {
+				var f = file.files[i];
+				var reader = new FileReader();
+				reader.readAsDataURL(f);
+				reader.onload = function(e) {
+					var teet = '<div> <img id="preview2" name="pic"style=" height: 200px; float: left; position: relative;margin: 1px 1px " src=' + this.result + '><div>'
+					$('.aaaa2').append(teet)
+				}
+
+			}
+		}
+		
+		
+		function changeImg3() {
+			$('.aaaa3').html('')
+			var pic, file;
+			pic = document.getElementById("preview3");
+			file = document.getElementById("f3");
+
+			var ext = file.value.substring(file.value.lastIndexOf(".") + 1)
+					.toLowerCase();
+
+			// gif在IE浏览器暂时无法显示
+			if (ext != 'png' && ext != 'jpg' && ext != 'jpeg') {
+				alert("图片的格式必须为png或者jpg或者jpeg格式！");
+				return;
+			}
+			var isIE = navigator.userAgent.match(/MSIE/) != null, isIE6 = navigator.userAgent
+					.match(/MSIE 6.0/) != null;
+
+			if (isIE) {
+				file.select();
+				var reallocalpath = document.selection.createRange().text;
+
+				// IE6浏览器设置img的src为本地路径可以直接显示图片
+				if (isIE6) {
+					pic.src = reallocalpath;
+				} else {
+					// 非IE6版本的IE由于安全问题直接设置img的src无法显示本地图片，但是可以通过滤镜来实现
+					pic.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src=\""
+							+ reallocalpath + "\")";
+					// 设置img的src为base64编码的透明图片 取消显示浏览器默认图片
+					pic.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+				}
+			} else {
+				html5Reader3(file);
+			}
+		}
+
+		function html5Reader3(file) {
+			var index = file.files.length
+			$('#imgNumber3').val(index)
+			for (var i = 0; i < file.files.length; i++) {
+				var f = file.files[i];
+				var reader = new FileReader();
+				reader.readAsDataURL(f);
+				reader.onload = function(e) {
+					var teet = '<div> <img id="preview3" name="pic"style=" height: 200px; float: left; position: relative;margin: 1px 1px " src=' + this.result + '><div>'
+					$('.aaaa3').append(teet)
+				}
+
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		function remove(t){
+			var $t=$(t);
+			$t.parent().remove();
+		}
+	</script>
+	<style type="text/css">
+/*body{ background:#EEEEEE;margin:0; padding:0;  }*/
+/*a{ color:#006600; text-decoration:none;}*/
+/*a:hover{color:#990000;}*/
+/*.top{ margin:5px auto; color:#990000; text-align:center;}*/
+/*.info select{ border:1px #993300 solid; background:#FFFFFF;}*/
+/*/!*.info{ margin:5px; text-align:center;}*!/*/
+/*.info #show{ color:#3399FF; }*/
+/*.bottom{ text-align:right; font-size:12px; color:#CCCCCC; width:1000px;}*/
+div {
+	display: block;
+}
+
+tr {
+	display: block; /*将tr设置为块体元素*/
+	margin: 10px 0; /*设置tr间距为2px*/
+}
+</style>
+</body>
+</html>

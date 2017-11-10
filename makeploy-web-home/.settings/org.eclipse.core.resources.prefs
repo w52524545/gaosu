@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/main/java=GBK
+encoding//src/main/java/com/onway/web/controller/sendMessage/Article.java=UTF-8
+encoding//src/main/java/com/onway/web/controller/sendMessage/MediaUtil.java=UTF-8
+encoding//src/main/java/com/onway/web/controller/sendMessage/WeixinMedia.java=UTF-8
+encoding//src/main/java/com/onway/web/controller/sendMessage/WeixinUtil.java=UTF-8
+encoding//src/main/java/com/onway/web/controller/userList/WeixinUserList.java=UTF-8
+encoding//src/main/java/com/poi/PoiExport.java=UTF-8
+encoding//src/main/java/com/poi/PoiExpotTest.java=UTF-8
+encoding//src/test/java=GBK
+encoding/<project>=UTF-8

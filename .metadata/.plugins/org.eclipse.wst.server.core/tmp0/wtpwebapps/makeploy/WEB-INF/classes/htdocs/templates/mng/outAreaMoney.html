@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑店铺信息</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js">
+	
+</script>
+
+<script type="text/javascript">
+	function Trim(str)
+	{ 
+	    return str.replace(/(^\s*)|(\s*$)/g, ""); 
+	}
+	
+function fun(){
+		   var moneyOut=parseFloat($("#outMoney").val());
+		   var balance=parseFloat('$!agentDO.areaIncome');
+		   if(moneyOut < 100){
+			   alert("最低提现金额100元！");
+			   return;
+		   }
+		   if(moneyOut<=balance && moneyOut>0){
+			   jQuery.ajax({
+		          	type: "POST",
+		         		url: "outAreaMoneyByUserId.do",
+		         		dataType:"json",
+		         		data: 
+		         		{
+		         			outMoney:$("#outMoney").val()
+		         		},
+		         		success: function(data) {
+		         			if(data.bizSucc){
+			         			alert('已提交申请，请耐心等待');
+			         			window.opener.location.reload();
+				                window.close();
+		         		   }
+		             }
+		       });
+		   }
+		   else{
+			   alert("请输入正确金额！");
+		   }
+}
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+</style>
+</head>
+<body>
+	<section class="hbox stretch">
+		<!-- 导航栏 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+						<li>修改订单信息</li>
+					</ul>
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<div class="panel-body">
+								<form role="form" id="modifyOrder" method="POST"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<label>用户名</label>
+										<span class="form-control" style="border: 0px">$!userDO.userName</span>
+										<input type="hidden" name="userName" value="$!userDO.userName">
+									</div>
+									<div class="form-group">
+										<label>用户电话</label>
+										<span class="form-control" style="border: 0px">$!userDO.cell</span>
+										<input type="hidden" name="cell" value="$!userDO.cell">
+									</div>
+									<div class="form-group">
+										<label>省/市/区</label>
+										<span class="form-control" style="border: 0px">$!agentDO.province</span>
+										<span class="form-control" style="border: 0px">$!agentDO.city</span>
+										<span class="form-control" style="border: 0px">$!agentDO.district</span>
+									</div>
+									<div class="form-group">
+										<label>可提现收益</label>
+										<span class="form-control" style="border: 0px">$!agentDO.areaIncome</span>
+										<input type="hidden" name="areaIncome" value="$!agentDO.areaIncome">
+									</div>
+									<div class="form-group">
+										<label>填写提现金额(最低100元)</label> <input name="outMoney"
+											id="outMoney" type="text" class="form-control" value=""/>
+									</div>
+									<div class="form-group">
+										<label>提现手续费</label>
+                                        <span class="form-control" style="border: 0px">$!rate</span>
+									</div>
+
+									<div class="line line-dashed line-lg pull-in"></div>
+									<!-- #foreach($area in $areaList)
+									  <label>$!area.area : $!area.areaCity</label><br>
+									#end
+									<br> -->
+									<input type="button" class="btn btn-sm btn-success" value="提交审核" onclick="fun()">
+								</form>
+							</div>
+						</section>
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+<script src="js/app.v2.js"></script>
+</body>
+</html>

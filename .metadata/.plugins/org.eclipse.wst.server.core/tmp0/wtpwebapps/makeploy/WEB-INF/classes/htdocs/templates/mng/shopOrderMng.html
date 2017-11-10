@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商户管理系统</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<link rel="stylesheet" href="css/product.css" type="text/css" />
+<!--     TAB切换 -->
+<link rel="stylesheet" href="css/ydui1.css" />
+<script src="js/ydui.flexible.js"></script>
+<script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+
+<style type="text/css">
+.color {
+	color: #3399CC;
+	text-decoration: none;
+	font-weight: bold;
+} /*链接设置*/
+.color:visited {
+	color: #3399CC;
+	text-decoration: none;
+	font-weight: bold;
+} /*访问过的链接设置*/
+.color:hover {
+	color: #CF0000;
+	text-decoration: underline;
+	font-weight: bold;
+} /*鼠标放上的链接设置*/
+/*
+取消下划线只要把text-decoration:underline修改成text-decoration:none
+文字加粗font-weight:bold 如不需要加粗显示，那么删除font-weight:bold;就可以了
+其它更多的参数设置参考：css2.0手册 其中的"伪类"说明
+*/
+</style>
+
+<script type="text/javascript">
+	function Send(state, orderId, productNo, parflag) {
+		var transportNo = $("#count_" + state).val();
+		if (transportNo == "") {
+			alert("请输入物流单号！");
+			return false;
+		}
+		r = confirm("确认已发货?");
+		if (r == false) {
+			return false;
+		}
+
+		jQuery.ajax({
+			url : 'shopOrderSend.do',
+			type : 'post',
+			cache : false,
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			dataType : 'json',
+			data : {
+				"orderId" : orderId,
+				"productNo" : productNo,
+				"parflag" : parflag,
+				"transportNo" : transportNo
+			},
+
+			success : function(data) {
+				alert("确认发货成功!")
+				window.location.reload(true);
+			},
+			error : function() {
+				alert("网络异常 ！");
+			}
+		})
+	}
+</script>
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+			+ "location=yes,menubar=no,resizable=yes,"
+			+ "scrollbars=no,status=no,toolbar=no";
+
+	function update(orderId, parflag) {
+		var url = "modifyOrder.html?orderId=" + orderId;
+		window.open(url, '增加一条信息', features);
+
+	}
+</script>
+<!-- <script type="text/javascript">
+	function addTransportNo(count,no){
+		var a=$("#count_"+no).val(count.value);
+	}
+</script> -->
+<script type="text/javascript">
+	var TAB = new Array(4);
+	var TAB_INDEX = 0;
+	TAB[0] = 1;
+	TAB[1] = 1;
+	TAB[2] = 1;
+	TAB[3] = 1;
+
+	window.onload = function() {
+
+		submitSearch();
+	}
+	function submitSearch(pageNum) {
+		//留判断 值改变
+
+		TAB[0] = 1;
+		TAB[1] = 1;
+		TAB[2] = 1;
+		TAB[3] = 1;
+		var s_itemNo = document.getElementById('s_itemNo').value//这是订单号
+		var s_addTime_begin = document.getElementById('s_addTime_begin').value
+		var s_addTime_end = document.getElementById('s_addTime_end').value
+
+		jQuery
+				.ajax({
+					url : 'shopOrderSearchMng.do',
+					type : 'post',
+					cache : false,
+					contentType : "application/x-www-form-urlencoded; charset=utf-8",
+					dataType : 'json',
+					data : {
+						"tab_index" : TAB_INDEX,
+						"s_itemNo" : s_itemNo,
+						"s_addTime_begin" : s_addTime_begin,
+						"s_addTime_end" : s_addTime_end,
+						"currentPage" : pageNum
+					},
+
+					success : function(data) {
+						var productList = data.listObject;
+						var totalPage = data.totalPages;
+						//                     判断结果是否为空
+						if (totalPage > 0) {
+							var pageNum = data.pageNum;
+							var text = '';
+							if (TAB_INDEX == 2) {
+								text = '<div class="tab_box3 m_t20 "><table class="ie6_table_top" width="100%" border="0" cellspacing="0"cellpadding="0"><tbody><tr class="choose_box2"style="text-align:center;">'
+										+ ' <th class=" first" style="width:10%">订单号</th><th style="width:10%" >物流单号</th><th style="width:10%">买家</th><th style="width:5%">商品名</th><th style="width:5%">商品样式尺寸</th><th style="width:2%" >数量</th>'
+										+ ' <th style="width:5%">订单总金额（元）</th><th style="width:5%">运费（元）</th><th style="width:10%">创建时间</th><th style="width:10%">支付方式</th><th style="width:5%">状态</th><th style="width:5%">地址</th>'
+										+ '  <th class="w100 last">操作</th></tr></tbody></table><table id="tableExcel" class="table_border item_img_word" id="unsold_list_table" width="100%" border="0" cellspacing="0" cellpadding="0"><tbody>'
+								jQuery
+										.each(
+												productList,
+												function(i, item) {
+													var payway;
+													if (item.payWay == '1') {
+														payway = '微信支付 ';
+													} else if (item.payWay == '4') {
+														payway = '余额支付';
+													} else {
+														payway = 'error';
+													}
+													text += '<tr class="" title=""><td class="first" style="width:10%">'
+														    +'总订单号'+ item.orderNo +'<br>'
+															+'子订单号'+item.orderId
+															+ '</td>'
+															+ '<td td class="edit-category " style="width:10%" ><input type="text" id="count_'
+															+ i
+															+ '" onchange="addTransportNo(this,$state)"></td>'
+															+ '<td class="edit-category " style="width:10%">'
+															+ item.userName
+															+ '<br>手机号:'
+															+ item.cell
+															+ ' </td><td class="edit-category " style="width:5%">'
+															+ item.productName
+															+ '</td><td class="edit-category " style="width:5%">'
+															+ item.productSizeType
+															+ '</td><td class="edit-category " style="width:2%">'
+															+ item.productCount
+															+ '</td><td class="edit-category " style="width:5%">'
+															+ item.orderPrice
+															+ '</td><td class="edit-category " style="width:5%">'
+															+ item.luggage
+															+ '</td><td class="edit-category " style="width:10%">'
+															+ item.stringgmtCreat
+															+ '<br>留言:'
+															+ item.memo
+															+ '</td><td class="edit-category " style="width:10%">'
+															+ payway
+															+ '</td><td class="edit-category " style="width:5%">'
+															+ item.payStatus
+															+ '</td><td class="edit-price " style="width:auto"><p>'
+															+ item.provience
+															+ '</p><p>'
+															+ item.city
+															+ '</p><p>'
+															+ item.district
+															+ '</p><p>'
+															+ item.addr
+															+ '</p></td><td class="last " style="width:auto"><div id="operate_font_size_14" class="operation"><p><a href="javascript:;"class="btn   btn-success"  onclick="Send('
+															+ i
+															+ ','
+															+ item.orderId
+															+ ','
+															+ item.productNo
+															+ ','
+															+ item.parflag
+															+ ')">确认发货</a>&nbsp;&nbsp;&nbsp;'
+															+ '<a href="javascript:;"class="btn   btn-success"  onclick="update('
+															+ item.orderId
+															+ ','
+															+ item.parflag
+															+ ')">修改订单</a></p></div>'
+															+ ' </td></tr>'
+												})
+							} else {
+								text = '<div class="tab_box3 m_t20"><table class="ie6_table_top" width="100%" border="0" cellspacing="0"cellpadding="0"><tbody><tr class="choose_box2"style="text-align:center;">'
+										+ ' <th class=" first w70" style="width: 120px ;">订单号</th><th class="w85">物流单号</th><th class="w85">买家</th><th class="w85">商品名</th><th class="w85">商品样式尺寸</th><th class="w50" >数量</th>'
+										+ ' <th class="w85">订单总金额（元）</th><th class="w85">运费（元）</th><th class="w70">创建时间</th><th class="w70">支付方式</th><th class="w50 last">状态</th>'
+										+ '  </tr></tbody></table><table id="tableExcel" class="table_border item_img_word" id="unsold_list_table" width="100%" border="0" cellspacing="0" cellpadding="0"><tbody>'
+								jQuery
+										.each(
+												productList,
+												function(i, item) {
+													var payway;
+													if (item.payWay == '1') {
+														payway = '微信支付 ';
+													} else if (item.payWay == '4') {
+														payway = '余额支付';
+													} else {
+														payway = 'error';
+													}
+													if (item.payStatus == '未支付') {
+														text += '<tr class="" title=""><td class="first w70" style="width:100px;">'
+																+'总订单号'+ item.orderNo +'<br>'
+																+'子订单号'+item.orderId
+																+ '</td><td class="edit-category w85">'
+																+ item.transportNo
+																+ '</td><td class="edit-category w85">'
+																+ item.userName
+																+ ' </td><td class="edit-category w85">'
+																+ item.productName
+																+ '</td><td class="edit-category w85">'
+																+ item.productSizeType
+																+ '</td><td class="edit-category w50">'
+																+ item.productCount
+																+ '</td><td class="edit-price w85">'
+																+ item.orderPrice
+																+ '</td><td class="edit-price w85">'
+																+ item.luggage
+																+ '</td><td class="edit-price w70">'
+																+ item.stringgmtCreat
+																+ '<br>留言:'
+																+ item.memo
+																+ '</td><td class="edit-price w70">'
+																+ payway
+																+ '</td><td class="edit-price w50">'
+																+ item.payStatus
+																+ '<br>'
+																+ '<a href="#" class="color" onclick="update('
+																+ item.orderId
+																+ ','
+																+ item.parflag
+																+ ')">修改订单</a>'
+																+ '</td></tr>'
+													} else {
+														text += '<tr class="" title=""><td class="first w70" style="width:100px;">'
+																+'总订单号'+ item.orderNo +'<br>'
+																+'子订单号'+item.orderId
+																+ '</td><td class="edit-category w85">'
+																+ item.transportNo
+																+ '</td><td class="edit-category w85">'
+																+ item.userName
+																+ ' </td><td class="edit-category w85">'
+																+ item.productName
+																+ '</td><td class="edit-category w85">'
+																+ item.productSizeType
+																+ '</td><td class="edit-category w50">'
+																+ item.productCount
+																+ '</td><td class="edit-price w85">'
+																+ item.orderPrice
+																+ '</td><td class="edit-price w85">'
+																+ item.luggage
+																+ '</td><td class="edit-price w70">'
+																+ item.stringgmtCreat
+																+ '<br>留言:'
+																+ item.memo
+																+ '</td><td class="edit-price w70">'
+																+ payway
+																+ '</td><td class="edit-price w50">'
+																+ item.payStatus
+																+ ' </td></tr>'
+													}
+
+												})
+							}
+
+							text += ' </tbody> </table> </div><div class="tcdPageCode"></div>';
+							$('.tab-panel .tab-active').html(text);
+
+							$('.tab-panel .tab-active div.tcdPageCode')
+									.unbind();
+							$('.tab-panel .tab-active div.tcdPageCode')
+									.createPage({
+										pageCount : totalPage,
+										current : pageNum,
+										backFn : function(p) {
+											submitSearch(p);
+										}
+									})
+						} else {
+							var text = '未找到该类型订单';
+							$('.tab-panel .tab-active').html(text);
+						}
+
+					},
+					error : function() {
+						alert("拼命加载中 ！");
+					}
+				});
+	}
+</script>
+
+<!-- 导出excel文件 -->
+<script language="JavaScript" type="text/javascript">
+	var idTmr;
+	function getExplorer() {
+		var explorer = window.navigator.userAgent;
+		//ie  
+		if (explorer.indexOf("MSIE") >= 0) {
+			return 'ie';
+		}
+		//firefox  
+		else if (explorer.indexOf("Firefox") >= 0) {
+			return 'Firefox';
+		}
+		//Chrome  
+		else if (explorer.indexOf("Chrome") >= 0) {
+			return 'Chrome';
+		}
+		//Opera  
+		else if (explorer.indexOf("Opera") >= 0) {
+			return 'Opera';
+		}
+		//Safari  
+		else if (explorer.indexOf("Safari") >= 0) {
+			return 'Safari';
+		}
+	}
+	function method5(tableid) {
+
+		if (getExplorer() == 'ie') {
+			var curTbl = document.getElementById(tableid);
+			var oXL = new ActiveXObject("Excel.Application");
+			var oWB = oXL.Workbooks.Add();
+			var xlsheet = oWB.Worksheets(1);
+			var sel = document.body.createTextRange();
+			sel.moveToElementText(curTbl);
+			sel.select();
+			sel.execCommand("Copy");
+			xlsheet.Paste();
+			oXL.Visible = true;
+
+			try {
+				var fname = oXL.Application.GetSaveAsFilename("Excel.xls",
+						"Excel Spreadsheets (*.xls), *.xls");
+			} catch (e) {
+				print("Nested catch caught " + e);
+			} finally {
+				oWB.SaveAs(fname);
+				oWB.Close(savechanges = false);
+				oXL.Quit();
+				oXL = null;
+				idTmr = window.setInterval("Cleanup();", 1);
+			}
+		} else {
+			tableToExcel(tableid);
+		}
+	}
+	function Cleanup() {
+		window.clearInterval(idTmr);
+		CollectGarbage();
+	}
+	var tableToExcel = (function() {
+		var uri = 'data:application/vnd.ms-excel;base64,', template = '<html><head><meta charset="UTF-8"></head><body><table>{table}</table></body></html>', base64 = function(
+				s) {
+			return window.btoa(unescape(encodeURIComponent(s)))
+		}, format = function(s, c) {
+			return s.replace(/{(\w+)}/g, function(m, p) {
+				return c[p];
+			})
+		}
+		return function(table, name) {
+			if (!table.nodeType)
+				table = document.getElementById(table)
+			var ctx = {
+				worksheet : name || 'Worksheet',
+				table : table.innerHTML
+			}
+			window.location.href = uri + base64(format(template, ctx))
+		}
+	})()
+</script>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+
+		<h3 style="font-family: 微软雅黑;">商户管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+
+								<li><a href="javascript:;"> <i
+										class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>卖家管理首页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOwerMng.html" class="active"> <i
+												class="fa fa-angle-right"></i> <span>卖家中心</span>
+										</a></li>
+									</ul></li>
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-columns icon"> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>店铺管理页</span>
+								</a>
+									<ul class="nav lt">
+										<li class="active"><a href="javascript:" class="active">
+												<i class="fa fa-angle-right"></i> <span>订单管理</span>
+										</a></li>
+										<li><a href="shopProductMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品管理</span>
+										</a></li>
+										<li><a href="shopProductAddMng.html"> <i
+												class="fa fa-angle-right"></i><span>添加商品</span>
+										</a></li>
+										<!-- <li><a href=""> <i class="fa fa-angle-right"></i> <span>店铺信息管理</span> -->
+										<!-- </a></li> -->
+
+									</ul></li>
+								<li><a> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>运费模板</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="faretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>现有运费模板<span></span>
+										</a></li>
+									</ul>
+									<ul class="nav lt">
+										<li><a href="addFaretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>增加运费模板<span></span>
+										</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+						<li>订单管理</li>
+						<li><a href="orderMngCheckOut.html">打印订单（导出Excel）</a></li>
+					</ul>
+					<!--                 正文开始 -->
+					<section>
+						<!--class="g-doc"-->
+						<div class="m-tab demo-small-pitch" data-ydui-tab>
+							<ul class="tab-nav">
+								<li class="tab-nav-item tab-active"><a href="javascript:;">所有订单</a></li>
+								<li class="tab-nav-item"><a href="javascript:;">待付款</a></li>
+								<li class="tab-nav-item"><a href="javascript:;">待发货</a></li>
+								<li class="tab-nav-item"><a href="javascript:;">待确认收货</a></li>
+								<li class="tab-nav-item"><a href="javascript:;">退货/退款</a></li>
+								<li class="tab-nav-item"><a href="javascript:;">完成订单</a></li>
+							</ul>
+							<div id="searchBox">
+								<div class="sold_box1 m_t10 clearfix">
+									<div class=""
+										style="position: absolute; bottom: 10px; left: 800px; margin-top: 60px;">
+										<a href="javascript:" class="submit btn_blue"
+											id="submitSearchBox" style="cursor: pointer;"
+											onclick="submitSearch()">搜索</a>
+									</div>
+
+									<div class="complete clearfix m_t5"
+										style="margin: 10px 0px 0px 0px">
+										<div class="f_left1">
+											<div class="txt_right">订单号：</div>
+											<div class="f_left">
+												<input id="s_itemNo" data-attr="itemNo" type="text" value=""
+													class="input_140">
+											</div>
+										</div>
+										<div class="f_left3">
+											<div class="txt_right" style="width: 100px">下单时间：</div>
+											<div class="f_left">
+												<input id="s_addTime_begin" data-attr="addTime_begin"
+													type="date" value="" class="text_105 hasDatepicker">
+												- <input id="s_addTime_end" data-attr="addTime_end"
+													type="date" value="" class="text_105 hasDatepicker">
+											</div>
+
+										</div>
+										<!-- <input type="button" id="btnTransfer" value="导出本業"
+											class="btn btn-primary" style="font-size: 10px;"
+											onclick="method5('tableExcel')" /> -->
+									</div>
+								</div>
+							</div>
+							<div class="tab-panel">
+								<!--全部商品-->
+								<div class="tab-panel-item tab-active">
+									<!--动态加载部分-->
+
+								</div>
+								<div class="tab-panel-item"></div>
+								<div class="tab-panel-item"></div>
+								<div class="tab-panel-item"></div>
+								<div class="tab-panel-item"></div>
+								<div class="tab-panel-item"></div>
+							</div>
+
+						</div>
+					</section>
+					<!--                 正文结束 -->
+					<div style="height: 700px;"></div>
+				</section>
+			</section>
+		</section>
+	</section>
+	<script src="js/ydui.js"></script>
+	<script src="js/app.v2.js"></script>
+	<script src="js/commonPage.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

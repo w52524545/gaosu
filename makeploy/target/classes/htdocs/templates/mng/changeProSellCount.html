@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-control {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.428571429;
+	color: #555555;
+	vertical-align: middle;
+	background-color: #ffffff;
+	background-image: none;
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border-color ease-in-out 0.15s, box-shadow
+		ease-in-out 0.15s;
+	transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.panel {
+	margin-bottom: 20px;
+	background-color: #ffffff;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+</style>
+</head>
+<body>
+	<section id="content" style="background-color: #c7d8cb">
+
+		<div class="col-sm-12">
+			<section class="panel panel-success">
+				<header class="panel-heading font-bold">修改店铺销售量</header>
+				<div class="panel-body">
+				<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+					<div class="form-group">
+						<label class="col-sm-2 ">店铺电话</label>
+						<div class="col-sm-3">
+							<input name="productNo" id="productNo" value="" type="text"
+								class="form-control" placeholder="商品号"> <input
+								name="shopCell" id="shopCell" value="" type="text"
+								class="form-control" placeholder="店铺电话">
+						</div>
+						<div class="col-sm-3">
+							<input type="button" onclick="selectShop()" value="查询该商品信息"
+								class="form-control" style="background-color: #73d687">
+						</div>
+					</div>
+					<div
+						style="clear: both; top: 10px; position: relative; height: 600px;"
+						class="form-group" id="add"></div>
+				</div>
+			</section>
+		</div>
+
+	</section>
+	<script type="text/javascript">
+function selectShop(){
+	var productNo=$('#productNo').val();
+	var shopCell=$('#shopCell').val();
+		var url='selectshopBycell.do';
+		var div='<div class="form-group"><label>查询商品中...</label></div>';
+			$('#add').html(div);
+			 jQuery.ajax({
+			        type: "POST",
+			        url:  url,
+				    data:{
+				    "productNo":productNo,
+				    "shopCell":shopCell
+				    },	
+		    	   error: function(request) {
+					      alert("Connection error");
+				},
+				  success: function(result) {
+					  var infomation = result.information;
+					  var shopDO = result.shopDO;
+					  var productDO = result.productDO;
+					  if(infomation=='1'){
+						  div='<div class="form-group"style="text-align:center;"><label>该商品不存在!</label></div>';
+					  }
+					  
+					  if(infomation=='2'){
+						  div='<div class="panel panel-success"><header class="panel-heading font-bold">商品信息</header><div><div class="form-group"><label>商品名</label> <input name="productName" value="'+
+						  productDO.productName+
+						  '" type="text" class="form-control" readonly></div><div class="form-group">'+
+							'<label>店铺名</label> <input name="price" value="'+shopDO.shopName+
+								'" type="text" class="form-control" readonly></div>'+
+								'<input type="text" style="display:none;" id="shopId" value="'+ shopDO.shopId+'">'+
+								'<input type="text" style="display:none;" id="productNo" value="'+ productDO.productNo+'">'+
+								'<input type="text" id="soleCount" value="'+ productDO.soleCount+'">'+
+								'<input type="button" class="form-control"onclick="change()" value="确认修改"style="background-color: #73d687;">';
+							}
+					  
+					  $('#add').html(div);
+					  }
+					  });
+	}
+function change(){
+	alert("正在处理......请勿重复提交!");
+	var shopId=$('#shopId').val();
+	var productNo=$('#productNo').val();
+	var soleCount=$('#soleCount').val();
+	var url='changeShopCount.do'
+			 jQuery.ajax({
+			        type: "POST",
+			        url:  url,
+				    data:{
+				    "shopId":shopId,
+				    "soleCount":soleCount,
+				    "productNo":productNo
+				    },	
+		    	   error: function(request) {
+					      alert("Connection error");
+				},
+				  success: function(result) {
+				  if(result.bizSucc==true){
+					  alert(result.errMsg);
+					  window.location.reload(true);
+					  
+				  }else{
+					  alert(result.errMsg);
+				  }
+				  }
+			 })
+}
+</script>
+
+<script type="text/javascript">
+     function goback(){
+    	 window.location.href="shopInfoMng.html";
+     }
+</script>
+	<script src="js/app.v2.js"></script>
+</body>
+</html>

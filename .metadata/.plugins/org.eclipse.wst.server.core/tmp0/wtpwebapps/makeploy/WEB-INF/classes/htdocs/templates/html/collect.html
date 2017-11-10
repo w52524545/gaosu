@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>收藏</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="js/sort.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="collect">
+    <div class="collect_menu">
+        <ul>
+            <li class="cur">宝贝收藏<div class="line1"></div></li>
+            <li>店铺收藏</li>
+        </ul>
+    </div>
+    <div class="collect_cont">
+        #foreach($product in $productList)
+        <div class="pro_list pro_list1" id="goodsCollect">
+            <div class="pro_listl">
+              <img src="$!product.productUrl" /></div>
+            <div class="pro_listr pro_listr1">
+                <h1>$!product.productName</h1> 
+                <p><span class="pro_price1">&yen;$!product.price</span><input type="button" class="cancelbtn" value="取消收藏" onclick="removeGoodsColl($!product.productNo,$!product.shopId)"/></p>
+            </div>
+        </div>
+        #end
+    </div>
+    
+    <div class="collect_cont" style="display:none;">
+       #foreach($shop in $shopList)
+        <div class="pro_list pro_list1">
+            <div class="pro_listl">
+              <img src="$!shop.shopUrl" /></div>
+            <div class="pro_listr pro_listr2">
+                <h1>$!shop.shopName</h1>
+                <p><i></i><i></i><i></i><i></i><i></i></p>
+                <p>共$!shop.sellCount件宝贝</p>
+                <input type="button" class="cancelbtn1" value="取消收藏" onclick="removeShopColl($!shop.shopId)"/> 
+            </div>
+        </div> 
+        #end
+    </div>
+</div>
+   
+</body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    $(function () {
+        $(".collect_menu li").click(function() {
+            tabcon(this,".collect_cont");
+        });
+        function tabcon(op,con){
+            var index = $(op).index();
+            $(con).hide().eq(index).show();
+            $(op).parent().find("li").removeClass("cur").eq(index).addClass("cur");
+            /*$(op).parent().find("a").removeClass("cur").eq(index).addClass("cur");*/
+        }
+    });
+       });
+</script>
+
+<script type="text/javascript">
+     function removeGoodsColl(obj,obk)
+     {
+    	 var url = "removeGoodsColl.do";
+    	    jQuery.ajax({
+    	    	type: "POST",
+    	   		url: url,
+    	   		data: 
+    	   		{
+    	   			productNo:obj,
+    	   			shopId:obk,
+    	   		},
+    	   		success: function(data) {
+    	   			alert("修改成功");
+    	   			window.location.href="myCollection.html?type=0";
+    	       }
+    	   });
+     }
+
+</script>
+
+<script type="text/javascript">
+     function removeShopColl(obj)
+     {
+    	 var url = "removeShopColl.do";
+    	    jQuery.ajax({
+    	    	type: "POST",
+    	   		url: url,
+    	   		data: 
+    	   		{
+    	   			shopId:obj,
+    	   		},
+    	   		success: function(data) {
+    	   			alert("修改成功");
+    	   			window.location.href="myCollection.html?type=0";
+    	       }
+    	   });
+     }
+
+</script>
+
+<!--  
+<script type="text/javascript">
+    $(document).ready(function() { 
+        jQuery.ajax({
+    	    type: "POST",
+    		url: "collectGoods.do",
+    		dataType:"json",
+    		data: 
+    		{
+    			pageNum:1,
+    			pageSize:null
+    		},
+    		success: function(data) {
+    			var resultList = data.listObject;
+    			var bodyHtml = "";
+    			jQuery.each(resultList, function(i, item) {
+    				alert(item.productName);
+    				bodyHtml += 
+    	            '<div class="pro_listl">'+
+    	              '<img src=" '+item.productUrl+ ' " /></div>'+
+    	            '<div class="pro_listr pro_listr1">'+
+    	                '<h1>'+item.productName+'</h1>'+ 
+    	                '<p><span class="pro_price1">&yen;'+item.price.amount+'</span><input type="button" class="cancelbtn" value="取消收藏" onclick="removeGoodsColl('+item.productNo,item.shopId+')"/></p>'+
+    	            '</div>';
+    			});
+    			var new_content = bodyHtml;
+    			$("#goodsCollect").html(new_content);
+       }
+      });
+    });
+</script>
+-->
+</html>

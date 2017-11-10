@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.onway.makeploy</groupId>
+		<artifactId>makeploy-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.makeploy</groupId>
+	<artifactId>makeploy-common-service-facade</artifactId>
+	<version>1.0.0</version>
+	<name>makeploy-common-service-facade</name>
+	<description>makeploy-common-service-facade</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-event</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-mvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-cache</artifactId>
+		</dependency>
+			<!-- Spring 文件上传的包 -->
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+			</dependency>
+
+			<!-- Spring 文件上传的依赖包 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-io</artifactId>
+			</dependency>
+	</dependencies>
+</project>

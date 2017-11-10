@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	function getMoney(userId, btn) {
+		var userId = userId;
+		var url = "updateCheckout.do";
+		var income = btn.getElementsByTagName("input")[0].value;
+		jQuery.ajax({
+			url : url,// 跳转到 action  
+			type : 'post',
+			cache : false,
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			dataType : 'json',
+			data : {
+				"userId" : userId,
+				"income" : income
+			},
+			success : function(jsonResult) {
+				if (jsonResult.bizSucc) {
+					alert("操作成功");
+					window.location.reload(true);
+				} else {
+					alert("操作失败")
+				}
+			},
+			error : function() {
+				alert("异常！");
+			}
+		});
+
+	}
+</script>
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+									</ul></li>
+								<!--充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-file-text icon"> <b class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li class="active"><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<!-- 弹出层 -->
+					<section id="hidden_div" style="display: none"
+						class="panel panel-default bg-white m-t-lg">
+						<header class="panel-heading text-center">
+							<strong>公告发布</strong>
+						</header>
+
+						<div class="form-group" style="margin: 10px 30px 0px 30px">
+							<label class="control-label">标题</label> <input type="text"
+								class="form-control input-lg" name="title" id="title">
+						</div>
+						<div class="form-group" style="margin: 10px 30px 0px 30px">
+							<label class="control-label">公告内容</label>
+							<textarea name="noticeinfo" id="noticeinfo" style="height: 400px"
+								class="form-control input-lg"></textarea>
+						</div>
+						<button class="btn btn-primary"
+							style="margin-left: 15%; width: 70px;" id="off">取消</button>
+						<button onclick="addNotice();" class="btn btn-primary"
+							style="margin-left: 45%; width: 70px;">确认</button>
+
+					</section>
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+						<li>区域代理查询</li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="searchAgent.do" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!formName.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">用户ID：</label>
+										<div class="col-sm-2">
+											<input type="text" name="userId" value=""
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">手机号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="cell" value="" class="form-control">
+										</div>
+										<input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<!-- 搜索商品 -->
+						<table id="announcement"
+							class="table table-striped datagrid m-b-sm"
+							style="text-align: center">
+							<thead>
+								<tr>
+									<!-- <th>ID</th> -->
+									<th>用户编号</th>
+									<th>用户名</th>
+									<th>手机号码</th>
+									<th>代理区域</th>
+									<th>区域已提取总收入</th>
+									<th>上一次提取时间</th>
+									<th>从上次到当前时间可提取收入</th>
+									<th style="text-align: center">提取操作</th>
+								</tr>
+							</thead>
+							#foreach($agentInfo in $agentInfoList)
+							<tr>
+								<td>$!agentInfo.userId</td>
+								<td>$!agentInfo.userName</td>
+								<td>$!agentInfo.cell</td>
+								<td>$!agentInfo.province&nbsp;$!agentInfo.city&nbsp;$!agentInfo.district</td>
+								<td>#if($!agentInfo.areaIncome=='')0.00元 #else
+									$!agentInfo.areaIncome&nbsp;元 #end</td>
+								<td>$!dateUtils.format($!agentInfo.checkOut,'yyyy-MM-dd HH:mm:ss')</td>
+								<td>$!agentInfo.estimatedIncome&nbsp;元</td>
+								<td style="text-align: center"><button
+										onclick="getMoney('$!agentInfo.userId',this)"
+										class="btn btn-primary" style="width: 70px;">
+										确认<input type="hidden" value="$!agentInfo.estimatedIncome">
+									</button></td>
+							</tr>
+							#end
+						</table>
+					</section>
+					<!-- ---列表主体--- -->
+					<div class="fn-mt7">#set ($formName = "formName")
+						#parse('/mng/page.html')</div>
+				</section>
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+		<!--  -----主体内容------ -->
+	</section>
+	<script src="js/app.v2.js"></script>
+</body>
+</html>

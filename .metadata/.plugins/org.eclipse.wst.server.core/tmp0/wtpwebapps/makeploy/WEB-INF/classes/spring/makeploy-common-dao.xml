@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- ======================================================================== -->
+    <!--  DAO定义。                                                               -->
+    <!-- ======================================================================== -->
+    <bean id="accountDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisAccountDAO" parent="sqlMapClientDAO"/>
+    <bean id="activityDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisActivityDAO" parent="sqlMapClientDAO"/>
+    <bean id="addressDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisAddressDAO" parent="sqlMapClientDAO"/>
+    <bean id="agentDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisAgentDAO" parent="sqlMapClientDAO"/>
+    <bean id="areaDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisAreaDAO" parent="sqlMapClientDAO"/>
+    <bean id="borrowMoneyDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisBorrowMoneyDAO" parent="sqlMapClientDAO"/>
+    <bean id="carrymodeDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisCarrymodeDAO" parent="sqlMapClientDAO"/>
+    <bean id="categoryDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisCategoryDAO" parent="sqlMapClientDAO"/>
+    <bean id="collectionDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisCollectionDAO" parent="sqlMapClientDAO"/>
+    <bean id="commerceDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisCommerceDAO" parent="sqlMapClientDAO"/>
+    <bean id="commerceCheckDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisCommerceCheckDAO" parent="sqlMapClientDAO"/>
+    <bean id="discountDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisDiscountDAO" parent="sqlMapClientDAO"/>
+    <bean id="faretemplateDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisFaretemplateDAO" parent="sqlMapClientDAO"/>
+    <bean id="inclpostageprovisoDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisInclpostageprovisoDAO" parent="sqlMapClientDAO"/>
+    <bean id="msgDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisMsgDAO" parent="sqlMapClientDAO"/>
+    <bean id="optionDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisOptionDAO" parent="sqlMapClientDAO"/>
+    <bean id="orderDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisOrderDAO" parent="sqlMapClientDAO"/>
+    <bean id="partnerDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisPartnerDAO" parent="sqlMapClientDAO"/>
+    <bean id="partnerRankDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisPartnerRankDAO" parent="sqlMapClientDAO"/>
+    <bean id="proImageDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisProImageDAO" parent="sqlMapClientDAO"/>
+    <bean id="productDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisProductDAO" parent="sqlMapClientDAO"/>
+    <bean id="productCommentDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisProductCommentDAO" parent="sqlMapClientDAO"/>
+    <bean id="productParameterDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisProductParameterDAO" parent="sqlMapClientDAO"/>
+    <bean id="productPromotionDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisProductPromotionDAO" parent="sqlMapClientDAO"/>
+    <bean id="roleDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisRoleDAO" parent="sqlMapClientDAO"/>
+    <bean id="sequenceDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisSequenceDAO" parent="sqlMapClientDAO"/>
+    <bean id="shopDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisShopDAO" parent="sqlMapClientDAO"/>
+    <bean id="shopCheckDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisShopCheckDAO" parent="sqlMapClientDAO"/>
+    <bean id="shopCommentDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisShopCommentDAO" parent="sqlMapClientDAO"/>
+    <bean id="shopIncomeDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisShopIncomeDAO" parent="sqlMapClientDAO"/>
+    <bean id="shoppingCartDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisShoppingCartDAO" parent="sqlMapClientDAO"/>
+    <bean id="sysConfigDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisSysConfigDAO" parent="sqlMapClientDAO"/>
+    <bean id="teamGoDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisTeamGoDAO" parent="sqlMapClientDAO"/>
+    <bean id="teamIncomeDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisTeamIncomeDAO" parent="sqlMapClientDAO"/>
+    <bean id="unionshopCheckDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisUnionshopCheckDAO" parent="sqlMapClientDAO"/>
+    <bean id="userDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisUserDAO" parent="sqlMapClientDAO"/>
+    <bean id="verifyCodeDAO" class="com.onway.makeploy.common.dal.ibatis.IbatisVerifyCodeDAO" parent="sqlMapClientDAO"/>
+
+</beans>

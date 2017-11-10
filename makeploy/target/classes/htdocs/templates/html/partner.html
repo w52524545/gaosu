@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>开通农村经纪人</title>
+</head>
+<body class="marketMzw">
+<div class="partBan"><img src="images/par1.jpg" alt="海报"></div>
+<div class="partTitle">
+    <h5>业务农村经纪人业务农村经纪人</h5>
+    <div><font>￥<big>198</big></font><span>255人已加入</span></div>
+</div>
+<div class="detailF5">
+    <h5>商品详情</h5>
+    <ul class="partList">
+        <li>
+            <div><img src="images/gd1.jpg"></div>
+            <p>服装服装服装</p>
+            <div><font>￥198</font><span style="float:right">8.9折</span></div>
+        </li>
+        <li>
+            <div><img src="images/gd1.jpg"></div>
+            <p>服装服装服装</p>
+            <div><font>￥198</font><span style="float:right">8.9折</span></div>
+        </li>
+        <li>
+            <div><img src="images/gd1.jpg"></div>
+            <p>服装服装服装</p>
+            <div><font>￥198</font><span style="float:right">8.9折</span></div>
+        </li>
+    </ul>
+    <div><img src="images/par2.jpg" alt="商品图"/></div>
+</div>
+<div class="detailF6">
+    <a class="detF6M1" href="index.html"><i></i><small>首页</small></a>
+    <a class="detF6M2"><i></i><small>客服</small></a>
+    <a class="detF6M3">立即加入</a>
+</div>
+<div class="detailPop">
+    <div class="orderMain1">
+        <div class="orderM11">
+            <p>微信咨询<i></i></p>
+            <div><img src="images/ord1.png" alt="二维码"/></div>
+            <span>长按二维码识别</span>
+        </div>
+        <div class="orderM12">取消</div>
+    </div>
+
+    <div class="detPopMain">
+        <div class="detPopM1">
+            <div class="detPopM11"><img src="images/gd1.jpg" alt="商品图片"></div>
+            <div class="detPopM12">
+                <font>￥<big>59</big></font>
+                <small>库存525件</small>
+                <small>请选择分类</small>
+            </div>
+            <i></i>
+        </div>
+        <div class="detPopM2">
+            <p>产品</p>
+            <ul>
+                <li>产品1</li>
+                <li>产品2</li>
+                <li>产品3</li>
+            </ul>
+        </div>
+        <div class="detPopM4">
+            <a style="width:100%;">确认</a>
+        </div>
+    </div>
+</div>
+<div class="in-top" id="backtop"><a><img src="images/top.png"></a></div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        //客服弹窗
+        $(".detF6M2").click(function(){
+            $(".detailPop").show();
+            $(".orderMain1").slideDown();
+        });
+        //关闭弹窗
+        $(".orderM11 p i,.orderM12").click(function(){
+            $(".orderMain1").slideUp();
+            $(".detailPop").hide();
+        });
+
+        //购买弹窗
+        $(".detF6M3").click(function(){
+            $(".detailPop").show();
+            $(".detPopMain").slideDown();
+        });
+        //关闭弹窗
+        $(".detPopMain i").click(function(){
+            $(".detPopMain").slideUp();
+            $(".detailPop").hide();
+        });
+
+        //购买选择项
+        $(".detPopM2 ul li").click(function(){
+            $(this).toggleClass("cur").siblings().removeClass("cur");
+        });
+    });
+    $(function(){
+      $(document).ready(function(){
+        $("#backtop,#backlogin").hide();
+        $(function () {
+          $(window).scroll(function(){
+            if ($(window).scrollTop()>30){
+              $("#backtop,#backlogin").fadeIn(100);
+            }
+            else
+            {
+              $("#backtop,#backlogin").fadeOut(100);
+            }
+          });
+          $("#backtop,#backlogin").click(function(){
+            $('body,html').animate({scrollTop:0},100);
+            return false;
+          });
+        });
+      });
+    });
+</script>
+</html>

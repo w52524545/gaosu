@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_team_income">
+    <column name="" javatype="" />
+    <column name="SELL_ACCOUT" javatype="com.onway.common.lang.Money" />
+    <column name="INCOME_ACCOUT" javatype="com.onway.common.lang.Money" />
+    
+    <!-- 查询团队增量信息 -->
+    <operation name="selectTeamIncomeByUserId" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_team_income
+        </sql>
+        <sqlmap>
+			SELECT
+		     ID,
+		     USER_ID,
+		     SELL_ACCOUT,
+		     INCOME_ACCOUT,
+		     TEAM_SUM,
+		     TIME,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_team_income
+			WHERE USER_ID = #userId#
+        </sqlmap>
+    </operation>
+    
+    <operation name="addNewTeam" paramtype="object">
+    	<sql>
+    		insert into makeploy_team_income
+    		(
+    			ID,
+    			USER_ID,
+    			SELL_ACCOUT,
+    			INCOME_ACCOUT,
+    			TEAM_SUM,
+    			TIME,
+    			CREATER,
+    			GMT_CREATE,
+    			MODIFIER,
+    			GMT_MODIFIED,
+    			MEMO)VALUES
+    		(?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?)
+    	</sql>
+    </operation>
+    
+        <operation name="updateTeamsum">
+    	<sql>
+    		update makeploy_team_income
+    		set TEAM_SUM = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+    		where USER_ID=?
+    	</sql>
+    </operation>
+</table>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <title>我的团队</title>
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+</head>
+<body class="marketMzw">
+<form class="feedback">
+    <textarea placeholder="欢迎您留下宝贵意见欢迎您留下宝贵意见..." id="message"></textarea>
+    <button onclick="addOption()">提交</button>
+</form>
+</body>
+
+<script type="text/javascript">
+function addOption(){
+	jQuery.ajax({
+    	type: "POST",
+   		url: "addOption.do",
+   		dataType:"json",
+   		data: 
+   		{
+   			message:$("#message").val(),
+   		},
+   		success: function(data) {
+   			alert("感谢您的反馈，我们会及时做出调整");
+       }
+   });
+}
+
+</script>
+
+</html>

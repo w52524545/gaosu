@@ -1,0 +1,67 @@
+
+<meta charset="UTF-8">
+<table width="100%" border=0 align=center cellpadding=0 cellspacing=0 class="pageInfo" style="margin:5px 0;"s>
+   <tr>
+     <td align="right">
+     
+     	#if($page)
+			#if($page.totalItems && $page.totalItems > 0)
+				共 $page.totalItems 条，当前第 $!page.currentPage 页，共 $!page.totalPages 页&nbsp;&nbsp;|&nbsp;&nbsp;
+			   #if($page.currentPage==1)
+			               首页   上一页
+			   #else
+			      <a href ="javascript:gotoPage(1,'$!formName')">首页</a>
+			      #set($prePage=$page.currentPage - 1)
+				  <a href = "javascript:gotoPage($prePage,'$!formName')">上一页</a>
+			   #end
+			   
+			   #if($page.currentPage==$page.totalPages)
+			             下一页  尾页
+			   #else
+			     #set($nextPage=$page.currentPage + 1)
+				 <a href = "javascript:gotoPage($nextPage,'$!formName')" >下一页</a>
+				 <a href ="javascript:gotoPage($page.totalPages,'$!formName')">尾页</a>
+			   #end
+			   
+			   转到第&nbsp;<select id ="gotoPage" name="gotoPage" onchange="gotoPages('$!formName')" class="button button-tiny">
+				 #foreach($velocityCount in [1..$page.totalPages] )
+				   #if($page.currentPage == $velocityCount)
+				     <option selected value='$velocityCount'>$velocityCount</option>
+				   #else
+				     <option value='$velocityCount'>$velocityCount</option> 
+				   #end
+				#end
+		       </select>&nbsp;页
+		    #end
+		#end
+	  </td>
+   </tr>
+ </table>
+
+
+
+
+
+<script type="text/javascript">
+	function gotoPage(pageNum,formName){
+		formName = formName || 'mainForm';
+		var frm = document.getElementById(formName);
+		frm.currentPage.value = pageNum;
+		frm.submit();
+	}
+
+	function gotoPages(formName){
+	     var pages = document.getElementById("gotoPage").value;
+		 if(pages < 0 || pages == "") pages = 0;
+	
+		 if(isNaN(pages)){
+		    alert("请输入数字!");
+			document.getElementById("gotoPage").value="go";
+			return false;
+		 }
+		 
+		 document.getElementById("currentPage").value = pages;
+		 var frm = document.getElementById(formName);
+		 frm.submit();
+	}
+</script>

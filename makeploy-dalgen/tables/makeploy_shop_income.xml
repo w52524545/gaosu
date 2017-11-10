@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_shop_income">
+    <column name="" javatype="" />
+     <column name="SELL_ACCOUT" javatype="com.onway.common.lang.Money" />
+     <column name="INCOME_ACCOUT" javatype="com.onway.common.lang.Money" />
+    
+    <!-- 查询店铺收入信息 -->
+    <operation name="selectShopIncomeInfoByUserIdAndShopId">
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="shopId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select * from makeploy_shop_income
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+				ID,
+				USER_ID,
+				SHOP_ID,
+				SELL_ACCOUT,
+				INCOME_ACCOUT,
+				TIME,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+			FROM makeploy_shop_income
+			<dynamic prepend="where">
+                <isNotNull property="userId" prepend="and">
+                    USER_ID = #userId#
+                </isNotNull>
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+            </dynamic>
+            ]]>
+        </sqlmap>
+    </operation>
+    
+    <!-- 插入店铺收入 -->
+    <operation name="addShopIncome" paramtype="object">
+		<sql>
+			insert into makeploy_shop_income
+            (
+                ID,
+				USER_ID,
+				SHOP_ID,
+				SELL_ACCOUT,
+				INCOME_ACCOUT,
+				TIME,
+				CREATER,
+				GMT_CREATE,
+				MODIFIER,
+				GMT_MODIFIED,
+				MEMO
+            )
+			VALUES 
+			(
+            ?, ?, ?, ?, ?, ? ,?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+            )
+		</sql>
+	</operation>
+	
+	<!-- 修改店铺收入 -->
+	 <operation name="changeShopIncome">
+		<sql>
+			update makeploy_shop_income set
+		     INCOME_ACCOUT = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE 
+			 USER_ID =? and
+			 SHOP_ID = ?
+		</sql>
+	</operation>
+	
+	<!-- 组合查询收入信息 southRain-->
+	<operation name="selectIncomeInfo" multiplicity="many">
+		  <extraparams>
+		    <param name = "shopId" javatype = "java.lang.String" />
+		    <param name="startTime" javatype="java.util.Date"/>
+			<param name="endTime" javatype="java.util.Date"/>
+            <param name="offset"  javatype="java.lang.Integer"/>
+            <param name="limit"  javatype="java.lang.Integer"/>
+        </extraparams>
+		<sql>
+			select * from  makeploy_shop_income
+		</sql>
+		<sqlmap>
+			<![CDATA[ 
+				select * from  makeploy_shop_income WHERE 1 = 1
+				<isNotEmpty property="shopId" prepend="and">
+	                   SHOP_ID = #shopId#
+	             </isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+	            	 ${cdata-start}
+	                   GMT_CREATE >=  #startTime#
+	             	 ${cdata-end}        
+	             </isNotEmpty>
+	             <isNotEmpty property="endTime" prepend="and">
+	             	 ${cdata-start}
+	                    GMT_CREATE <= #endTime#
+	                 ${cdata-end}      
+	             </isNotEmpty>
+	               order by GMT_CREATE desc limit #offset#,#limit#
+			 ]]>
+		</sqlmap>
+	</operation>
+	
+	
+	<!-- 查询收入信息总数量 southRain-->
+	<operation name="selectIncomeInfoCount" >
+		  <extraparams>
+		    <param name = "shopId" javatype = "java.lang.String" />
+            <param name="startTime" javatype="java.util.Date"/>
+			<param name="endTime" javatype="java.util.Date"/>
+        </extraparams>
+		<sql>
+			select count(1) from  makeploy_shop_income
+		</sql>
+		<sqlmap>
+			<![CDATA[ 
+				select count(1) from  makeploy_shop_income WHERE 1 = 1
+				<isNotEmpty property="shopId" prepend="and">
+	                   SHOP_ID = #shopId#
+	             </isNotEmpty>
+				<isNotEmpty property="startTime" prepend="and">
+	            	 ${cdata-start}
+	                   GMT_CREATE >=  #startTime#
+	             	 ${cdata-end}        
+	             </isNotEmpty>
+	             <isNotEmpty property="endTime" prepend="and">
+	             	 ${cdata-start}
+	                    GMT_CREATE <= #endTime#
+	                 ${cdata-end}      
+	             </isNotEmpty>
+			 ]]>
+		</sqlmap>
+	</operation>
+</table>

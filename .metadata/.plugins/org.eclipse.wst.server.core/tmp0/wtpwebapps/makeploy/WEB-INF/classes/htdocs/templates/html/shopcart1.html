@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>购物车</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="js/sort.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="cart">
+   #foreach($shop in $shopList)
+   <div class="product">
+      <div class="pro_store"><input type="checkbox" class="total" id="item1"/><i></i><p>$!shop.shopName</p><i class="pro_delete"></i></div> 
+      #foreach($product in $productList)
+          #if($!shop.shopId == $!product.shopId)
+      <div class="pro_list">
+          <a href="productDetail.html?productNo=$!product.productNo&shopId=$!shop.shopId">
+          <div class="pro_listl"><input type="checkbox" name="item" class="s_total"/>
+          <input id="shopId" name="shopId" type="hidden" value="$!shop.shopId">
+          <input id="productNo" name="productNo" type="hidden" value="$!product.productNo"><img src="$!product.productUrl"/></div>
+          <div class="pro_listr"><h1>$!product.productName</h1>
+                   #foreach($clothing in $clothingList)
+                   #if($!clothing.productNo == $!product.productNo)
+	                   	<p>颜色：$!clothing.color</p>
+                    	<p>尺寸：$!clothing.dimensions</p>
+                    #end	
+                    #end
+          <p><span class="pro_price">&yen;$!product.price</span><span></span></p></div>
+          </a>
+       </div>
+          #end
+       #end
+    </div>
+    #end  
+ </div>
+    
+    <div class="account">
+        <input type="checkbox" class="all" id="all"/>全选
+        <a href="orderPay.html" class="account_btn">结算</a>
+         <!-- <input type="button" class="account_btn" value="结算"/> -->
+        <div class="all_price">总价:<span class="pro_price">&yen;0</span><br/>不含运费</div>
+       
+    </div>
+    <footer>
+   <li ><a href="index.html"><i></i><span>首页</span></a></li>
+   <li><a href="sort.html"><i></i><span>分类</span></a></li>
+   <li><a href="partner.html"><i></i><span>开通农村经纪人</span></a></li>
+   <li class="cur"><a href="shopcart.html"><i></i><span>购物车</span></a></li>
+   <li><a href="userCenter.html"><i></i><span>个人中心</span></a></li> 
+  </footer>
+</body>
+    <script type="text/javascript">
+    $(document).ready(function() { 
+        $(".s_total").click(function(){
+            if($(this).hasClass("s_totaled")){
+          $(this).removeClass("s_totaled");
+              $(this).parents(".pro_list").siblings(".pro_store").find("input").removeClass("s_totaled");
+              $("#all").removeClass("s_totaled");
+            }
+          else{
+            $(this).addClass("s_totaled");
+            if($(this).parents(".product").find("input").length===$(this).parents(".product").find("input.s_totaled").length+1){
+                $(this).parents(".pro_list").siblings(".pro_store").find("input").addClass("s_totaled");
+            }
+            if($("input[name=item]").length===$(".pro_list").find("input.s_totaled").length){
+              $("#all").addClass("s_totaled");
+            }
+          } 
+          });
+    
+        $(".total").click(function () {
+         
+          if($(this).hasClass("s_totaled")){
+            $(this).removeClass("s_totaled"); 
+          $(this).parent().siblings(".pro_list").find("input").removeClass("s_totaled");
+          $("#all").removeClass("s_totaled");}
+          else{
+            $(this).addClass("s_totaled");
+           $(this).parent().siblings(".pro_list").find("input").addClass("s_totaled");
+            if($(".pro_store").length===$(".pro_store").find("input.s_totaled").length){
+              $("#all").addClass("s_totaled");
+            }
+          } 
+          });
+           $("#all").click(function () {
+          if($(this).hasClass("s_totaled")){
+          $("input").removeClass("s_totaled");}
+          else{
+            $("input").addClass("s_totaled");} 
+          }); 
+      
+
+        
+        $(".pro_delete").click(function(){
+            if($(this).siblings("input").hasClass("s_totaled")){
+              $(this).parents(".product").remove(); 
+                if($(".pro_delete").length==0){
+            $("#all").removeClass("s_totaled");}
+            }
+
+          var len = $(this).parents(".product").find("input").length-1;
+          for(var i=0;i<len;i++){
+            if($(this).parent().siblings(".pro_list").find("input").eq(i).hasClass("s_totaled")){
+                $(this).parent().siblings(".pro_list").eq(i).remove(); 
+            }
+          }
+         
+          var _shopId=[];
+          var _productNo=[];
+          $("input[name='item']").each(function(index,item){
+     		 if($("input[name='item']").is(':checked')==true){
+     			_shopId[index]=$("input[name='shopId']").val(); 
+     			_productNo[index]=$("input[name='productNo']").val(); 
+     			}
+     		 
+     	  });
+          alert(_shopId[0]);
+          alert(_productNo[0]);
+          
+          deleteCart(_shopId,_productNo);
+        });
+    });
+</script>
+
+<!-- 删除购物车商品   -->
+<script type="text/javascript">
+
+function deleteCart(obj,obk){
+	alert(obj);
+	alert(obk);
+	var url = "deleteShoppingCart.do";
+    jQuery.ajax({
+    	type: "POST",
+   		url: url,
+   		data: 
+   		{
+   			productNo:obj.toString(),
+   			shopId:obk.toString()
+   		},
+   		success: function(data) {
+   			if(data.bizSucc){
+   				alert("删除成功！！")
+                window.location.href="shopcart.html";
+            }
+       }
+   });
+}
+</script>
+</html>

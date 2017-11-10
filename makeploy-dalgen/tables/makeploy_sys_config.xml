@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_sys_config">
+	<operation name="loadAll" multiplicity="many">
+		<sql>
+			<![CDATA[
+				SELECT 
+				    ID,sys_key, sys_value, status, memo, gmt_create, gmt_modified
+				FROM makeploy_sys_config
+        	]]>
+		</sql>
+	</operation>
+	<!--根据key搜索-->
+	<operation name="selectByKey">
+		<sql>
+			<![CDATA[
+				SELECT 
+				    ID,sys_key, sys_value, status, memo, gmt_create, gmt_modified
+				FROM makeploy_sys_config
+				where sys_key=?
+        	]]>
+		</sql>
+	</operation>
+	<!-- 修改手续费 -->
+	<operation name="updateRate">
+		<sql>
+			update makeploy_sys_config
+			set SYS_VALUE=? , gmt_modified = CURRENT_TIMESTAMP
+			where SYS_KEY=?
+		</sql>
+	</operation>
+</table>

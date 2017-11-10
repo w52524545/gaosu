@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.onway.makeploy</groupId>
+	<artifactId>makeploy-parent</artifactId>
+	<version>1.0</version>
+	<name>makeploy Parent</name>
+	<description>makeploy Application Parent</description>
+
+	<!-- 设置 Spring 的版本 -->
+	<properties>
+		<org.springframework.version>3.2.2.RELEASE</org.springframework.version>
+		<makeploy.version>1.0</makeploy.version>
+	</properties>
+	<profiles>
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		<!-- jar包仓库地址 -->
+		<repositories>
+			<repository>
+				<id>public</id>
+				<url>http://120.26.212.208:8081/nexus/content/groups/onway_public/</url>
+				<snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+		</repositories>
+		<!-- 插件仓库地址 -->
+		<pluginRepositories>
+			<pluginRepository>
+				<id>public</id>
+				<url>http://120.26.212.208:8081/nexus/content/groups/public</url>
+				<snapshots>
+                <enabled>false</enabled>
+				</snapshots>
+			</pluginRepository>
+		</pluginRepositories>
+		</profile>
+	</profiles>	
+	
+	
+	<!-- 自动部署 
+	<distributionManagement>
+	  <repository>
+	      <id>dev</id>
+	      <url>http://120.26.212.208:8081/nexus/content/repositories/dev/</url>
+	  </repository>
+	</distributionManagement>
+	-->
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.onway.framework</groupId>
+				<artifactId>core-bom</artifactId>
+				<version>1.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		
+			<!-- sub projects -->
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-common-service-integration</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-common-dal</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-core-model</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-core-service</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-common-util</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+	        <dependency>
+				<groupId>com.onway.gotone</groupId>
+				<artifactId>gotone-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-biz-shared</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-biz-service-impl</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-biz-task</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-web-home</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-test</artifactId>
+				<version>1.0</version>
+			</dependency>	
+					
+			<dependency>
+				<groupId>com.onway.makeploy</groupId>
+				<artifactId>makeploy-deploy</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.event</groupId>
+				<artifactId>onway-common-event</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+
+		<dependency>
+			<groupId>com.onway.account</groupId>
+			<artifactId>account-common-service-facade</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+			<!-- poi -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+			    <artifactId>poi</artifactId>
+			     <version>3.9</version>
+			</dependency>
+	    	<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>17.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.3.2</version>
+			</dependency>
+          <!-- XStream在Java对象和XML之间相互转换 -->
+			<dependency>
+               <groupId>com.thoughtworks.xstream</groupId>
+               <artifactId>xstream</artifactId>
+               <version>1.3.1</version>
+            </dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.3.4</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+		
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>2.1.1</version>
+			<configuration>
+				<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+				<failOnMissingWebXml>false</failOnMissingWebXml>
+				<!-- 重点是这个配置 -->
+				<warName>makeploy</warName>
+			</configuration>
+		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<!--linux 环境下防止maven 编译乱码-->
+					   <encoding>GBK</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*Test*.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.0.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<ajdtVersion>true</ajdtVersion>   <!--此处是插件的特殊处理，不加此参数，eclipse不能自动依赖aspectj-->
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<packaging>pom</packaging>
+	<modules>
+		<module>app/common/dal</module>
+		<module>app/common/util</module>
+		<module>app/core/model</module>
+		<module>app/core/service</module>
+		<module>app/biz/shared</module>
+		<module>app/biz/task</module>
+		<module>app/biz/service-impl</module>
+		<module>app/common/service/facade</module>
+		<module>app/common/service/integration</module>
+		<module>app/web/home</module>
+		<module>app/deploy</module>
+	</modules>
+</project>

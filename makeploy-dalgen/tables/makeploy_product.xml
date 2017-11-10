@@ -1,0 +1,1554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_product">
+	<column name="USE_POINT" javatype="com.onway.common.lang.Money" />
+	<column name="LUGGAGE" javatype="com.onway.common.lang.Money" />
+	<column name="PRICE" javatype="com.onway.common.lang.Money" />
+	<column name="OLD_PRICE" javatype="com.onway.common.lang.Money" />
+
+	<!-- 根据我的UserId查询我的商品列表 -->
+	<operation name="selectProductByUserId" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+
+		    *
+
+			FROM makeploy_product
+            WHERE USER_ID = #userId#
+            and CHECK_STATUS='1'
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+	
+	<operation name="selectProductByProNo" multiplicity="many">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+		    *
+			FROM makeploy_product
+            WHERE PRODUCT_NO = #productNo#
+		</sqlmap>
+	</operation>
+
+	<!-- 根据shopId查询商品列表 任意店铺 -->
+	<operation name="selectProductByShopId" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+
+		     *
+
+			FROM makeploy_product
+            WHERE SHOP_ID = #shopId#
+            AND DEL_FLG=0
+            AND STATUS=0
+            and CHECK_STATUS='1'
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!--新品专区 随机6个 RECOMMEND_FLG=1 -->
+	<operation name="selectNewProduct" multiplicity="many">
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+
+			*
+
+			FROM makeploy_product
+			WHERE DEL_FLG=0
+			AND RECOMMEND_FLG=1
+			AND STATUS=0
+			and CHECK_STATUS='1'
+			order by ID desc limit 0,6
+		</sqlmap>
+	</operation>
+
+	<!-- 新品查询（数据条数） -->
+	<operation name="selectNewProductCount" resultClass="int">
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+			count(1)
+			FROM makeploy_product
+			WHERE DEL_FLG=0
+			AND
+			RECOMMEND_FLG=1
+			AND STATUS=0
+			and CHECK_STATUS='1'
+		</sqlmap>
+	</operation>
+
+	<!-- 查询首推商品 -->
+	<operation name="selectTmiProduct" multiplicity="many">
+		<sql>
+			select * from makeploy_product
+			WHERE DEL_FLG=0
+			AND
+			RECOMMEND_FLG='3'
+			AND STATUS=0
+			and CHECK_STATUS='1'
+		</sql>
+	</operation>
+
+	<!--农村经纪人商品 倒数 5 -->
+	<operation name="selectPartnerProduct" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+        <![CDATA[
+			SELECT
+		     ID,
+		     SHOP_ID,
+		     USER_ID,
+		     OTHER_TYPE,
+		     PRODUCT_NO,
+		     PRODUCT_NAME,
+		     PRODUCT_TYPE,
+		     PRODUCT_WEIGHT,
+		     CHILDREN,
+		     PRICE,
+		     PRODUCT_OFF,
+		     USE_POINT,
+		     OLD_PRICE,
+		     CHECK_STATUS,
+		     TEMPLATE_ID,
+		     NEED_PEOPLE,
+		     NOW_PEOPLE,
+		     LUGGAGE,
+		     STATUS,
+		     STOCK,
+		     PRODUCT_URL,
+		     DEL_FLG,
+		     RECOMMEND_FLG,
+		     SOLE_COUNT,
+		     PROPORTION_RETURN,
+		     PROPORTION_INTEGRAL,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_product
+            WHERE DEL_FLG=0 
+            AND STATUS=0
+            AND CHECK_STATUS='1'
+            <isNotNull property="shopId" prepend="and">
+                   SHOP_ID = #shopId#
+            </isNotNull>
+            order by ID desc
+            limit 0,5
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 查询单个商品信息 -->
+	<operation name="selectShopCartProduct">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+
+		     *
+			FROM makeploy_product where CHECK_STATUS ='1' and DEL_FLG = '0'
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 商品查询（数据条数） -->
+	<operation name="selectProductCountByUserId" resultClass="int">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+			count(1)
+			FROM makeploy_product
+			WHERE USER_ID = #userId#
+			and CHECK_STATUS='1'
+		</sqlmap>
+	</operation>
+
+	<!-- 商品店铺宝贝数量（数据条数） -->
+	<operation name="selectGoodsCountByShopId" resultClass="int">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+			count(1)
+			FROM makeploy_product
+			WHERE SHOP_ID = #shopId#
+			and CHECK_STATUS='1'
+			and
+			DEL_FLG=0
+		</sqlmap>
+	</operation>
+
+
+	<!-- 查询商品详细信息 -->
+	<operation name="selectProductByProductNo">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+
+
+		   *
+			FROM makeploy_product
+             WHERE PRODUCT_NO = #productNo# and SHOP_ID=#shopId#
+             ]]>
+		</sqlmap>
+	</operation>
+
+	<!--删除商品信息 -->
+	<operation name="deleteProductDelFlg2Zero">
+		<sql>
+			UPDATE makeploy_product
+			SET DEL_FLG = 1,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE USER_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!--改变销售量 -->
+	<operation name="changeProductSellCount">
+		<sql>
+			UPDATE makeploy_product
+			SET SOLE_COUNT = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!--商品上架信息更改 -->
+	<operation name="OffTheShelfProduct">
+		<sql>
+			UPDATE makeploy_product
+			SET STATUS = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE USER_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!--商品数量信息更改 -->
+	<operation name="updateProductCount" resultClass="int">
+		<extraparams>
+			<param name="stock" javatype="java.lang.Integer" />
+			<param name="productNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			update makeploy_product set user_id = ?
+		</sql>
+		<sqlmap>
+        <![CDATA[
+            UPDATE makeploy_product
+            SET STOCK = #stock# ,GMT_MODIFIED = CURRENT_TIMESTAMP
+            WHERE USER_ID = #userId# and PRODUCT_NO = #productNo#
+        ]]>
+		</sqlmap>
+
+	</operation>
+
+
+	<operation name="updateProductPrice">
+		<sql>
+			update makeploy_product
+			set PRICE = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where SHOP_ID = ? and USER_ID
+			= ? and PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!-- 连表查询店铺名字 -->
+	<operation name="selectShop"
+		resultClass="com.onway.makeploy.common.dal.dataobject.ShopShow"
+		multiplicity="many">
+		<extraparams>
+			<param name="delflg" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+    		<![CDATA[
+    			select 
+    			s.SHOP_NAME shopName,
+    			p.SHOP_ID shopId
+    			from 
+    			makeploy_product p,makeploy_shop s
+    			where p.SHOP_ID = s.SHOP_ID and p.DEL_FLG = #delflg# group by p.SHOP_ID
+    			
+    		 ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 分页查询所有商品 / 综合排序 -->
+	<operation name="selectAllProduct" multiplicity="many">
+		<extraparams>
+			<param name="productType" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="productType" prepend="and">
+	                PRODUCT_TYPE = #productType#
+	            </isNotEmpty>   
+				limit #startRow#,#pageSize#
+			]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 分页查询所有的商品根据价格正序 -->
+	<operation name="selectAllProductOrderByPrice" multiplicity="many">
+		<extraparams>
+			<param name="productType" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="productType" prepend="and">
+	                PRODUCT_TYPE = #productType#
+	            </isNotEmpty>   
+				 order By PRICE
+				 limit #startRow#,#pageSize# 
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 分页查询所有的商品根据价格倒序 -->
+	<operation name="selectAllProductOrderByPriceDesc"
+		multiplicity="many">
+		<extraparams>
+			<param name="productType" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="productType" prepend="and">
+	                PRODUCT_TYPE = #productType#
+	            </isNotEmpty>   
+				 order By PRICE desc
+				 limit #startRow#,#pageSize# 
+			]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 查询所有商品数 -->
+	<operation name="selectAllProductCount">
+		<extraparams>
+			<param name="productType" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+		<sqlmap>
+		<![CDATA[
+			select count(1) from makeploy_product where DEL_FLG = '0' and CHECK_STATUS='1'
+			<isNotEmpty property="productType" prepend="and">
+	                PRODUCT_TYPE = #productType#
+	        </isNotEmpty>   
+	        ]]>
+		</sqlmap>
+	</operation>
+
+
+
+	<!-- 分页 根据商品类型查询父类商品 -->
+	<operation name="selectproductByType" multiplicity="many">
+		<extraparams>
+			<param name="productType" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where  DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="productType" prepend="and">
+	                PRODUCT_TYPE = #productType#
+	            </isNotEmpty>   
+				limit #startRow#,#pageSize#
+			]]>
+		</sqlmap>
+	</operation>
+
+
+
+	<!-- 分页 子类综合排序 -->
+	<operation name="selectChildrenByType" multiplicity="many">
+		<extraparams>
+			<param name="children" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where  DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="children" prepend="and">
+	                CHILDREN = #children#
+	            </isNotEmpty>   
+				limit #startRow#,#pageSize#
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 分页 根据商品类型查询对应商品按价格正序 -->
+	<operation name="selectproductByTypeOrderByPrice"
+		multiplicity="many">
+		<extraparams>
+			<param name="children" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where  DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="children" prepend="and">
+	                CHILDREN = #children#
+	            </isNotEmpty>   
+				order by PRICE
+				limit #startRow#,#pageSize#
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 分页 根据商品类型查询对应商品按价格倒序 -->
+	<operation name="selectproductByTypeOrderByPriceDesc"
+		multiplicity="many">
+		<extraparams>
+			<param name="children" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select * from makeploy_product where  DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="children" prepend="and">
+	                CHILDREN = #children#
+	            </isNotEmpty>   
+				order by PRICE desc
+				limit #startRow#,#pageSize#
+			]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 根据商品类型查询对应商品数量 -->
+	<operation name="selectproductCountByType">
+		<extraparams>
+			<param name="children" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+		<sqlmap>
+			<![CDATA[
+				select count(1) from makeploy_product where  DEL_FLG = '0' and CHECK_STATUS='1'
+				<isNotEmpty property="children" prepend="and">
+	                CHILDREN = #children#
+	            </isNotEmpty>   
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!--爱拼团 随机3个 RECOMMEND_FLG=4 -->
+	<operation name="selectTeamGoProduct" multiplicity="many">
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+
+			*
+
+			FROM makeploy_product
+			WHERE DEL_FLG=0
+			and
+			RECOMMEND_FLG='4'
+			and STATUS=0
+			and CHECK_STATUS='1'
+			order by ID desc
+			limit 0,3
+		</sqlmap>
+	</operation>
+
+	<!-- 查找爱拼团商品列表 RECOMMEND_FLG=4 -->
+	<operation name="selectTeamGo" multiplicity="many">
+		<extraparams>
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+
+		     *
+
+			FROM makeploy_product
+            WHERE DEL_FLG=0 
+            and RECOMMEND_FLG='4'
+            and STATUS=0
+            and CHECK_STATUS='1'
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 爱拼团查询（数据条数） -->
+	<operation name="selectTeamGoProductCount" resultClass="int">
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+			SELECT
+			count(1)
+			FROM makeploy_product
+			WHERE DEL_FLG=0
+			and
+			RECOMMEND_FLG=4
+			and STATUS=0
+			and CHECK_STATUS='1'
+		</sqlmap>
+	</operation>
+
+	<!-- 搜索商品 -->
+	<operation name="search" multiplicity="many">
+		<extraparams>
+			<param name="productName" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+				select * from makeploy_product where PRODUCT_NAME LIKE #productName#
+				and CHECK_STATUS='1'
+				and STATUS=0
+			    and DEL_FLG=0
+				<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+                </isNotNull>
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 更新库存 -->
+	<operation name="updateStockByProductNo">
+		<sql>
+			UPDATE makeploy_product
+			SET STOCK = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE PRODUCT_NO = ? and
+			SHOP_ID = ?
+		</sql>
+	</operation>
+
+	<!-- 更新团购商品参团人数 -->
+	<operation name="updateNowPeopleByProNoAndShopId">
+		<sql>
+			update makeploy_product SET NOW_PEOPLE = ? ,GMT_MODIFIED = CURRENT_TIMESTAMP where PRODUCT_NO = ?
+			and SHOP_ID
+			= ?
+		</sql>
+	</operation>
+
+
+	<!-- 商品模糊查询倒序排列 -->
+	<operation name="searchLikeDesc" multiplicity="many">
+		<extraparams>
+			<param name="productName" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+
+			SELECT
+		    *
+			FROM makeploy_product
+            WHERE SHOP_ID = #shopId#
+            AND DEL_FLG='0'
+            <isNotNull prepend="and" property="productName" >
+          			PRODUCT_NAME = #productName# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productType" >
+          			PRODUCT_TYPE = #productType# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="children" >
+          			CHILDREN = #children# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productNo" >
+          			PRODUCT_NO = #productNo# 
+ 			</isNotNull>
+ 			
+            <isNotNull prepend="and" property="status" >
+          			STATUS = #status# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="checkStatus" >
+          			CHECK_STATUS = #checkStatus# 
+ 			</isNotNull>
+ 			
+ 			 <isNotNull prepend="and" property="priceMin" >
+          			${cdata-start}
+						PRICE >= #priceMin#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="priceMax" >
+          			${cdata-start}
+						PRICE <= #priceMax#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="startDate" >
+          			${cdata-start}
+						GMT_CREATE >= #startDate#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="endDate" >
+          			${cdata-start}
+						GMT_CREATE <= #endDate#
+					${cdata-end}
+ 			</isNotNull>
+ 			
+                limit #startRow#,#pageSize#
+            
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 商品模糊查询正序排列 -->
+	<operation name="searchLikeAsc" multiplicity="many">
+		<extraparams>
+			<param name="productName" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+
+			SELECT
+		    count(1)
+			FROM makeploy_product
+            WHERE SHOP_ID = #shopId#
+            AND DEL_FLG='0'
+            <isNotNull prepend="and" property="productName" >
+          			PRODUCT_NAME = #productName# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productType" >
+          			PRODUCT_TYPE = #productType# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="children" >
+          			CHILDREN = #children# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productNo" >
+          			PRODUCT_NO = #productNo# 
+ 			</isNotNull>
+ 			
+            <isNotNull prepend="and" property="status" >
+          			STATUS = #status# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="checkStatus" >
+          			CHECK_STATUS = #checkStatus# 
+ 			</isNotNull>
+ 			
+ 			 <isNotNull prepend="and" property="priceMin" >
+          			${cdata-start}
+						PRICE >= #priceMin#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="priceMax" >
+          			${cdata-start}
+						PRICE <= #priceMax#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="startDate" >
+          			${cdata-start}
+						GMT_CREATE >= #startDate#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="endDate" >
+          			${cdata-start}
+						GMT_CREATE <= #endDate#
+					${cdata-end}
+ 			</isNotNull>
+ 			
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<operation name="insert">
+		<sql>
+			insert into makeploy_product (
+			SHOP_ID,
+			USER_ID,
+			OTHER_TYPE,
+			PRODUCT_NO,
+			PRODUCT_NAME,
+			PRODUCT_TYPE,
+			PRODUCT_WEIGHT,
+			CHILDREN,
+			PRODUCT_OFF,
+			PRICE,
+			LUGGAGE,
+			TEMPLATE_ID,
+			USE_POINT,
+			OLD_PRICE,
+			CHECK_STATUS,
+			STATUS,
+			STOCK,
+			PRODUCT_URL,
+			DEL_FLG,
+			PROPORTION_RETURN,
+			PROPORTION_INTEGRAL,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			values
+			(
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			CURRENT_TIMESTAMP,
+			?,
+			CURRENT_TIMESTAMP,
+			?
+			)
+		</sql>
+	</operation>
+	<!-- 更新商品信息 -->
+	<operation name="updateProductInfo" resultClass="int">
+
+		<sql>
+			update makeploy_product set PRODUCT_NAME =
+			?,PRODUCT_TYPE=?,CHILDREN=?,PRODUCT_OFF=?,PRICE=?,
+			LUGGAGE=?,OLD_PRICE=?,STOCK=?,PRODUCT_URL=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+
+
+	</operation>
+
+	<!-- 编辑商品信息修改 -->
+	<operation name="editProductInfo" resultClass="int">
+		<sql>
+			update makeploy_product set PRODUCT_NAME =
+			?,PRODUCT_TYPE=?,CHILDREN=?,PRICE=?,OLD_PRICE=?,
+			LUGGAGE=?,STOCK=?,PRODUCT_URL=?,MEMO=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!-- 编辑商品信息修改 -->
+	<operation name="editProduct" resultClass="int">
+		<sql>
+			update makeploy_product set PRODUCT_NAME = ?,PRODUCT_TYPE=?,CHILDREN=?,PRICE=?,OLD_PRICE=?,
+			TEMPLATE_ID=?,STOCK=?,PRODUCT_URL=?,PRODUCT_WEIGHT=?,USE_POINT=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ?
+			and PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+
+	<!-- 更新商品上架状态 -->
+	<operation name="updateProductUpDownSTATUS" resultClass="int">
+		<sql>
+			update makeploy_product set STATUS = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+	</operation>
+	
+	<operation name="updateProductUpDownSTATUSByProNo" resultClass="int">
+		<sql>
+			update makeploy_product set STATUS = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!-- 更新商品删除状态 -->
+	<operation name="updateProductDelflag" resultClass="int">
+
+		<sql>
+			update makeploy_product set DEL_FLG = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? and
+			PRODUCT_NO = ?
+		</sql>
+
+
+	</operation>
+
+
+	<!-- 商品模糊查询综合排序排列 -->
+	<operation name="searchLikeAll" multiplicity="many">
+		<extraparams>
+			<param name="productName" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+				select * from makeploy_product where PRODUCT_NAME LIKE #productName#
+				and CHECK_STATUS='1'
+				and STATUS=0
+			    and DEL_FLG=0 
+				<isNotEmpty property="startRow">
+                limit $startRow$,$pageSize$
+                </isNotEmpty> 
+			]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 商品模糊查询数量 -->
+	<operation name="searchLikeCount">
+		<extraparams>
+			<param name="productName" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+				select count(1) from makeploy_product where PRODUCT_NAME LIKE #productName#
+				and CHECK_STATUS='1'
+				and STATUS=0
+			    and DEL_FLG=0 
+			]]>
+		</sqlmap>
+	</operation>
+	<!-- 更新RecommendFlg -->
+	<operation name="updateRecommendFlgByShopIdAndProductNo">
+		<sql>
+			update makeploy_product
+			set RECOMMEND_FLG=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where SHOP_ID=? and
+			PRODUCT_NO=?
+		</sql>
+	</operation>
+	<!-- 查询不同RecommendFlg条数 -->
+	<operation name="countRecommendFlg">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="flg" javatype="java.lang.String" />
+			<param name="proName" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+    	select count(1) from makeploy_product 
+   			 where 
+   			 CHECK_STATUS='1' and 
+   			 STATUS='0' and STOCK>0 
+   			 and DEL_FLG='0'
+   		<isNotEmpty property="flg" prepend="and">
+			RECOMMEND_FLG=#flg#
+        </isNotEmpty> 
+    	<isNotEmpty property="shopId" prepend="and">
+			SHOP_ID=#shopId#
+        </isNotEmpty> 
+        <isNotEmpty property="productNo" prepend="and">
+			PRODUCT_NO=#productNo#
+        </isNotEmpty> 
+        <isNotEmpty property="proName" prepend="and">
+			PRODUCT_NAME LIKE #proName#
+        </isNotEmpty> 
+    	]]>
+		</sqlmap>
+	</operation>
+
+
+	<!-- 查询商品By RecommendFlg -->
+	<operation name="selectByRecommendFlg" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="rflg" javatype="java.lang.String" />
+			<param name="offent" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+			<param name="proName" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+    	select * from makeploy_product
+    	where CHECK_STATUS='1' and STATUS='0' and STOCK>0 and DEL_FLG='0' 
+    	<isNotEmpty property="shopId" prepend="and">
+			SHOP_ID=#shopId#
+        </isNotEmpty> 
+        <isNotEmpty property="productNo" prepend="and">
+			PRODUCT_NO=#productNo#
+        </isNotEmpty> 
+        <isNotEmpty property="rflg" prepend="and">
+			RECOMMEND_FLG=#rflg#
+        </isNotEmpty> 
+        <isNotEmpty property="proName" prepend="and">
+			PRODUCT_NAME LIKE #proName#
+        </isNotEmpty>
+        order by RECOMMEND_FLG 
+    	limit #offent#,#limit#
+    	
+    	]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 商品搜索框查询 -->
+	<operation name="selectProductByShopIdSearchBox"
+		multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productName" javatype="java.lang.String" />
+			<param name="productType" javatype="java.lang.String" />
+			<param name="children" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="status" javatype="java.lang.String" />
+			<param name="checkStatus" javatype="java.lang.String" />
+			<param name="recommendFlg" javatype="java.lang.String" />
+			<param name="priceMin" javatype="java.lang.Double" />
+			<param name="priceMax" javatype="java.lang.Double" />
+			<param name="startDate" javatype="java.util.Date" />
+			<param name="endDate" javatype="java.util.Date" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+
+			SELECT
+		    *
+			FROM makeploy_product
+            WHERE SHOP_ID = #shopId#
+            AND DEL_FLG='0'
+            <isNotNull prepend="and" property="productName" >
+          			PRODUCT_NAME like '%$productName$%' 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productType" >
+          			PRODUCT_TYPE = #productType# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="children" >
+          			CHILDREN = #children# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productNo" >
+          			PRODUCT_NO = #productNo# 
+ 			</isNotNull>
+ 			
+            <isNotNull prepend="and" property="status" >
+          			STATUS = #status# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="checkStatus" >
+          			CHECK_STATUS = #checkStatus# 
+ 			</isNotNull>
+ 			
+ 			<isNotNull prepend="and" property="recommendFlg" >
+          			RECOMMEND_FLG = #recommendFlg# 
+ 			</isNotNull>
+ 			 <isNotNull prepend="and" property="priceMin" >
+          			${cdata-start}
+						PRICE >= #priceMin#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="priceMax" >
+          			${cdata-start}
+						PRICE <= #priceMax#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="startDate" >
+          			${cdata-start}
+						GMT_CREATE >= #startDate#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="endDate" >
+          			${cdata-start}
+						GMT_CREATE <= #endDate#
+					${cdata-end}
+ 			</isNotNull>
+ 			
+                limit #startRow#,#pageSize#
+            
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 商品搜索框查询count -->
+	<operation name="selectCountProductByShopIdSearchBox"
+		resultClass="int">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productName" javatype="java.lang.String" />
+			<param name="productType" javatype="java.lang.String" />
+			<param name="children" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="status" javatype="java.lang.String" />
+			<param name="checkStatus" javatype="java.lang.String" />
+			<param name="recommendFlg" javatype="java.lang.String" />
+			<param name="priceMin" javatype="java.lang.Double" />
+			<param name="priceMax" javatype="java.lang.Double" />
+			<param name="startDate" javatype="java.util.Date" />
+			<param name="endDate" javatype="java.util.Date" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+            <![CDATA[
+
+			SELECT
+		    count(1)
+			FROM makeploy_product
+            WHERE SHOP_ID = #shopId#
+            AND DEL_FLG='0'
+            <isNotNull prepend="and" property="productName" >
+          			PRODUCT_NAME like '%$productName$%' 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productType" >
+          			PRODUCT_TYPE = #productType# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="children" >
+          			CHILDREN = #children# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="productNo" >
+          			PRODUCT_NO = #productNo# 
+ 			</isNotNull>
+ 			
+            <isNotNull prepend="and" property="status" >
+          			STATUS = #status# 
+ 			</isNotNull>
+            <isNotNull prepend="and" property="checkStatus" >
+          			CHECK_STATUS = #checkStatus# 
+ 			</isNotNull>
+ 			
+ 			<isNotNull prepend="and" property="recommendFlg" >
+          			RECOMMEND_FLG = #recommendFlg# 
+ 			</isNotNull>
+ 			 <isNotNull prepend="and" property="priceMin" >
+          			${cdata-start}
+						PRICE >= #priceMin#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="priceMax" >
+          			${cdata-start}
+						PRICE <= #priceMax#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="startDate" >
+          			${cdata-start}
+						GMT_CREATE >= #startDate#
+					${cdata-end}
+ 			</isNotNull>
+            <isNotNull prepend="and" property="endDate" >
+          			${cdata-start}
+						GMT_CREATE <= #endDate#
+					${cdata-end}
+ 			</isNotNull>
+ 			
+            ]]>
+		</sqlmap>
+	</operation>
+	<!-- 查询未审核商品 -->
+	<!-- <operation name="selectUncheckProduct" resultClass="com.onway.makeploy.common.dal.dataobject.OrderInfo" 
+		multiplicity="many"> -->
+	<!-- <extraparams> -->
+	<!-- <param name="shopId" javatype="java.lang.String" /> -->
+	<!-- <param name="productNo" javatype="java.lang.String" /> -->
+	<!-- <param name="startRow" javatype="java.lang.Integer" /> -->
+	<!-- <param name="pageSize" javatype="java.lang.Integer" /> -->
+	<!-- </extraparams> -->
+	<!-- <sql> -->
+	<!-- select * from makeploy_product -->
+	<!-- </sql> -->
+	<!-- <sqlmap> -->
+	<!-- <![CDATA[ -->
+	<!-- select -->
+	<!-- a.SHOP_ID AS shopId, -->
+	<!-- a.PRODUCT_NO AS productNo, -->
+	<!-- a.PRODUCT_NAME AS productName, -->
+	<!-- a.PRODUCT_TYPE AS productType, -->
+	<!-- a.CHILDREN AS children, -->
+	<!-- b.IMG AS img, -->
+	<!-- a.PRICE AS price -->
+	<!-- FROM -->
+	<!-- makeploy_product AS a -->
+	<!-- left JOIN makeploy_pro_image AS b ON a.PRODUCT_NO = b.PRODUCT_NO and 
+		a.SHOP_ID=b.SHOP_ID -->
+	<!-- WHERE a.DEL_FLG='0' -->
+	<!-- and a.CHECK_STATUS='0' -->
+	<!-- and b.FLAG = '1' -->
+	<!-- <isNotNull prepend="and" property="shopId" > -->
+	<!-- a.SHOP_ID = #shopId# -->
+	<!-- </isNotNull> -->
+	<!-- <isNotNull prepend="and" property="productNo" > -->
+	<!-- a.PRODUCT_NO = #productNo# -->
+	<!-- </isNotNull> -->
+	<!-- limit #startRow#,#pageSize# -->
+	<!-- ]]> -->
+	<!-- </sqlmap> -->
+	<!-- </operation> -->
+	<!--查询未审核商品 -->
+	<operation name="selectUncheckProduct" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+         <![CDATA[
+         select
+			* from makeploy_product
+            WHERE DEL_FLG='0'
+            and CHECK_STATUS='0'
+             <isNotNull prepend="and" property="shopId" >
+          			SHOP_ID = #shopId# 
+ 			</isNotNull>
+ 			 <isNotNull prepend="and" property="productNo" >
+          			PRODUCT_NO = #productNo# 
+ 			</isNotNull>
+            limit #startRow#,#pageSize#
+              ]]>
+		</sqlmap>
+	</operation>
+	<!-- 查询未审核商品count -->
+	<operation name="selectCountUncheckProduct" resultClass="int">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+		<sqlmap>
+         <![CDATA[
+         select count(1) from makeploy_product
+         WHERE DEL_FLG='0'
+         and CHECK_STATUS='0'
+         <isNotNull prepend="and" property="shopId" >
+          		SHOP_ID = #shopId# 
+ 		 </isNotNull>
+ 		 <isNotNull prepend="and" property="productNo" >
+          		PRODUCT_NO = #productNo# 
+ 		 </isNotNull>
+              ]]>
+		</sqlmap>
+	</operation>
+	<!-- <operation name="selectCountUncheckProduct" resultClass="int"> -->
+	<!-- <extraparams> -->
+	<!-- <param name="shopId" javatype="java.lang.String" /> -->
+	<!-- <param name="productNo" javatype="java.lang.String" /> -->
+	<!-- </extraparams> -->
+	<!-- <sql> -->
+	<!-- select count(1) from -->
+	<!-- makeploy_product -->
+	<!-- </sql> -->
+
+	<!-- <sqlmap> -->
+	<!-- <![CDATA[ -->
+	<!-- SELECT -->
+	<!-- count(1) -->
+
+	<!-- from -->
+	<!-- makeploy_product AS a -->
+	<!-- left JOIN makeploy_pro_image AS b ON a.PRODUCT_NO = b.PRODUCT_NO and 
+		a.SHOP_ID=b.SHOP_ID -->
+	<!-- WHERE a.DEL_FLG='0' -->
+	<!-- and a.CHECK_STATUS='0' -->
+	<!-- and b.FLAG = '1' -->
+	<!-- <isNotNull prepend="and" property="shopId" > -->
+	<!-- SHOP_ID = #shopId# -->
+	<!-- </isNotNull> -->
+	<!-- <isNotNull prepend="and" property="productNo" > -->
+	<!-- PRODUCT_NO = #productNo# -->
+	<!-- </isNotNull> -->
+
+	<!-- ]]> -->
+	<!-- </sqlmap> -->
+	<!-- </operation> -->
+	<!--商品设置审核结果 -->
+	<operation name="updateProductCheck" resultClass="int">
+		<sql>
+			update makeploy_product
+			set
+			CHECK_STATUS
+			=?,STATUS=?,PROPORTION_RETURN=?,PROPORTION_INTEGRAL=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where
+			PRODUCT_NO=? and SHOP_ID=?
+		</sql>
+
+	</operation>
+	<!-- 添加团购商品,修改needpeople -->
+	<operation name="updateNeedpeople">
+		<sql>
+			update makeploy_product
+			set NEED_PEOPLE=?,PRICE=?,PRODUCT_OFF=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where SHOP_ID=? and PRODUCT_NO=?
+
+		</sql>
+
+	</operation>
+
+	<operation name="searchShopId" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+    	select * from makeploy_product
+    	where 1=1
+    	<isNotEmpty property="userId" prepend="and">
+			USER_ID=#userId#
+        </isNotEmpty> 
+        limit 0,3
+    	]]>
+		</sqlmap>
+	</operation>
+	<operation name="updateProduct">
+		<sql>
+			update makeploy_product set
+			PRODUCT_NO=?,
+			PRODUCT_NAME=?,
+			PRODUCT_TYPE=?,
+			PRICE=?,
+			PRODUCT_OFF=?,
+			OLD_PRICE=?,
+			LUGGAGE=?,
+			RECOMMEND_FLG=?,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			where SHOP_ID=?
+		</sql>
+	</operation>
+
+	<operation name="searchProductInfo" multiplicity="many">
+		<extraparams>
+			<param name="userId" javatype="java.lang.String" />
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+    	select * from makeploy_product
+    	where 1=1
+    	<isNotEmpty property="userId" prepend="and">
+			USER_ID=#userId#
+        </isNotEmpty> 
+         limit #offset#,#limit#
+    	]]>
+		</sqlmap>
+	</operation>
+
+	<operation name="searchParenter" multiplicity="many">
+		<sql>
+			select * from makeploy_product where RECOMMEND_FLG=?
+		</sql>
+	</operation>
+
+
+	<operation name="total">
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+	</operation>
+
+
+	<!-- 更新推荐标识 -->
+	<operation name="updateStatus">
+		<sql>
+			update makeploy_product set RECOMMEND_FLG=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where PRODUCT_NO=? and
+			SHOP_ID=?
+		</sql>
+	</operation>
+	<!-- 根据shopId查询 -->
+	<operation name="selectByShopIdSearch">
+		<sql>
+			select *from makeploy_product where PRODUCT_NO=?
+		</sql>
+	</operation>
+	<!-- 给开通农村经纪人的商品添加一个默认商品 -->
+	<operation name="addPartnerPro" paramtype="object">
+		<sql>
+			insert into makeploy_product
+			(
+			SHOP_ID,
+			USER_ID,
+			OTHER_TYPE,
+			PRODUCT_NO,
+			PRODUCT_NAME,
+			PRODUCT_TYPE,
+			PRODUCT_WEIGHT,
+			CHILDREN,
+			PRICE,
+			PRODUCT_OFF,
+			TEMPLATE_ID,
+			OLD_PRICE,
+			CHECK_STATUS,
+			NEED_PEOPLE,
+			NOW_PEOPLE,
+			LUGGAGE,
+			STATUS,
+			STOCK,
+			PRODUCT_URL,
+			DEL_FLG,
+			RECOMMEND_FLG,
+			SOLE_COUNT,
+			PROPORTION_RETURN,
+			PROPORTION_INTEGRAL,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES
+			(
+			?, ?, ?, ?, ?, ?,?, ?,?, ?, ?, ?,
+			?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+			CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+
+	<!-- shop商品信息查询（只有展示） -->
+	<operation name="selectShopProInfo" multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="proNo" javatype="java.lang.String" />
+			<param name="proName" javatype="java.lang.String" />
+			<param name="fatherType" javatype="java.lang.String" />
+			<param name="childrenType" javatype="java.lang.String" />
+			<param name="offset" javatype="java.lang.Integer" />
+			<param name="limit" javatype="java.lang.Integer" />
+
+		</extraparams>
+
+		<sql>
+			select * from makeploy_product
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+		select * from makeploy_product
+		WHERE CHECK_STATUS=1 AND STATUS=0 and DEL_FLG=0 
+		<isNotEmpty property="shopId" prepend="and">
+			SHOP_ID=#shopId#
+        </isNotEmpty> 
+		<isNotEmpty property="proNo" prepend="and">
+			PRODUCT_NO=#proNo#
+        </isNotEmpty> 
+    	<isNotEmpty property="proName" prepend="and">
+			PRODUCT_NAME LIKE '%$proName$%'
+        </isNotEmpty> 
+        <isNotEmpty property="fatherType" prepend="and">
+			PRODUCT_TYPE=#fatherType#
+        </isNotEmpty> 
+        <isNotEmpty property="childrenType" prepend="and">
+			CHILDREN=#childrenType#
+        </isNotEmpty> 
+         limit #offset#,#limit#
+    	]]>
+		</sqlmap>
+	</operation>
+
+	<operation name="proInfoCount">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="proNo" javatype="java.lang.String" />
+			<param name="proName" javatype="java.lang.String" />
+			<param name="fatherType" javatype="java.lang.String" />
+			<param name="childrenType" javatype="java.lang.String" />
+		</extraparams>
+
+		<sql>
+			select count(1) from makeploy_product
+		</sql>
+		<sqlmap>
+    	<![CDATA[
+		select count(1) from makeploy_product
+		WHERE CHECK_STATUS=1 AND STATUS=0 and DEL_FLG=0 
+		<isNotEmpty property="shopId" prepend="and">
+			SHOP_ID=#shopId#
+        </isNotEmpty> 
+		<isNotEmpty property="proNo" prepend="and">
+			PRODUCT_NO=#proNo#
+        </isNotEmpty> 
+    	<isNotEmpty property="proName" prepend="and">
+			PRODUCT_NAME LIKE '%$proName$%'
+        </isNotEmpty> 
+        <isNotEmpty property="fatherType" prepend="and">
+			PRODUCT_TYPE=#fatherType#
+        </isNotEmpty> 
+        <isNotEmpty property="childrenType" prepend="and">
+			CHILDREN=#childrenType#
+        </isNotEmpty> 
+    	]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 促销产品 团购修改 -->
+	<operation name="updateProPromotionTeamGo">
+		<sql>
+			update makeploy_product
+			set PRICE = ? , NEED_PEOPLE = ? ,
+			RECOMMEND_FLG = ? , GMT_MODIFIED = CURRENT_TIMESTAMP
+			where SHOP_ID = ?
+			and PRODUCT_NO = ?
+		</sql>
+	</operation>
+
+	<!-- 促销产品 首推修改 -->
+	<operation name="updateProPromotionFirstTime">
+		<sql>
+			update makeploy_product
+			set PRICE = ? , RECOMMEND_FLG = ? ,
+			GMT_MODIFIED = CURRENT_TIMESTAMP
+			where SHOP_ID = ? and PRODUCT_NO = ?
+		</sql>
+	</operation>
+	
+    <!--  下架或者上架店铺商品 -->
+	<operation name="downProductOrderByShop" resultClass="int">
+		<sql>
+			update makeploy_product set STATUS = ?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? 
+		</sql>
+	</operation>
+</table>

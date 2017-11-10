@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_category">
+
+
+	<!-- 展示 根据父类型查询类型表 -->
+	<operation name="selectTypeByFather" multiplicity="many">
+		<extraparams>
+			<param name="fatherName" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_category
+		</sql>
+		<sqlmap>
+         <![CDATA[
+				select * from makeploy_category where memo='0'
+				<isNotEmpty property="fatherName" prepend="and">
+	                    FATHER_NAME = #fatherName#
+	            </isNotEmpty>
+             ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 无条件 根据父类型查询类型表 -->
+	<operation name="selectByFather" multiplicity="many">
+		<extraparams>
+			<param name="fatherName" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_category
+		</sql>
+		<sqlmap>
+         <![CDATA[
+				select * from makeploy_category where 1=1
+				<isNotEmpty property="fatherName" prepend="and">
+	                    FATHER_NAME = #fatherName#
+	            </isNotEmpty>
+             ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 根据仅有父类型 查询单条记录 类型表 -->
+	<operation name="selectOneTypeByFather">
+		<extraparams>
+			<param name="fatherName" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_category
+		</sql>
+		<sqlmap>
+         <![CDATA[
+				select * from makeploy_category where memo='2'
+				<isNotEmpty property="fatherName" prepend="and">
+	                    FATHER_NAME = #fatherName#
+	            </isNotEmpty>
+             ]]>
+		</sqlmap>
+	</operation>
+	<!-- 查询所有父类信息 去除重复 -->
+	<operation name="selectAllFather" resultClass="java.lang.String"
+		multiplicity="many">
+		<sql>
+			select * from makeploy_category
+		</sql>
+		<sqlmap>
+			select distinct FATHER_NAME from makeploy_category where memo='0'
+		</sqlmap>
+	</operation>
+
+	<!-- 查询仅有父类 无子类 信息 去除重复 -->
+	<operation name="selectOnlyFather" resultClass="java.lang.String"
+		multiplicity="many">
+		<sql>
+			select * from makeploy_category
+		</sql>
+		<sqlmap>
+			select distinct FATHER_NAME from makeploy_category where memo='2'
+		</sqlmap>
+	</operation>
+
+	<!-- 删除 仅有父类 无子类 信息 -->
+	<operation name="deleteOnlyFather" resultClass="int">
+		<sql>
+			update makeploy_category
+			set memo='1' ,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where FATHER_NAME=? and memo='2'
+		</sql>
+
+	</operation>
+	<!-- 更改父类图标 -->
+	<operation name="updateFatherIcon" resultClass="int">
+		<sql>
+			update makeploy_category
+			set FATHER_IMG=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where FATHER_NAME=?
+		</sql>
+	</operation>
+	<!-- 更改父类名称 -->
+	<operation name="updateFatherName" resultClass="int">
+		<sql>
+			update makeploy_category
+			set FATHER_NAME=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where FATHER_NAME=?
+		</sql>
+	</operation>
+	<!-- 删除父类型 -->
+	<operation name="delectFatherType" resultClass="int">
+		<sql>
+			update makeploy_category
+			set MEMO='1',GMT_MODIFIED = CURRENT_TIMESTAMP
+			where FATHER_NAME=?
+		</sql>
+	</operation>
+	<!-- 添加类型 -->
+	<operation name="addType" resultClass="int">
+		<sql>
+			insert into makeploy_category
+			(
+			ID,
+			FATHER_NAME,
+			CHILDREN_NAME,
+			FATHER_IMG,
+			CHILDREN_IMG,
+			TYPE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			values
+			(?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?)
+		</sql>
+	</operation>
+	<!-- 删除子类型 -->
+	<operation name="deleteChirdType" resultClass="int">
+		<sql>
+			update makeploy_category
+			set MEMO='1',GMT_MODIFIED = CURRENT_TIMESTAMP
+			where CHILDREN_NAME=?
+		</sql>
+	</operation>
+
+	<!-- 样式部分 -->
+	<!-- 查询所有样式 -->
+	<operation name="selectSize" multiplicity="many">
+		<sql>
+			select * from makeploy_category
+			where MEMO='3'
+		</sql>
+	</operation>
+	<!-- 查询 参数 by 样式 -->
+	<operation name="selectParamenterBySize">
+		<sql>
+			select * from makeploy_category
+			where MEMO='3' and FATHER_NAME=?
+		</sql>
+	</operation>
+	<!-- 更改参数 by 样式 -->
+	<operation name="updateParamenterBySize" resultClass="int">
+		<sql>
+			update makeploy_category
+			set FATHER_IMG=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where MEMO='3' and FATHER_NAME=?
+		</sql>
+	</operation>
+	<!-- 修改type 是否添加到主页 -->
+	<operation name="updateTypeToHomePage">
+		<sql>
+			update makeploy_category
+			set TYPE=?,GMT_MODIFIED = CURRENT_TIMESTAMP
+			where FATHER_NAME=?
+		</sql>
+	</operation>
+</table>

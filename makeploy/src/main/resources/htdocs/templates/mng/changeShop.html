@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑店铺信息</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+  <script type="text/javascript" src="js/jquery-1.11.3.js">
+  </script>
+  <script type="text/javascript">
+  function checkform(form){
+// 	  alert("111");
+		if (form.addr.value==''){
+			alert("请输入商铺详细地址!");
+			return false;
+		}
+		if (form.shopName.value==''){
+			alert("请输入商铺名称!");
+			return false;
+		}
+		if (form.cell.value==''){
+			alert("请输入商铺电话!");
+			return false;
+		}
+		if (form.s_province.value==''&& '$province'==null){
+			alert("请选择 省!");
+			return false;
+		}
+		if (form.s_city.value=='' && '$city'==null){
+			alert("请选择 市!");
+			return false;
+		}
+		if (form.s_district.value=='' && '$district'==null){
+			alert("请选择 区/县!");
+			return false;
+		}
+		if (form.shopDec.value==''){
+			alert("请输入商铺详情!");
+			return false;
+		}
+		return true;
+	}
+  </script>
+    <style type="text/css">
+        .tip {
+            position: relative;
+            text-align: center;
+            font-size: 40px;
+            top: 60px;
+        }
+        .panel-type-father {
+            /*padding: 10px 15px;*/
+            color: #468847;
+            /*background-color: #dff0d8;*/
+            border-color: #d6e9c6;
+        }
+        .button {
+            color: #666;
+            background-color: #EEE;
+            border-color: #EEE;
+            font-weight: 300;
+            font-size: 16px;
+            font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            padding: 0 40px;
+            margin: 0;
+            display: inline-block;
+            appearance: none;
+            cursor: pointer;
+            border: none;}
+        .type-father{
+            font-size: 16px;
+        }
+        .type-button {
+            color: #666;
+            background-color: #bdeebf;
+            border-color: #EEE;
+            /*font-weight: 300;*/
+            /*font-size: 16px;*/
+            font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            text-decoration: none;
+            text-align: center;
+            /*line-height: 40px;*/
+            border-radius:4px;
+            padding: 5px 10px;
+            margin: 0;
+            display: inline-block;
+            appearance: none;
+            cursor: pointer;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="headline">
+    <img src="images/icon.png" />
+
+    <h3 style="font-family: 微软雅黑;">商户管理系统</h3>
+    <a href="loginMng.html">安全退出</a>
+</div>
+<section class="hbox stretch">
+    <!-- .aside -->
+    <aside class="bg-dark lter aside-md hidden-print" id="nav">
+        <section class="vbox">
+            <section class="w-f scrollable">
+                <div class="slim-scroll" data-height="auto"
+                     data-disable-fade-out="true" data-distance="0" data-size="5px"
+                     data-color="#333333">
+                    <nav class="nav-primary hidden-xs">
+							<ul class="nav">
+
+								<li class="active"><a href="javascript:" class="active">
+										<i class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>卖家管理首页</span>
+								</a>
+								<ul class="nav lt">
+										<li><a href="javascript:" class="active"> <i
+												class="fa fa-angle-right"></i> <span>卖家中心</span>
+										</a></li></ul>
+								</li>
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>店铺管理页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOrderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单管理</span>
+										</a></li>
+										<li><a href="shopProductMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品管理</span>
+										</a></li>
+										<li><a href="shopProductAddMng.html"> <i class="fa fa-angle-right"></i><span>添加商品</span>
+										</a></li>
+<!-- 										<li><a href=""> <i class="fa fa-angle-right"></i> <span>店铺信息管理</span> -->
+<!-- 										</a></li> -->
+
+									</ul></li>
+									<li><a> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>运费模板</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="faretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>现有运费模板<span></span>
+										</a></li>
+									</ul>
+									<ul class="nav lt">
+										<li><a href="addFaretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>增加运费模板<span></span>
+										</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+                </div>
+            </section>
+        </section>
+    </aside>
+<!-- 导航栏 -->
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable padder">
+
+                <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+                    <li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+                    <li>卖家中心</li> <li>店铺信息编辑</li>
+                </ul>
+<div class="col-sm-12">
+    <section class="panel panel-success">
+        <header class="panel-heading font-bold">编辑店铺信息</header>
+        <div class="panel-body">
+            <form role="form" action="ShopInfoEdit.do" method="POST"
+                  enctype="multipart/form-data">
+                <div class="form-group">
+					<label>请选择行业：</label>
+							<select id="industry" name="industry"class="form-control m-b" style="width:auto">
+									#foreach($type in $industry)
+									    #if($!shopInfo.industry == $type)
+										<option value="$!type" selected="selected">$!type</option>
+										#else
+										<option value="$!type" >$!type</option>
+										#end
+									#end
+							</select>
+				</div>
+                <br>
+                <div class="form-group">
+                    <label>店铺名</label> <input name="shopName" value="$!shopInfo.shopName" id="shopName"
+                                              type="text" class="form-control"placeholder="$!shopInfo.shopName" />
+                </div>
+                <div class="form-group">
+                    <label>店铺电话</label> <input name="cell" value="$!shopInfo.cell" type="text" id="cell"
+                                               class="form-control" placeholder="$!shopInfo.cell" />
+                </div>
+                <div class="form-group">
+                    <label>店铺描述</label> <input name="shopDec" value="$!shopInfo.shopDec" type="text" id="shopDec"
+                                             class="form-control" placeholder="$!shopInfo.shopDec" /> 
+                </div>
+                <div class="form-group">
+                    <label>店铺地址</label><br>
+                    &nbsp;<label>$!province</label>&nbsp;<label>$!city</label>&nbsp;<label>$!district</label>
+                    <input type="hidden" value="$!province" name="province_old">
+                    <input type="hidden" value="$!city" name="city_old">
+                    <input type="hidden" value="$!district" name="district_old">
+							<br><select id="s_province" name="province"></select>  
+							<select id="s_city" name="city"></select>   
+							<select id="s_county"name="district"></select>
+							<label>(不选择表示不修改 省/市/区 地址)</label>
+						<script class="resources library" src="js/area.js"
+										type="text/javascript">
+						</script>
+
+						<script type="text/javascript">
+								_init_area();
+						</script>
+					<br>
+                    <label>详细地址(除开省/市/区)</label>
+                     <input name="addr" value="$!addr" type="text" id="shopAddr"
+                                               class="form-control" placeholder="$!addr" />
+                </div>
+
+                <div class="line line-dashed line-lg pull-in"></div>
+ <!-- 原图 -->
+                    <div class="">
+                        <label class=" " style="margin-top:20px;">店铺图片</label>
+                        <div class="row " style="position: relative; left: 0px;">
+
+<div> <img id="" name=""style=" height: 200px; float: left; position: relative;margin: 1px 1px " src='$!shopInfo.shopUrl  '></div>
+      <input type="hidden"  name = "oldImg" value="$!shopInfo.shopUrl" >              
+                        </div>
+                        
+                    </div>
+                <div class="" style="claer:both">
+                    <label class=" ">修改店铺图片：</label>
+                    <div class="">
+                        <input type="file" name="image" class="filestyle"
+                               data-icon="false" id="f" data-classButton="btn btn-default"
+                               data-classInput="form-control inline input-s"
+                               onchange="changeImg()" />
+                    </div>
+                   
+                    <!-- 预览 -->
+                    <div class="col-sm-10" style="">
+                        <label class="col-sm-2 control-label" style="margin-top:20px;">预览</label>
+                        <div class="row aaaa" style="position: relative; left: 0px;"> </div>
+                        <div style="height: 200px"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-sm btn-success" value="提交" onclick="return checkform(this.form)">  <!-- onclick="submitShopInfo()"  -->
+                    <input type="reset" class="btn btn-sm btn-default" value="取消" onclick="history.back(-1)">
+                </div>
+                <div style="height: 100px"></div>
+            </form>
+        </div>
+    </section>
+</div>
+</section></section></section></section>
+
+
+</body>
+<script type="text/javascript">
+function submitShopInfo(){
+	var shopName=document.getElementById("shopName").value
+	var cell=document.getElementById("cell").value
+	var shopDec=document.getElementById("shopDec").value
+	var shopAddr=document.getElementById("shopAddr").value
+	
+	jQuery.ajax({
+        url : 'ShopInfoEdit.do' ,
+        type : 'post',
+        cache : false,
+        contentType : "application/x-www-form-urlencoded; charset=utf-8",
+        dataType : 'json',
+        data:{
+            "shopName":shopName,
+           	"productNo":productNo,
+           	"productNo":productNo,
+           	"parflag":parflag
+        },
+
+        success : function(data) {
+        	alert("确认发货成功!")
+        },error : function() {
+            alert("网络异常 ！");
+        }
+})
+}
+function changeImg() {
+$('.aaaa').html('')
+var pic, file;
+pic = document.getElementById("preview");
+file = document.getElementById("f");
+
+var ext = file.value.substring(file.value.lastIndexOf(".") + 1)
+.toLowerCase();
+
+// gif在IE浏览器暂时无法显示
+if (ext != 'png' && ext != 'jpg' && ext != 'jpeg') {
+alert("图片的格式必须为png或者jpg或者jpeg格式！");
+return;
+}
+var isIE = navigator.userAgent.match(/MSIE/) != null, isIE6 = navigator.userAgent
+.match(/MSIE 6.0/) != null;
+
+if (isIE) {
+file.select();
+var reallocalpath = document.selection.createRange().text;
+
+// IE6浏览器设置img的src为本地路径可以直接显示图片
+if (isIE6) {
+pic.src = reallocalpath;
+} else {
+// 非IE6版本的IE由于安全问题直接设置img的src无法显示本地图片，但是可以通过滤镜来实现
+pic.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src=\""
++ reallocalpath + "\")";
+// 设置img的src为base64编码的透明图片 取消显示浏览器默认图片
+pic.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+}
+} else {
+html5Reader(file);
+}
+}
+
+function html5Reader(file) {
+var index = file.files.length
+$('#imgNumber').val(index)
+for (var i = 0; i < file.files.length; i++) {
+var f = file.files[i];
+var reader = new FileReader();
+reader.readAsDataURL(f);
+reader.onload = function(e) {
+var teet = '<div> <img id="preview" name="pic"style=" height: 200px; float: left; position: relative;margin: 1px 1px " src=' + this.result + '><div>'
+    $('.aaaa').append(teet)
+    }
+
+    }
+    }
+    </script>
+    <script type="text/javascript">
+	var Gid  = document.getElementById ;
+	var showArea = function(){
+		Gid('show').innerHTML = "<h3>省" + Gid('s_province').value + " - 市" + 	
+		Gid('s_city').value + " - 县/区" + 
+		Gid('s_county').value + "</h3>"
+								}
+	Gid('s_county').setAttribute('onchange','showArea()');
+	</script>
+	
+<!-- 	<script type="text/javascript">
+	$("body").on("ready","#s_province",function(){
+		var select = document.getElementById("s_province");  
+		var nextYear = '$!province';  
+		for(var i=0; i<select.options.length; i++){  
+		    if(select.options[i].innerHTML == nextYear){  
+		        select.options[i].selected = true;  
+		        break;  
+		    }  
+		}
+	})
+	 
+	var select = document.getElementById("s_city");  
+	var nextYear = '$!city';  
+	for(var i=0; i<select.options.length; i++){  
+	    if(select.options[i].innerHTML == nextYear){  
+	        select.options[i].selected = true;  
+	        break;  
+	    }  
+	} 
+	var select = document.getElementById("s_district");  
+	var nextYear = '$!district';  
+	for(var i=0; i<select.options.length; i++){  
+	    if(select.options[i].innerHTML == nextYear){  
+	        select.options[i].selected = true;  
+	        break;  
+	    }  
+	} 
+</script> -->
+</html>

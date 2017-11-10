@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+<script type="text/javascript">
+    //弹出隐藏层
+    function ShowDiv(show_div,bg_div){
+        document.getElementById(show_div).style.display='block';
+        document.getElementById(bg_div).style.display='block' ;
+        var bgdiv = document.getElementById(bg_div);
+        bgdiv.style.width = document.body.scrollWidth;
+//bgdiv.style.height = $(document).height();
+        $("#"+bg_div).height($(document).height());
+    }
+    //关闭弹出层
+    function CloseDiv()
+    {
+        document.getElementById('MyDiv').style.display='none';
+        document.getElementById('fade').style.display='none';
+    }
+    </script>
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+		
+									</ul></li>
+								<!-- 充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-columns icon"> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li class="active"><a href="productParameterMng.html">
+												<i class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li><a href=""> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+				
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>玫发现商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+		<!-- 主体内容 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商品分类 样式管理</li>
+						<li>管理样式</li>
+					</ul>
+					<!--正文开始-->
+					<div class="type-button"
+						style="right: 50px; position: absolute; float: right;"
+						onclick="addNew('')">添加新样式及参数</div>
+
+					<div class="zhenwen">
+
+
+
+						#foreach($TypeResult in $typeJsonResultList)
+						<div id="$!TypeResult.fatherType" class="parent"
+							style="margin-bottom: 40px; padding-bottom: 40px;">
+							<div class="panel-type-father font-bold" style="clear: both;">
+								<!--height: 40px;-->
+								<div class="type-father fatherTypeName">$!TypeResult.fatherType</div>
+								<div class="type-button"
+									style="left: 50px; position: relative; float: left;"
+									onclick="editName('$!TypeResult.fatherType')">修改名称</div>
+								<div class="type-button"
+									style="left: 50px; position: relative; float: left;"
+									onclick="delect('$!TypeResult.fatherType')">删除类型</div>
+								<div class="type-button"
+									style="left: 50px; position: relative; float: left;"
+									onclick="addchirld('$!TypeResult.fatherType')">添加参数</div>
+							</div>
+							<hr
+								style="clear: both; height: 1px; border: none; border-top: 1px solid #555555; margin-top: 0px; margin-bottom: 10px;" />
+							#foreach($listObject in $TypeResult.list)
+							<div id="$!listObject" class="have">
+								<div style="display: inline; padding-right: 15px; float: left;">
+
+									<div class="type-button childType fatherTypeName">$!listObject</div>
+								</div>
+							</div>
+							#end
+						</div>
+						#end
+					</div>
+					<!--页面格式 勿删-->
+					<div style="height: 150px;"></div>
+				</section>
+
+				<!--弹出层时背景层DIV-->
+				<div id="fade" class="black_overlay"></div>
+				<div id="MyDiv" class="white_content">
+					<div style="text-align: right; cursor: default;"></div>
+
+				</div>
+				<div id="inputText" class="white_content"
+					style="width: 370px; height: 50px;"></div>
+				<script src="js/app.v2.js"></script>
+</body>
+<script type="text/javascript">
+//屏蔽enter键
+$(document).keydown(function(event){
+	  switch(event.keyCode){
+	     case 13:return false; 
+	     }
+	});
+var div
+var fatherType
+// 删除父类
+function delect(fatherTyp){
+	var dialog="确定删除   "
+	fatherType=fatherTyp
+	dialog=dialog+fatherType+"?";
+	var r=confirm(dialog);
+	  if (r==true)
+	    {
+	 var url='delectSize.do'
+		jQuery.ajax({
+	        type: "POST",
+	        url:  url,
+		    data:{
+		    "fatherType":fatherType
+		    },	
+    	   error: function(request) {
+			      alert("Connection error");
+		},
+		  success: function(result) {
+		      if(result){
+		            alert("删除成功");
+
+		            window.location.reload(); 
+		        }else{
+		            alert("删除失败");
+		        }
+			  }
+	    	});
+	    }
+}
+// 添加子类->ajax提交
+function addChildType(){
+	var parameterName=document.getElementById("parameterName").value
+	 var url = "addParameter.do";
+	    	jQuery.ajax({
+	        type: "POST",
+	        contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+	        dataType:'json',
+	        url:  url,
+		    data:{
+		    	"Size":fatherType,
+		    	"parameterName":parameterName
+		    },
+  	   error: function(request) {
+			      alert("Connection error");
+		},
+		  success: function(result) {
+		      if(result){
+		            alert("反馈成功");
+		            CloseDiv();
+		            window.location.reload(); 
+		            
+		        }else{
+		            alert("反馈失败");
+		        }
+			  }
+	    	});
+    
+}
+//添加子类  弹出层
+function addchirld(fatherTyp){
+
+	fatherType=fatherTyp
+	 div='<span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDiv()">关闭</span>'+
+	 '<input  class="type-button" type="text"  name="addChirdFile" id="baseAddChirdFile"value="输入多个参数以  - 隔开"><br>'+
+	 '<input type="text"  name="fatherType" value=""placeholder="输入参数" id="parameterName">'+
+	 '<div><div class="type-button" style="position: absolute;top:300px;"  onclick="addChildType()">提交</div></div>'
+			
+
+			// 前端只需要给input file绑定这个change事件即可（下面两个方法不需要修改）获取到图片
+			
+		 
+	 $("#MyDiv").html(div);
+ ShowDiv('MyDiv','fade')	;
+/*  $('.testUploadAddChird').on('change',function(event){
+	     var imageUrl = getObjectURL($(this)[0].files[0]);
+	     convertImgToBase64(imageUrl, function(base64Img){
+
+	        //base64Img为转好的base64,放在img src直接前台展示(<img src="data:image/jpg;base64,/9j/4QMZRXh...." />)
+	        //alert(base64Img);
+	        $("#baseAddChird").attr("src",base64Img);
+	        //base64转图片不需要base64的前缀data:image/jpg;base64
+	        //alert(base64Img.split(",")[1]);
+	         $("#baseAddChirdFile").val(base64Img.split(",")[1]);
+	      });
+	      event.preventDefault(); 
+	  });  */
+}
+function changeInputlength(cursor)   
+{   
+var getText=document.getElementById("parameterName");   
+cursor.size=getText.value.length+2;   
+} 
+//添加新样式及参数
+function addNew(){
+
+	
+	 div='<span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDiv()">关闭</span>'+
+	 '<input  class="type-button" type="text"  name="addChirdFile" id="baseAddChirdFile"value="输入样式名称"><br>'+ 
+	 '<input type="text"  name="fatherType" value=""placeholder="输入样式" id="sizeName"><br>'+
+	 
+	 '<input  class="type-button" type="text"  name="addChirdFile" id="baseAddChirdFile"value="输入多个参数以减号  - 隔开"><br>'+
+	 '<input type="text"  name="fatherType" value=""placeholder="输入参数" id="parameterName" onkeydown="changeInputlength(this);">'+
+	 '<div><div class="type-button" style="position: absolute;top:300px;"  onclick="addNewSubmit()">提交</div></div>'
+			
+
+			// 前端只需要给input file绑定这个change事件即可（下面两个方法不需要修改）获取到图片
+			
+		 
+	 $("#MyDiv").html(div);
+ ShowDiv('MyDiv','fade')	;
+}
+//添加子类->ajax提交
+function addNewSubmit(){
+	var sizeName=document.getElementById("sizeName").value
+	var parameterName=document.getElementById("parameterName").value
+	 var url = "addSizeParameter.do";
+	    	jQuery.ajax({
+	        type: "POST",
+	        contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+	        dataType:'json',
+	        url:  url,
+		    data:{
+		    	"size":sizeName,
+		    	"parameterName":parameterName
+		    },
+  	   error: function(request) {
+			      alert("Connection error");
+		},
+		  success: function(result) {
+		      if(result){
+		            alert("反馈成功");
+		            CloseDiv();
+		            window.location.reload(); 
+		            
+		        }else{
+		            alert("反馈失败");
+		        }
+			  }
+	    	});
+    
+}
+
+// 修改样式名称
+// ajax提交 后台
+function EditFatherType(){
+	var url='editSizeName.do'
+	var newfatherType=document.getElementById("Ftype").value
+		jQuery.ajax({
+	        type: "POST",
+	        url:  url,
+		    data:{
+		    "fatherType":fatherType,
+		    "newfatherType":newfatherType
+		    },	
+    	   error: function(request) {
+			      alert("Connection error");
+		},
+		  success: function(result) {
+		      if(result){
+		            alert("修改成功");
+		            CloseDivText();
+		            window.location.reload(); 
+		        }else{
+		            alert("修改失败");
+		        }
+			  }
+	    	});
+}
+// 修改样式名称->弹出层
+function editName(fatherTy){
+	 fatherType=fatherTy
+	 div='<input type="text"style="height:45px;" id="Ftype"placeholder="'+fatherType+'" style="font-size: 16px;"><span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:70px;top:0px" onclick="EditFatherType()">确认修改</span><span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDivText()">关闭</span>'
+		 $("#inputText").html(div);
+	    ShowDiv('inputText','fade')	;
+}
+// 关闭窗口
+function CloseDivText(){
+	document.getElementById('inputText').style.display='none';
+    document.getElementById('fade').style.display='none';
+}
+// 修改父类图片
+function editImg(fatherTyp){
+	fatherType=fatherTyp
+	 div='<span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDiv()">关闭</span><form id="uploadImg" method="post" enctype="multipart/form-data" action="uploadImg.do"><div style="position:relative;width:auto;border:0; "><img id="base" style="position: absolute;top:20px;left:30px;width:200px;height:200px;border:0;" src="img/addP.png"><!-- 使用file上传时,上传的是一个file类型的文件 到后台 --><input type="file" style="position:absolute; "  name="files" class="testUpload ">'+
+	 '<input type="hidden"  name="baseFile" id="uploadFile">'+
+	 '<input type="hidden"  name="baseFileType" id="uploadFileType">'+ 
+	 '<input type="hidden"  name="editpFatherType" value="'+fatherType+'">'+ 
+	 '</div><br><br><br><br><br><br><div><div class="type-button" style="position: absolute;top:250px;"  onclick="upFatherImg()">提交</div></div></form>'
+		
+
+			// 前端只需要给input file绑定这个change事件即可（下面两个方法不需要修改）获取到图片
+			
+		 
+	 $("#MyDiv").html(div);
+    ShowDiv('MyDiv','fade')	;
+    $('.testUpload').on('change',function(event){
+	     var imageUrl = getObjectURL($(this)[0].files[0]);
+	    var imagetype= $(this)[0].files[0].type;
+	     convertImgToBase64(imageUrl, function(base64Img){
+
+	        //base64Img为转好的base64,放在img src直接前台展示(<img src="data:image/jpg;base64,/9j/4QMZRXh...." />)
+	        //alert(base64Img);
+	        $("#base").attr("src",base64Img);
+	        //base64转图片不需要base64的前缀data:image/jpg;base64
+	        //alert(base64Img.split(",")[1]);
+	         $("#uploadFile").val(base64Img.split(",")[1]);
+	         $("#uploadFileType").val(imagetype);
+	      });
+	      event.preventDefault(); 
+	  }); 
+}
+//修改父类图片->上传父类图片
+function upFatherImg(){
+    var url = "uploadFatherImg.do";
+    var serialize=$('#uploadImg').serialize();
+  	jQuery.ajax({
+      type: "POST",
+      url:  url,
+	    data:$('#uploadImg').serialize(),
+	   error: function(request) {
+		      alert("Connection error");
+	},
+	  success: function(result) {
+	      if(result){
+	            alert("修改成功");
+	            CloseDiv();
+	            window.location.reload(); 
+	            
+	        }else{
+	            alert("修改失败");
+	        }
+		  }
+  	});
+}
+var childType
+var size
+// 点击子类
+$(function(){ 
+	　　$(".have").click(function(){ 
+	　　　　 childType=this.id
+	     var a='#'+childType
+	     size=$(a).parent('.parent').attr('id');
+	     div=$(this).html()
+	    div+=' <span class="type-button" style="font-size: 16px;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDiv()">关闭</span>'
+	    +'<input class="type-button" style="left: 50px;top:250px;position:absolute;float: left;"onclick="deletechild()"value="删除类型">'
+	    $("#MyDiv").html(div)
+	    ShowDiv('MyDiv','fade')
+	})
+	　　});
+//删除子类   paramenter
+
+function deletechild(){
+	
+	var dialog="确认删除参数       "+childType+"?"
+	var r=confirm(dialog);
+	if (r==true)
+	    {
+		var url="delectParamenter.do"
+		jQuery.ajax({
+			url : url,// 跳转到 action  
+			type : 'post',
+			cache : false,
+			contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			dataType : 'json',
+			data:{"paramenter":childType,
+				"size":size
+				},
+			success : function(data) {
+				alert("删除参数成功!");
+				CloseDiv();
+	            window.location.reload(); 
+				
+			},
+				      error : function() {  
+				           alert("网络异常！");  
+				      }  
+		});
+	    }
+}
+</script>
+<style>
+.black_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	/*background-color: black;*/
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity = 80);
+	-webkit-filter: blur(10px); /* Chrome, Opera */
+	-moz-filter: blur(10px);
+	-ms-filter: blur(10px);
+	filter: blur(10px);
+}
+
+.white_content {
+	display: none;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	width: 550px;
+	height: 400px;
+	border: 1px solid lightblue;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+
+.white_content_small {
+	display: none;
+	position: absolute;
+	top: 20%;
+	left: 30%;
+	width: 40%;
+	height: 50%;
+	border: 16px solid lightblue;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+</style>
+
+<style type="text/css">
+#MyDiv div.icon {
+	float: left;
+	/*  top:-10px; */
+	position: relative;
+}
+
+#MyDiv img {
+	height: 200px;
+}
+
+#MyDiv div.fatherTypeName {
+	float: left;
+	top: 10px;
+	position: relative;
+}
+
+.zhenwen div.icon {
+	float: left;
+	top: -10px;
+	position: relative;
+}
+
+.zhenwen div.fatherTypeName {
+	float: left;
+	top: 10px;
+	left: 5px;
+	position: relative;
+}
+
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 10px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+	margin: 5px;
+}
+</style>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <link rel="stylesheet" type="text/css" href="css/model.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+    <title>我的订单</title>
+</head>
+<body class="marketMzw">
+
+<div class="orderF1">
+    <ul class="myOrder">
+        <li id="one1"  value=""><a class="cur" href="javascript:void(0);" >全部</a></li>
+        <li id="one2"  value="1"><a href="javascript:void(0);" >待付款</a></li>
+        <li id="one3" name="" value=""><a href="javascript:void(0);">待发货</a></li>
+        <li id="one4" name="" value=""><a href="javascript:void(0);">已发货</a></li>
+        <li id="one5" name="" value=""><a href="javascript:void(0);">已完成</a></li>
+    </ul>
+</div>
+<div class="orderF2">
+    <ul class="select" style="display:block;">
+     #foreach($show in $showList)
+     #if($!show.orderStatus == "0" && $!show.sendGoods == "4" && $!show.payStatus=="3")
+        <li class="payF1">
+           <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>交易成功</font></div> 
+            <a class="payF12" href="orderSuccess.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+            
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                   #foreach($clothing in $clothingList)
+                   #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+             
+            <div class="orderBtn"><a class="btnRed" href="orderOpinion.html?productNO=$!show.productNo&userId=$!show.userId&orderId=$!show.orderId&shopId=$!show.shopId">评论</a><a onclick="orderDel($!show.orderId)" class="btnGray deleteBtn" >删除订单</a></div>
+        </li>
+        
+        #end
+        #if($!show.orderStatus == "2" && $!show.sendGoods == "1" && $!show.payStatus=="1")
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>交易关闭</font></div>
+            <a class="payF12" href="orderFail.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                     #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <div class="orderBtn"><a onclick="orderDel($!show.orderId)" class="btnGray deleteBtn">删除订单</a></div>
+        </li>
+        #end
+        #if($!show.sendGoods == "2" && $!show.payStatus == "3" && $!show.orderStatus == "3" )
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>卖家已发货</font></div>
+            <a class="payF12" href="orderDelivered.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                    #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <div class="orderBtn"><a onclick="orderCp($!show.orderId)" class="btnGray">确认收货</a></div>
+        </li>
+       #end
+       #if($!show.payStatus == "1" && $!show.sendGoods == "1" && $!show.orderStatus == "3" )
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>等待买家付款</font></div>
+            <a class="payF12" href="orderUnpaid.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                  	 #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <div class="orderBtn"><a class="btnRed">付款</a><a onclick = "orderCa($!show.orderId)"  class="btnGray cancelBtn">取消订单</a></div>
+        </li>
+       #end
+        #end
+        <!--无对应订单
+        <div class="shopcart"style="float:left;width: 100%;">
+            <img src="images/shopcart.png"/>
+            <p style="width:100%;">您的购物车空空如也</p>
+            <a href="shopcart1.html" style="float: left;margin-left: calc(50% - 46px);">去抢购</a>
+        </div>
+        -->
+    </ul>
+    
+    
+   
+    <ul class="select" style="display:none;">
+     #foreach($show in $showList)
+    #if($!show.payStatus == "1" && $!show.sendGoods == "1" && $!show.orderStatus == "3")
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>等待买家付款</font></div>
+            <a class="payF12" href="orderUnpaid.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                     #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <div class="orderBtn"><a class="btnRed">付款</a><a onclick="orderCa($!show.orderId)"  class="btnGray">取消订单</a></div>
+        </li>
+         #end
+   		 #end
+    </ul>
+   
+    
+    <ul class="select" style="display:none;">
+     #foreach($show in $showList)
+     #if($!show.payStatus == "3" && $!show.sendGoods == "1" && $!show.orderStatus == "3")
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>等待卖家发货</font></div>
+            <a class="payF12" href="orderUndelivered.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                    #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <!-- <div class="orderBtn"><a class="btnGray deleteBtn">删除订单</a></div> -->
+        </li>
+        #end
+     	#end
+    </ul>
+     
+   
+    <ul class="select" style="display:none;">
+      #foreach($show in $showList)
+     #if($!show.payStatus == "3" && $!show.sendGoods == "2" && $!show.orderStatus == "3")
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>卖家已发货</font></div>
+            <a class="payF12" href="orderDelivered.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                    #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <div class="orderBtn"><a onclick = "orderCp($!show.orderId)"  class="btnGray">确认收货</a></div>
+        </li>
+         #end
+     	 #end
+    </ul>
+    
+     
+    <ul class="select" style="display:none;">
+     #foreach($show in $showList)
+     #if($!show.orderStatus == "0" && $!show.payStatus == "3" && $!show.sendGoods == "4")
+        <li class="payF1">
+            <div class="payF11"><i></i>#foreach($shopShow in $shopShowList)#if($!shopShow.shopId == $!show.shopId) <p>$!shopShow.shopName</p>#end#end<font>交易成功</font></div>
+            <a class="payF12" href="orderSuccess.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">
+                <div class="joinF11"><img src="$!show.productImg" alt="商品图"></div>
+                <div class="joinF12 pay2F1T">
+                    <p>$!show.productName</p>
+                    #foreach($clothing in $clothingList)
+                  	 #if($!clothing.productNo == $!show.productNo)
+	                   	<span>颜色：$!clothing.color</span>
+                    	<span>尺寸：$!clothing.dimensions</span>
+                    #end	
+                    #end
+                    <div><font>￥$!show.money1</font><span>&nbsp;&nbsp;&nbsp;&nbsp;×$!show.ProductCount</span></div>
+                </div>
+            </a>
+            <div class="payF14">
+                <div><span>共$!show.ProductCount件商品&nbsp;&nbsp;&nbsp;&nbsp;</span><span>合计：</span><font>￥$!show.money4</font><span>（含运费￥$!show.money3）</span></div>
+            </div>
+            <div class="orderBtn"><a class="btnRed" href="orderOpinion.html?orderId=$!show.orderId&userId=$!show.userId&productNo=$!show.productNo&shopId=$!show.shopId">评论</a><a onclick="orderDel($!show.orderId)" class="btnGray deleteBtn">删除订单</a></div>
+        </li>
+         #end
+     #end
+    </ul>
+   
+</div>
+
+</body>
+<script type="text/javascript">
+    $(function () {
+        //导航tab切换
+        $(".myOrder li").click(function() {
+            tabcon(this,".select");
+        });
+        function tabcon(op,con){
+            var index = $(op).index();
+            $(con).hide().eq(index).show();
+            $(op).parent().find("a").removeClass("cur").eq(index).addClass("cur");
+        }
+
+        //删除订单
+        $(".deleteBtn").click(function(){
+            $(this).parents("li").hide();
+        });
+        //取消订单
+        $(".cancelBtn").click(function(){
+            $(this).text("删除订单").siblings("a").hide().parents("li").find(".payF11 font").text("交易关闭");
+        });
+    });
+</script>
+<script type="text/javascript">
+	function orderCp(orderId){
+		//alert(orderId)
+		if(confirm("请收货以后再确认收货，确认吗？")){
+			var url =  "updateOrderStatusAndSendGoodsByOrderId.do"
+				jQuery.ajax({
+		            url : url,// 跳转到 action  
+		            type : 'post',
+		            cache : false,
+		            contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		            dataType : 'json',
+		            data:{"orderId":orderId},
+		            success : function(result) {
+		                if (result.bizSucc) {
+		                    alert("操作成功");
+		                } else{
+		                     alert("失败");
+		                                   }
+		            },
+		            error : function() {  
+		                           alert("异常！");  
+		                }  
+		          });
+			
+		}
+			
+	}
+</script>
+<script type="text/javascript">
+	function orderCa(orderId){
+		//alert(orderId)
+		if(confirm("取消订单不可撤销，确定取消吗？")){
+			var url  = " updateOrderStatusByOrderId.do";
+			jQuery.ajax({
+	            url : url,// 跳转到 action  
+	            type : 'post',
+	            cache : false,
+	            contentType : "application/x-www-form-urlencoded; charset=utf-8",
+	            dataType : 'json',
+	            data:{"orderId":orderId},
+	            success : function(result) {
+	                if (result.bizSucc) {
+	                    alert("操作成功");
+	                } else{
+	                   alert("失败");
+	                                   }
+	            },
+	            error : function() {  
+	                           alert("异常！");  
+	                }  
+	          });
+			
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	function orderDel(orderId){
+		//alert(orderId)
+		if(confirm("确定要删除订单吗？")){
+			var url  = "updateOrderFlagByOrderId.do";
+			jQuery.ajax({
+	            url : url,// 跳转到 action  
+	            type : 'post',
+	            cache : false,
+	            contentType : "application/x-www-form-urlencoded; charset=utf-8",
+	            dataType : 'json',
+	            data:{"orderId":orderId},
+	            success : function(result) {
+	                if (result.bizSucc) {
+	                    alert("操作成功");
+	                } else{
+	                   alert("失败");
+	                                   }
+	            },
+	            error : function() {  
+	                           alert("异常！");  
+	                }  
+	          });
+		}
+		
+	}
+</script>
+</html>

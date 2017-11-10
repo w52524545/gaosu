@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	function defaultProEdit(productNo, shopId, flag) {
+		var productNo = productNo;
+		var flag = flag;
+		var shopId = shopId;
+		var url = "defaultPro.do";
+		if (flag == 1 ? confirm("是否确定撤消农村经纪人默认商品？") : confirm("是否确定设置为农村经纪人默认商品?")) {
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"productNo" : productNo,
+							"flag" : flag,
+							"shopId" : shopId
+						},
+						success : function(jsonResult) {
+							if (jsonResult.bizSucc) {
+								alert(jsonResult.errMsg);
+								window.location.reload(true);
+							} else {
+								alert(jsonResult.information);
+							}
+						},
+						error : function() {
+							alert("异常！");
+						}
+					});
+		}
+	}
+	$(document)
+			.ready(
+					function() {
+						$("#productType")
+								.change(
+										function() {
+											var proType = $("#productType")
+													.val();
+											jQuery
+													.ajax({
+														url : "searchChildType.do",// 跳转到 action  
+														type : 'post',
+														cache : false,
+														contentType : "application/x-www-form-urlencoded; charset=utf-8",
+														dataType : 'json',
+														data : {
+															"fatherType" : proType
+														},
+														success : function(
+																result) {
+															var div = '<option value="" >选择类型</option>'
+															jQuery
+																	.each(
+																			result,
+																			function(
+																					i,
+																					item) {
+																				div += '<option value="'+item.childrenName+'">'
+																						+ item.childrenName
+																						+ '</option>'
+
+																			})
+															$("#childrenType")
+																	.html(div)
+														},
+														error : function() {
+															alert("异常！");
+														}
+													});
+										});
+					});
+</script>
+
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-dashboard icon"> <b class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i><span>农村经纪人默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+                                #else
+                                <li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+                                #end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+										<li><a href="addAgent.html"> <i
+												class="fa fa-angle-right"></i> <span>区域代理添加</span>
+										</a></li>
+										<li><a href="addPartner.html"> <i
+												class="fa fa-angle-right"></i> <span>农村经纪人添加</span>
+										</a></li>
+									</ul></li>
+								<!-- 充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li class="active"><a href=""> <i
+										class="fa fa-file-text icon"> <b class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li class="active"><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+		<!-- 主体内容 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+						<li>店铺信息查询</li>
+						<li>店铺商品信息查询</li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="shopProInfo.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!formName.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+
+										<input type="hidden" name="shopId" value="$!shopId"
+											class="form-control"> <label
+											class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商品编号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="proNo" value="$!productNo"
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商品名称：</label>
+										<div class="col-sm-2">
+											<input type="text" name="productName" value="$!productName"
+												class="form-control">
+										</div>
+										<span>商品大类</span> <select name="productType" id="productType"
+											class="" style="font-size: 13px; width: 100px; height: 20px;">
+											<option value="$!productType"
+												#if(!$!productType)selected="selected" #end>选择类型</option>
+											#foreach($type in $allFathertype)
+											<option value="$!type">$!type</option> #end
+										</select> <span>商品小类</span> <select name="childrenType"
+											id="childrenType" class=""
+											style="font-size: 13px; width: 100px; height: 20px;">
+
+										</select> <input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+									</div>
+
+								</div>
+
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<header class="panel-heading">
+							<span style="font-family: 微软雅黑;">商品列表</span>&nbsp;
+
+							<!-- <a id="addNotice" 
+								style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px; border-color: darkgrey; color: grey">
+								<i class="fa fa-plus text">&nbsp;新增推荐商品</i>
+							</a> -->
+
+						</header>
+						<!-- 搜索商品 -->
+						<div class="table-responsive" style="overflow-y: auto">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm"
+								style="text-align: center;">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width: 20%">商品名称</th>
+										<th style="width: 10%">参与活动</th>
+										<th style="width: 10%">商品类型</th>
+										<th style="width: 10%">商品规格</th>
+										<th style="width: 10%">商品价格(现价)</th>
+										<!-- <th style="width: 10%">销售量</th> -->
+										<th style="width: 10%">库存量</th>
+										<th style="width: 10%">返现比例/返积分比例</th>
+										<th style="width: 10%">修改积分比例</th>
+										<th style="width: 10%">查看销售状态</th>
+									</tr>
+								</thead>
+								#foreach($shopProInfo in $shopProInfoList)
+								<tr>
+									<td><img
+										style="margin-left: 0px; margin-top: 0px; width: 70px; height: 70px"
+										src="$!shopProInfo.proImage" alt="应该有张图！">$!shopProInfo.proName</td>
+									<td>#if($!shopProInfo.rFlag=="0")未参与
+										#elseif($!shopProInfo.rFlag=="1")新品
+										#elseif($!shopProInfo.rFlag=="2")农村经纪人商品
+										#elseif($!shopProInfo.rFlag=="3")首页推荐
+										#elseif($!shopProInfo.rFlag=="4")团购商品
+										#elseif($!shopProInfo.rFlag=="5")团购商品(首页推荐)
+										#elseif($!shopProInfo.rFlag=="6")农村经纪人默认商品
+										#elseif($!shopProInfo.rFlag=="7")分红商品 #end</td>
+									<td>$!shopProInfo.fatherType
+										&nbsp;>$!shopProInfo.childrenType</td>
+									<td>$!shopProInfo.childrenName</td>
+									<td>#if(!$!shopProInfo.price)0.00元 #else
+										$!shopProInfo.price元 #end</td>
+									<!-- <td>#if(!$!shopProInfo.soleCount)0件
+										#else $!shopProInfo.soleCount件
+										#end</td> -->
+									<td>#if(!$!shopProInfo.stock)0件 #else $!shopProInfo.stock件
+										#end</td>
+									<td>$!shopProInfo.proportionReturn /
+										$!shopProInfo.proportionIntegral</td>
+									<td><input class="btn   btn-danger"
+										style="width: auto; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="changerate('$!shopProInfo.productNo','$!shopProInfo.shopId')"
+										value="修改积分比例" name="a_up"></td>
+									<td><input class="btn   btn-danger"
+										style="width: auto; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="productAllSell('$!shopProInfo.productNo','$!shopProInfo.shopId','$!shopProInfo.praflag')"
+										value="查看该商品销售状态" name="a_up"></td>
+								</tr>
+								#end
+							</table>
+						</div>
+					</section>
+					<!-- ---列表主体--- -->
+					<div class="fn-mt7">#set ($formName = "formName")
+						#parse('/mng/page.html')</div>
+					<div style="height: 200px"></div>
+				</section>
+
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+		<!--  -----主体内容------ -->
+
+	</section>
+	<div id="inputText" class="white_content"
+		style="position: absolute; left: 800px; top: 170px; width: 420px; height: 37px;">
+	</div>
+	<script src="js/app.v2.js"></script>
+	<script type="text/javascript">
+		var s;
+		var p;
+		function changerate(productNo, shopId) {
+			s = shopId;
+			p = productNo;
+			div = '<input type="text"class="type-button"style="height:35px;width:120px;" id="returnMoney" placeholder="输入返现比例(0-1)"><input class="type-button" type="text"style="height:35px;width:120px;" id="returnPoint"placeholder="输入积分比例(0-1)"><span class="type-button" style="font-size: 16px;font-weight: bold;cursor: pointer;float:left;position:absolute;right:70px;top:0px" onclick="PassTrue()">确认同意</span><span class="type-button" style="font-size: 16px;font-weight: bold;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDivText()">关闭</span>';
+			$("#inputText").html(div);
+			ShowDiv('inputText', 'fade');
+		}
+		function PassTrue() {
+			var url = "productCheckChange.do?shopId=" + s + "&productNo=" + p;
+			var returnMoney = document.getElementById("returnMoney").value
+			var returnPoint = document.getElementById("returnPoint").value
+			jQuery
+					.ajax({
+						url : url,// 跳转到 action  
+						type : 'post',
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						dataType : 'json',
+						data : {
+							"returnMoney" : returnMoney,
+							"returnPoint" : returnPoint
+						},
+						success : function(data) {
+							if (data.bizSucc) {
+								alert("修改积分比例成功！");
+								window.location.reload(true);
+							} else {
+								alert("修改积分比例失败！");
+								window.location.reload(true);
+							}
+						},
+						error : function() {
+							alert("网络异常！");
+						}
+					});
+		}
+
+		//弹出隐藏层
+		function ShowDiv(show_div, bg_div) {
+			document.getElementById(show_div).style.display = 'block';
+			document.getElementById(bg_div).style.display = 'block';
+			var bgdiv = document.getElementById(bg_div);
+			bgdiv.style.width = document.body.scrollWidth;
+			//bgdiv.style.height = $(document).height();
+			$("#" + bg_div).height($(document).height());
+		}
+		//关闭窗口
+		function CloseDivText() {
+			document.getElementById('inputText').style.display = 'none';
+			document.getElementById('fade').style.display = 'none';
+		}
+	</script>
+	
+	<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function productAllSell(productNo,shopId,praflag) {
+			var url = "productAllSell.html?productNo="+productNo+"&shopId="+shopId+"&praflag="+praflag;
+			window.open(url, '增加一条信息', features);
+		}
+</script>
+
+</body>
+</html>

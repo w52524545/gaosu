@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_product_comment">
+
+	<!-- 查询商品评价 -->
+	<operation name="selectProductCommentByShopIdAndProductNo"
+		multiplicity="many">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="startRow" javatype="java.lang.Integer" />
+			<param name="pageSize" javatype="java.lang.Integer" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product_comment
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     SHOP_ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     ORDER_ID,
+		     STAR_COUNT_ONE,
+		     STAR_COUNT_TWO,
+		     STAR_COUNT_THREE,
+		     COMMENTS,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_product_comment
+			<dynamic prepend="where">
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+            </dynamic>
+            <isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 查询最新一条商品评价 -->
+	<operation name="selectNewProductComment">
+		<extraparams>
+			<param name="shopId" javatype="java.lang.String" />
+			<param name="productNo" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product_comment
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     SHOP_ID,
+		     USER_ID,
+		     PRODUCT_NO,
+		     ORDER_ID,
+		     STAR_COUNT_ONE,
+		     STAR_COUNT_TWO,
+		     STAR_COUNT_THREE,
+		     COMMENTS,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_product_comment
+			<dynamic prepend="where">
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+            </dynamic>
+            ORDER BY ID DESC LIMIT 0,1 
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 商品评价查询（数据条数） -->
+	<operation name="selectCommentCountByShopIdAndProductNo"
+		resultClass="int">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product_comment
+		</sql>
+		<sqlmap>
+            <![CDATA[
+			SELECT
+		    count(1)
+			FROM makeploy_product_comment
+            <dynamic prepend="where">
+                <isNotNull property="productNo" prepend="and">
+                    PRODUCT_NO = #productNo#
+                </isNotNull>
+                <isNotNull property="shopId" prepend="and">
+                    SHOP_ID = #shopId#
+                </isNotNull>
+            </dynamic> 
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 提交 商品评价 -->
+	<operation name="insertProductComments">
+		<sql>
+			insert into makeploy_product_comment (
+			SHOP_ID,
+			USER_ID,
+			PRODUCT_NO,
+			ORDER_ID,
+			STAR_COUNT_ONE,
+			STAR_COUNT_TWO,
+			STAR_COUNT_THREE,
+			COMMENTS,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			values
+			(
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			CURRENT_TIMESTAMP,
+			?,
+			CURRENT_TIMESTAMP,
+			?
+			)
+		</sql>
+	</operation>
+</table>

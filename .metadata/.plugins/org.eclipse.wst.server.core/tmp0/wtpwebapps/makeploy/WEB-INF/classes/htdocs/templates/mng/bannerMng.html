@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	function deleteBanner(bannerId){
+		var url="deleteBanner.do";
+		if(confirm("是否确定删除?")){
+			jQuery.ajax({
+				 url : url,// 跳转到 action  
+				 type : 'post',
+				 cache : false,
+				 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				 dataType : 'json',
+				 data:{"bannerId":bannerId},
+				 success : function(jsonResult) {
+				 if (jsonResult.bizSucc) {
+					alert(jsonResult.errMsg);
+				 	window.location.reload(true);
+				 } 
+				 else{
+					 alert(jsonResult.errMsg);
+				 }
+				 },
+				 error : function() {  
+				            alert("异常！");  
+				     }  
+				   });
+			}
+	}
+	function newBanner(){
+		var url="newBanner.do";
+		if(confirm("是否确定添加?")){
+			jQuery.ajax({
+				 url : url,// 跳转到 action  
+				 type : 'post',
+				 cache : false,
+				 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				 dataType : 'json',
+				 success : function(jsonResult) {
+				 if (jsonResult.bizSucc) {
+				 	window.location.reload(true);
+				 } 
+				 else{
+					 alert("添加失败!");
+				 }
+				 },
+				 error : function() {  
+				            alert("异常！");  
+				     }  
+			});
+		}
+		
+	}
+	
+	function newCommerceBanner(){
+		var url="newCommerceBanner.do";
+		if(confirm("是否确定添加?")){
+			jQuery.ajax({
+				 url : url,// 跳转到 action  
+				 type : 'post',
+				 cache : false,
+				 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				 dataType : 'json',
+				 success : function(jsonResult) {
+				 if (jsonResult.bizSucc) {
+				 	window.location.reload(true);
+				 } 
+				 else{
+					 alert("添加失败!");
+				 }
+				 },
+				 error : function() {  
+				            alert("异常！");  
+				     }  
+			});
+		}
+		
+	}
+ 	$(document).ready(function(){	
+		$("#ull li").click(function () {
+			var index=$(this).index();
+			switch(index){
+			case 0:
+				$("#bannerPic").show("slow");
+				$("#mallPic").hide("slow");
+				$("#teamPic").hide("slow");
+				$("#partnerPic").hide("slow");
+				$("#topPic").hide("slow");
+				break;
+			case 1:
+				$("#bannerPic").hide("slow");
+				$("#mallPic").show("slow");
+				$("#teamPic").hide("slow");
+				$("#partnerPic").hide("slow");
+				$("#topPic").hide("slow");
+				break;
+			case 2:
+				$("#bannerPic").hide("slow");
+				$("#mallPic").hide("slow");
+				$("#teamPic").show("slow");
+				$("#partnerPic").hide("slow");
+				$("#topPic").hide("slow");
+				break;
+			case 3:
+				$("#bannerPic").hide("slow");
+				$("#mallPic").hide("slow");
+				$("#teamPic").hide("slow");
+				$("#partnerPic").show("slow");
+				$("#topPic").hide("slow");
+				break;
+			case 4:
+				$("#bannerPic").hide("slow");
+				$("#mallPic").hide("slow");
+				$("#teamPic").hide("slow");
+				$("#partnerPic").hide("slow");
+				$("#topPic").show("slow");
+				break;
+			}
+/* 	        $("#"+id).attr("class", "");//所有都变青色
+	        $(this).attr("class", "Selected");//自己变灰色 */
+	   });
+	});
+
+</script>
+<style type="text/css">
+#hidden_div {
+	position: absolute;
+	margin-left: 20%;
+	width: 700px;
+	display: none;
+	height: auto;
+	/* 	 	width: calc(100% - 100px);
+	height:300px;
+	margin:50px 20px 50px 16px;
+	background: #bcbcbc;
+	display:block;  */
+}
+
+/* input[type="file"] {
+ 	opacity: 1;
+	width: 50px;
+	height: 50px; 
+} */
+#hidden_div {
+	position: absolute;
+	margin-left: 20%;
+	width: 700px;
+	display: block;
+	height: auto;
+	z-index: 100;
+}
+/*a  upload */
+.a-upload {
+	padding: 10px 10px;
+	height: 30px;
+	line-height: 7px;
+	position: relative;
+	cursor: pointer;
+	color: #888;
+	background: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1
+}
+
+.a-upload  input {
+	position: absolute;
+	font-size: 100px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	cursor: pointer
+}
+
+.a-upload:hover {
+	color: #444;
+	background: #eee;
+	border-color: #ccc;
+	text-decoration: none
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-dashboard icon"> <b class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li class="active"><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li class="active"><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>农村经纪人默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+										<li><a href="addAgent.html"> <i
+												class="fa fa-angle-right"></i> <span>区域代理添加</span>
+										</a></li>
+										<li><a href="addPartner.html"> <i
+												class="fa fa-angle-right"></i> <span>农村经纪人添加</span>
+										</a></li>
+									</ul></li>
+								<!-- 充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li><a href=""> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<!-- 主体内容 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<!-- 弹出层 -->
+
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;发布管理</li>
+						<li>图片管理</li>
+						<li><a href="bannerCommerceMng.html">商会banner管理</a></li>
+					</ul>
+
+					<!-- 展示已有的banner -->
+
+					<section class="panel panel-default">
+						<header class="header bg-light bg-gradient">
+							<ul id="ull" class="nav nav-tabs nav-white">
+								<li class="active" id="bannerPict"><a href="#"
+									data-toggle="tab">首页广告</a></li>
+								<li class="" id="mallPict"><a href="#" data-toggle="tab">地方特产</a></li>
+								<li class="" id="teamPict"><a href="#" data-toggle="tab">拼团</a></li>
+								<li class="" id="partnerPict"><a href="#" data-toggle="tab">开通农村经纪人</a></li>
+								<li class="" id="topPict"><a href="#" data-toggle="tab">农村经纪人</a></li>
+							</ul>
+						</header>
+
+						<section class="panel panel-default" id="bannerPic">
+							<div class="row">
+								<header class="panel-heading">
+									&nbsp; <a id="addBanner"
+										style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px; cursor: pointer; border-color: darkgrey; color: grey"
+										onclick="newBanner();"> <i class="fa fa-plus text">&nbsp;添加新广告图</i>
+									</a>
+								</header>
+								<!-- first -->
+								#foreach($bannerList in $bannerList )
+								<div class="col-lg-4" style="height: 350px">
+									<section class="panel panel-default">
+										<div class="panel-body">
+											<div class="clearfix text-center m-t">
+												<img id="imageShow_$!bannerList.id"
+													style="height: calc(100% - 20px); width: calc(100% - 10px); margin: 0px 0px"
+													src="$bannerList.poster" alt="" />
+											</div>
+										</div>
+										<form id="uploadBanner" action="uploadBanner.do" method="post"
+											enctype="multipart/form-data">
+											<!-- <footer class="panel-footer bg-info text-center"
+										style="background: #e8e8e8"> -->
+											<div class="row pull-out"
+												style="margin: 0px 0px; background: #e8e8e8; padding: 3px 3px;">
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px;">
+													<a href="javascript:;" class="a-upload"> <input
+														id="$!bannerList.id" type="file" name="newBanner"
+														value=" " />上传图片
+													</a>
+												</div>
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px;">
+													<input class="btn   btn-danger" type="button" value="删除"
+														onclick="deleteBanner($!bannerList.id)">
+												</div>
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px;">
+													<input type="hidden" name="bannerId"
+														value="$!bannerList.id" /> <input type="submit"
+														class="btn   btn-success" />
+												</div>
+												<!-- <div class="col-xs-4" style="padding-left:20px;padding-top:10px;width:100%">
+											<span>跳转目标页面</span>
+												<select name="link">
+													  <option value="#">无</option>
+													  <option value="saab">Saab</option>
+													  <option value="opel">Opel</option>
+													  <option value="audi">Audi</option>
+												</select>
+											</div> -->
+											</div>
+											<!-- </footer> -->
+										</form>
+									</section>
+								</div>
+								#end
+							</div>
+						</section>
+						<!-- 积分商城图片 -->
+						<section class="panel panel-default" id="mallPic"
+							style="display: none">
+							<div class="row">
+								<!--  <header class="panel-heading">
+					&nbsp; <a id="addBanner" style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px;
+											cursor:pointer;border-color: darkgrey; color: grey" onclick="newBanner();">
+							<i class="fa fa-plus text">&nbsp;添加新广告图</i>
+						   </a> 
+						</header>   -->
+								<!-- first -->
+								#foreach($mallPic in $mallPic )
+								<div class="col-lg-4" style="height: 350px">
+									<section class="panel panel-default">
+										<div class="panel-body">
+											<div class="clearfix text-center m-t">
+												<img id="imageShow_$!mallPic.id"
+													style="height: calc(100% - 20px); width: calc(100% - 10px); margin: 0px 0px"
+													src="$mallPic.poster" alt="" />
+											</div>
+										</div>
+										<form id="uploadPic" action="uploadPic.do" method="post"
+											enctype="multipart/form-data">
+											<div class="row pull-out"
+												style="margin: 0px 0px; background: #e8e8e8; padding: 3px 3px;">
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%">
+													<a href="javascript:;" class="a-upload"> <input
+														id="$!mallPic.id" type="file" name="newBanner" value=" " />上传图片
+													</a>
+												</div>
+												<!-- <div class="col-xs-4" style="padding-left:20px;padding-top:10px;">
+												<input class="btn   btn-danger" type="button" value="删除" onclick="deleteBanner($!teamPic.id)">
+											</div> -->
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%">
+													<input type="hidden" name="picId" value="$!mallPic.id" /> <input
+														type="hidden" name="type" value="$!mallPic.type" /> <input
+														style="float: right; width: 80px" type="submit"
+														class="btn   btn-success" />
+												</div>
+											</div>
+											<!-- </footer> -->
+										</form>
+									</section>
+								</div>
+
+								#end
+							</div>
+						</section>
+						
+						<!--  -->
+						<section class="panel panel-default" id="topPic"
+							style="display: none">
+							<div class="row">
+								<!--  <header class="panel-heading">
+					&nbsp; <a id="addBanner" style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px;
+											cursor:pointer;border-color: darkgrey; color: grey" onclick="newBanner();">
+							<i class="fa fa-plus text">&nbsp;添加新广告图</i>
+						   </a> 
+						</header>   -->
+								<!-- first -->
+								#foreach($topPic in $topPic )
+								<div class="col-lg-4" style="height: 350px">
+									<section class="panel panel-default">
+										<div class="panel-body">
+											<div class="clearfix text-center m-t">
+												<img id="imageShow_$!topPic.id"
+													style="height: calc(100% - 20px); width: calc(100% - 10px); margin: 0px 0px"
+													src="$!topPic.poster" alt="" />
+											</div>
+										</div>
+										<form id="uploadPic" action="uploadPic.do" method="post"
+											enctype="multipart/form-data">
+											<div class="row pull-out"
+												style="margin: 0px 0px; background: #e8e8e8; padding: 3px 3px;">
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%">
+													<a href="javascript:;" class="a-upload"> <input
+														id="$!topPic.id" type="file" name="newBanner" value=" " />上传图片
+													</a>
+												</div>
+												<!-- <div class="col-xs-4" style="padding-left:20px;padding-top:10px;">
+												<input class="btn   btn-danger" type="button" value="删除" onclick="deleteBanner($!teamPic.id)">
+											</div> -->
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%">
+													<input type="hidden" name="picId" value="$!topPic.id" /> <input
+														type="hidden" name="type" value="$!topPic.type" /> <input
+														style="float: right; width: 80px" type="submit"
+														class="btn   btn-success" />
+												</div>
+											</div>
+											<!-- </footer> -->
+										</form>
+									</section>
+								</div>
+
+								#end
+							</div>
+						</section>
+						
+						<!-- 团购专区banner -->
+						<section class="panel panel-default" id="teamPic"
+							style="display: none">
+							<div class="row">
+								<!-- <header class="panel-heading">
+					&nbsp; <a id="addBanner" style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px;
+											cursor:pointer;border-color: darkgrey; color: grey" onclick="newBanner();">
+							<i class="fa fa-plus text">&nbsp;添加新广告图</i>
+						   </a> 
+						</header>  -->
+								<!-- first -->
+								#foreach($teamPic in $teamPic )
+								<div class="col-lg-4" style="height: 350px">
+									<section class="panel panel-default">
+										<div class="panel-body">
+											<div class="clearfix text-center m-t">
+												<img id="imageShow_$!teamPic.id"
+													style="height: calc(100% - 20px); width: calc(100% - 10px); margin: 0px 0px"
+													src="$teamPic.poster" alt="" />
+											</div>
+										</div>
+										<form id="uploadPic" action="uploadPic.do" method="post"
+											enctype="multipart/form-data">
+											<!-- <footer class="panel-footer bg-info text-center"
+										style="background: #e8e8e8"> -->
+											<div class="row pull-out"
+												style="margin: 0px 0px; background: #e8e8e8; padding: 3px 3px;">
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%">
+													<a href="javascript:;" class="a-upload"> <input
+														id="$!teamPic.id" type="file" name="newBanner" value=" " />上传图片
+													</a>
+												</div>
+												<!-- <div class="col-xs-4" style="padding-left:20px;padding-top:10px;">
+												<input class="btn   btn-danger" type="button" value="删除" onclick="deleteBanner($!mallPic.id)">
+											</div> -->
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%;">
+													<input type="hidden" name="picId" value="$!teamPic.id" /> <input
+														type="hidden" name="type" value="$!teamPic.type" /> <input
+														style="float: right; width: 80px" type="submit"
+														class="btn   btn-success" />
+												</div>
+											</div>
+											<!-- </footer> -->
+										</form>
+									</section>
+								</div>
+
+								#end
+							</div>
+						</section>
+						<!-- 开通农村经纪人banner -->
+						<section class="panel panel-default" id="partnerPic"
+							style="display: none">
+							<div class="row">
+								<!-- <header class="panel-heading">
+					&nbsp; <a id="addBanner" style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px;
+											cursor:pointer;border-color: darkgrey; color: grey" onclick="newBanner();">
+							<i class="fa fa-plus text">&nbsp;添加新广告图</i>
+						   </a> 
+						</header>  -->
+								<!-- first -->
+								#foreach($partnerPic in $partnerPic )
+								<div class="col-lg-4" style="height: auto">
+									<section class="panel panel-default">
+										<div class="panel-body">
+											<div class="clearfix text-center m-t">
+												<img id="imageShow_$!partnerPic.id"
+													style="height: calc(100% - 20px); width: calc(100% - 10px); margin: 0px 0px"
+													src="$partnerPic.poster" alt="" />
+											</div>
+										</div>
+										<form id="uploadPic" action="uploadPic.do" method="post"
+											enctype="multipart/form-data">
+											<!-- <footer class="panel-footer bg-info text-center"
+										style="background: #e8e8e8"> -->
+											<div class="row pull-out"
+												style="margin: 0px 0px; background: #e8e8e8; padding: 3px 3px;">
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%">
+													<a href="javascript:;" class="a-upload"> <input
+														id="$!partnerPic.id" type="file" name="newBanner"
+														value=" " />上传图片
+													</a>
+												</div>
+												<!-- <div class="col-xs-4" style="padding-left:20px;padding-top:10px;">
+												<input class="btn   btn-danger" type="button" value="删除" onclick="deleteBanner($!mallPic.id)">
+											</div> -->
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px; width: 50%;">
+													<input type="hidden" name="picId" value="$!partnerPic.id" />
+													<input type="hidden" name="type" value="$!partnerPic.type" />
+													<input style="float: right; width: 80px" type="submit"
+														class="btn   btn-success" />
+												</div>
+											</div>
+											<!-- </footer> -->
+										</form>
+									</section>
+								</div>
+
+								#end
+							</div>
+						</section>
+						
+						<!-- 商会banner -->
+						<!-- <section class="panel panel-default" id="bannerCommercePic">
+							<div class="row">
+								<header class="panel-heading">
+									&nbsp; <a id="addBanner"
+										style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px; cursor: pointer; border-color: darkgrey; color: grey"
+										onclick="newCommerceBanner();"> <i class="fa fa-plus text">&nbsp;添加新广告图</i>
+									</a>
+								</header>
+								first
+								#foreach($bannerList in $commercePic )
+								<div class="col-lg-4" style="height: 350px">
+									<section class="panel panel-default">
+										<div class="panel-body">
+											<div class="clearfix text-center m-t">
+												<img id="imageShow_$!bannerList.id"
+													style="height: calc(100% - 20px); width: calc(100% - 10px); margin: 0px 0px"
+													src="$bannerList.poster" alt="" />
+											</div>
+										</div>
+										<form id="uploadCommerceBanner" action="uploadCommerceBanner.do" method="post"
+											enctype="multipart/form-data">
+											<footer class="panel-footer bg-info text-center"
+										style="background: #e8e8e8">
+											<div class="row pull-out"
+												style="margin: 0px 0px; background: #e8e8e8; padding: 3px 3px;">
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px;">
+													<a href="javascript:;" class="a-upload"> <input
+														id="$!bannerList.id" type="file" name="newBanner"
+														value=" " />上传图片
+													</a>
+												</div>
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px;">
+													<input class="btn   btn-danger" type="button" value="删除"
+														onclick="deleteBanner($!bannerList.id)">
+												</div>
+												<div class="col-xs-4"
+													style="padding-left: 20px; padding-top: 10px;">
+													<input type="hidden" name="bannerId"
+														value="$!bannerList.id" /> <input type="submit"
+														class="btn   btn-success" />
+												</div>
+												<div class="col-xs-4" style="padding-left:20px;padding-top:10px;width:100%">
+											<span>跳转目标页面</span>
+												<select name="link">
+													  <option value="#">无</option>
+													  <option value="saab">Saab</option>
+													  <option value="opel">Opel</option>
+													  <option value="audi">Audi</option>
+												</select>
+											</div>
+											</div>
+											</footer>
+										</form>
+									</section>
+								</div>
+								#end
+							</div>
+						</section> -->
+						
+					</section>
+				</section>
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+		<!-- ----主体内容---- -->
+	</section>
+
+	<script src="js/app.v2.js"></script>
+	<script type="text/javascript">
+$("#addBanner").click(function(){  
+		$("#hidden_div").fadeToggle("slow");
+		return false;
+});  
+$("#off").click(function(){  
+   $("#hidden_div").fadeToggle("slow");  
+   return false;
+});
+
+$(document).ready(function(){
+    $(":file").change(function() {
+    	var photoid=$(this).attr("id");
+    	//alert(photoid);
+		var $file = $(this),
+		 fileObj = $file[0],
+		 windowURL = window.URL || window.webkitURL,
+		dataURL,
+		fileDiv = $("#imageShow_"+photoid);
+		if(fileObj && fileObj.files && fileObj.files[0]){
+			dataURL = windowURL.createObjectURL(fileObj.files[0]);
+			$("#imageShow_"+photoid).attr('src',dataURL);
+		}
+	});
+   /*  $("#imageUrl2").change(function() {
+		var $file = $(this),
+		 fileObj = $file[0],
+		 windowURL = window.URL || window.webkitURL,
+		dataURL,
+		fileDiv = $('#imageShow2');
+		if(fileObj && fileObj.files && fileObj.files[0]){
+			dataURL = windowURL.createObjectURL(fileObj.files[0]);
+			$('#imageShow2').attr('src',dataURL);
+		}
+	});
+    $("#imageUrl3").change(function() {
+		var $file = $(this),
+		 fileObj = $file[0],
+		 windowURL = window.URL || window.webkitURL,
+		dataURL,
+		fileDiv = $('#imageShow3');
+		if(fileObj && fileObj.files && fileObj.files[0]){
+			dataURL = windowURL.createObjectURL(fileObj.files[0]);
+			$('#imageShow3').attr('src',dataURL);
+		}
+	}); */
+});
+</script>
+</body>
+</html>

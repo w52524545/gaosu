@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="makeploy">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="makeploy-web-home-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-web-home/makeploy-web-home">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-biz-service-impl-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-biz-service-impl/makeploy-biz-service-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-biz-shared-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-biz-shared/makeploy-biz-shared">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-core-service-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-core-service/makeploy-core-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-common-service-integration-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-common-service-integration/makeploy-common-service-integration">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-common-service-facade-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-common-service-facade/makeploy-common-service-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-core-model-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-core-model/makeploy-core-model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-common-dal-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-common-dal/makeploy-common-dal">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-common-util-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-common-util/makeploy-common-util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="makeploy-biz-task-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/makeploy-biz-task/makeploy-biz-task">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/makeploy/target/classes"/>
+        <property name="component.exclusion.patterns" value="WEB-INF/web.xml"/>
+        <property name="context-root" value="makeploy"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加新会员</title>
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js">
+	
+</script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.panel-type-father {
+	/*padding: 10px 15px;*/
+	color: #468847;
+	/*background-color: #dff0d8;*/
+	border-color: #d6e9c6;
+}
+
+.button {
+	color: #666;
+	background-color: #EEE;
+	border-color: #EEE;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	padding: 0 40px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.type-father {
+	font-size: 16px;
+}
+
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+</style>
+</head>
+<body>
+	<section class="hbox stretch">
+		<!-- 导航栏 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;手动会员录入</li>
+					</ul>
+					<div class="col-sm-12">
+						<section class="panel panel-success">
+							<div class="panel-body">
+								<form role="form" action="" method="POST"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<label>用户名</label><input name="userName"
+											id="userName" type="text" class="form-control" value=""/>
+									</div>
+									<div class="form-group">
+										<label>会员电话</label> <input name="userCell"
+											id="userCell" type="text" class="form-control" value=""/>
+									</div>
+
+									
+									<input  class="btn btn-sm btn-success" id="handNewUser" value="提交">
+								</form>
+							</div>
+						</section>
+					</div>
+				</section>
+			</section>
+		</section>
+	</section>
+
+<script src="js/app.v2.js"></script>
+
+<script type="text/javascript">
+$("#handNewUser").click(function(){
+	jQuery.ajax({
+    	type: "POST",
+   		url: "handNewUser.do",
+   		dataType:"json",
+   		data: 
+   		{
+   			userName:$("#userName").val(),
+   			userCell:$("#userCell").val(),
+   		},
+   		success: function(data) {
+   			if(data.bizSucc){
+   				alert("录入成功！");
+   				window.location.reload();	
+   			}else{
+   				alert("录入失败！");
+   				window.location.reload();
+   			}
+       }
+   });
+
+});
+
+</script>
+
+</body>
+</html>

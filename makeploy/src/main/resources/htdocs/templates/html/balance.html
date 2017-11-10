@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>余额</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="js/sort.js" type="text/javascript"></script>
+</head>
+
+<body>
+      <div class="bala_top">
+          <h1>账户余额&#40;元&#41;</h1>
+          <span>$!result.balance</span>
+          <ul class="bala_income">
+              <li>近日收益<br/>&yen;$!result.incomeWeek<div class="midline"></div></li>
+               <li>累计收入<br/>&yen;$!result.totalBalance</li>
+          </ul>
+    </div>
+    <ul class="bala_list">
+     <li><a href="balance1.html"><i></i>明细<i></i></a></li>
+        <li><a href="balance2.html"><i></i>提现<i></i></a></li>
+    </ul>
+</body>
+</html>

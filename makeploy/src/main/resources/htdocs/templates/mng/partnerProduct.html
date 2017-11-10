@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		
+		<section id="content" style="background-color:">
+
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+						<li>排单农村经纪人商品查询</li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="partnerProduct.do" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!formName.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商铺编号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="shopId" value=""
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商品编号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="productNo" value=""
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商品名称：</label>
+										<div class="col-sm-2">
+											<input type="text" name="proName" value=""
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: auto; padding-left: 0px; padding-right: 0px">查看已在农村经纪人的商品：</label>
+										<input name="selectedNew" value="1" type="radio" #if($flag==
+											'1'||$flag!='0' ) checked="" #end><label>是</label> 
+										<input name="selectedNew" value="0" type="radio" #if($flag==
+											'0') checked="" #end><label>否</label> 
+										<input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<header class="panel-heading">
+							<span style="font-family: 微软雅黑;">首页推荐</span>&nbsp;
+						</header>
+						<!-- 推荐已成为农村经纪人 -->
+						<div class="table-responsive">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width: 7%">店铺编号</th>
+										<th style="width: 7%">商品编号</th>
+										<th style="width: 7%">商品名</th>
+										<th style="width: 7%">商品类型</th>
+										<th style="width: 7%">商品折扣</th>
+										<th style="width: 7%">商品价格</th>
+										<th style="width: 7%">运费</th>
+										<th style="width: 7%">出厂价</th>
+										<th style="width: 7%">销售量</th>
+										<th style="width: 10%">商品图片</th>
+										<th style="text-align: center">加入排单农村经纪人商品</th>
+									</tr>
+								</thead>
+								#foreach($productInfo in $productInfo)
+								#if($!productInfo.recommendFlg!="8")
+								<tr>
+									<td>$!productInfo.shopId</td>
+									<td>$!productInfo.productNo</td>
+									<td>$!productInfo.productName</td>
+									<td>$!productInfo.productType</td>
+									<td>$!productInfo.productOff</td>
+									<td>$!productInfo.price</td>
+									<td>$!productInfo.luggage</td>
+									<td>$!productInfo.oldPrice</td>
+									<td>$!productInfo.soleCount</td>
+									<td><img alt="图片" src="$!productInfo.productUrl"></td>
+									<td
+										style="width: 20%; vertical-align: middle; text-align: center">
+										<input class="btn   btn-danger"
+										style="width: 45%; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="shopEdit($!productInfo.shopId,$!productInfo.productNo,$!productInfo.recommendFlg)"
+										value="同意" name="a_up" id="a_up"> <input type="hidden"
+										value="$!shopInfo.unionFlg" name="flag" id="flag"> <input
+										class="btn   btn-default"
+										style="width: 45%; padding: 5px 6px; marigin-left: 20px;"
+										type="button" value="撤销" disabled="disabled" name="a_delete"
+										id="a_delete"
+										onclick="shopEdit($!productInfo.shopId,$!productInfo.productNo,$!productInfo.recommendFlg)">
+									</td> #end #end #foreach($productInfo in $productInfo)
+									#if($!productInfo.recommendFlg=="8")
+								<tr>
+									<td>$!productInfo.shopId</td>
+									<td>$!productInfo.productNo</td>
+									<td>$!productInfo.productName</td>
+									<td>$!productInfo.productType</td>
+									<td>$!productInfo.productOff</td>
+									<td>$!productInfo.price</td>
+									<td>$!productInfo.luggage</td>
+									<td>$!productInfo.oldPrice</td>
+									<td>$!productInfo.soleCount</td>
+									<td><img alt="图片" src="$!productInfo.productUrl"></td>
+									<td
+										style="width: 20%; vertical-align: middle; text-align: center">
+										<input class="btn   btn-danger"
+										style="width: 45%; padding: 5px 6px; margin-left: 15px;"
+										disabled="disabled" type="button"
+										onclick="shopEdit($!productInfo.shopId,$!productInfo.productNo,$!productInfo.recommendFlg)"
+										value="同意" name="a_up" id="a_up"> <input type="hidden"
+										value="$!shopInfo.unionFlg" name="flag" id="flag"> <input
+										class="btn   btn-default"
+										style="width: 45%; padding: 5px 6px; marigin-left: 20px;"
+										type="button" value="撤销" name="a_delete" id="a_delete"
+										onclick="shopEdit($!productInfo.shopId,$!productInfo.productNo,$!productInfo.recommendFlg)">
+									</td> #end #end
+							</table>
+						</div>
+
+					</section>
+					<div class="fn-mt7">#set ($formName = "formName")
+						#parse('/mng/page.html')</div>
+				</section>
+			</section>
+
+		</section>
+
+
+
+	</section>
+	<script type="text/javascript">
+
+function shopEdit(shopId,productNo,recommendFlg){
+	jQuery.ajax({
+		 url : "partnerProEdit.do",// 跳转到 action  
+		 type : 'post',
+		 cache : false,
+		 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		 dataType : 'json',
+		 data:{"shopId":shopId,"productNo":productNo,"recommendFlg":recommendFlg},
+		 success : function(result) {
+		 if (result.bizSucc==true) {
+		window.location.reload(true)
+		alert("SUCCESS")
+		 }  if (result.bizSucc==false){
+			  window.location.reload(true)
+	    alert("SUCCESS") 
+	  
+		 }
+		
+		 },
+		 error : function() {  
+		            alert("异常！");  
+		     }  
+		   });
+	
+}
+</script>
+
+	<script src="js/app.v2.js"></script>
+	
+</body>
+</html>

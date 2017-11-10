@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/task   
+		   http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+	default-autowire="byName">
+<task:annotation-driven />
+
+	<!-- 名字必须是applicationEventMulticaster和messageSource是一样的，默认找这个名字的对象 -->
+	<!-- 名字必须是applicationEventMulticaster，因为AbstractApplicationContext默认找个 -->
+	<!-- 如果找不到就new一个，但不是异步调用而是同步调用 -->
+	<bean id="applicationEventMulticaster"
+		class="org.springframework.context.event.SimpleApplicationEventMulticaster">
+		<!-- <property name="taskExecutor" ref="taskExecutor" /> -->
+		<!-- 注入任务执行器 这样就实现了异步调用（缺点是全局的，要么全部异步，要么全部同步（删除这个属性即是同步）） -->
+	</bean>
+
+	<!-- 线程执行器 -->
+	<bean id="threadExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="25" />
+		<property name="maxPoolSize" value="150" />
+		<property name="queueCapacity" value="1000" />
+	</bean>
+
+	
+<!-- 	<bean id="orderTask" class="com.onway.game.biz.task.OrderTask" /> -->
+	<!--商品上架期限到自动下架 --> 
+<!-- 	<bean id="productTask" class="com.onway.game.biz.task.ProductTask" /> -->
+
+
+	<bean id="AccountReturnTask" class="com.onway.makeploy.biz.task.AccountReturnTask" />
+	<bean id="OrderConfirm" class="com.onway.makeploy.biz.task.OrderConfirm" />
+	<!--商品30分钟未支付取消订单 --> 
+    <bean id="OrderCancel" class="com.onway.makeploy.biz.task.OrderCancel" />
+    <bean id="PartnerRank" class="com.onway.makeploy.biz.task.PartnerRank" />
+
+	<task:scheduled-tasks>
+	    <task:scheduled ref="AccountReturnTask" method="execute" cron="0 0 0 * * ? " />
+	    <!-- <task:scheduled ref="AccountReturnTask" method="execute" cron="0 0/1 * * * ? " /> -->
+		<!-- 排序定时 -->
+		<task:scheduled ref="PartnerRank" method="execute" cron="0 0 1 * * ? " />
+		
+        <!-- <task:scheduled ref="OrderConfirm" method="execute" cron="0 0 1 * * ? " /> -->
+        
+		<!-- 每一分钟调度一次 -->
+        <!-- <task:scheduled ref="OrderCancel" method="execute" cron="0 0/1 * * * ? " /> -->
+<!-- 		<task:scheduled ref="AccountReturnTask" method="execute" cron="0 30 17 * * ? " /> -->
+<!-- 		<task:scheduled ref="AccountReturnTask" method="execute" cron="0/30 * * * * ?" /> -->
+		<!-- <task:scheduled ref="orderProcessTask" method="execute"
+			cron="0 15 6 ? * *" /> -->
+		
+<!-- 		<task:scheduled ref="orderTask" method="execute" cron="0 0/1 * * * ?" /> -->
+		<!-- 每30秒调度一次 -->
+<!-- 		<task:scheduled ref="productTask" method="execute" cron="0/30 * * * * ?" /> -->
+		<!-- <task:scheduled ref="pushBookOrderProcessTask"
+			method="execute" cron="0 0 9  * * ?" /> -->
+		<!-- <task:scheduled ref="orderTimeOutProcessTask" method="execute" -->
+		<!-- cron="3/5 * * * * ?" /> -->
+		<!-- <task:scheduled ref="feedBackOrderProcessTask" method="execute"
+			cron="0 15 7 ? * *" /> -->
+		<!-- cron="3 0 0 * * ?"/> -->
+		<!-- <task:scheduled ref="bookOrderProcessTask" method="execute"
+			cron="0 15 8 ? * *" /> -->
+	</task:scheduled-tasks>
+</beans>

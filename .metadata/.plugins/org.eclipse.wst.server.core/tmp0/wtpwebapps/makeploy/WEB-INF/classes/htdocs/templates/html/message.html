@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>信息</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="js/sort.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="message_list_t">
+         <div class="message_list_tl"><i></i>
+        </div>
+            <div class="message_list_rg">
+                <h1>玫发现商城<span>16:19</span></h1>
+                <p>消息消息消息消息消息消息消息消息消息消息消息消息</p>
+            </div>
+    </div>
+<div class="message_list">
+    <ul>
+        #foreach($result in $message )
+        <li>
+            <img src="images/store.jpg" />
+            <div class="message_list_rg">
+                <h1>$!result.sUserName<span>$!dateUtils.format($!result.sendTime,'yyyy-MM-dd HH:mm')</span></h1>
+                <p>$!result.msg</p>
+            </div>
+        </li>
+        #end
+    </ul>
+</div>
+    
+</body>
+    <script type="text/javascript">
+     $(document).ready(function(){
+    $(function () {
+        $(".collect_menu li").click(function() {
+            tabcon(this,".collect_cont");
+        });
+        function tabcon(op,con){
+            var index = $(op).index();
+            $(con).hide().eq(index).show();
+            $(op).parent().find("li").removeClass("cur").eq(index).addClass("cur");
+            /*$(op).parent().find("a").removeClass("cur").eq(index).addClass("cur");*/
+        }
+    });
+       });
+</script>
+</html>

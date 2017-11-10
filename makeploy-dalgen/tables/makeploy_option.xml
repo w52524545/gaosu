@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_option">
+    <column name="" javatype="" />
+    
+    <!-- 查询意见反馈信息列表 -->
+    <operation name="selectOptionInfoByUserId" multiplicity="many" >
+        <extraparams>
+            <param name="userId" javatype="java.lang.String" />
+            <param name="startRow" javatype="java.lang.Integer" />
+            <param name="pageSize" javatype="java.lang.Integer" />
+        </extraparams>
+        <sql>
+            select * from makeploy_option
+        </sql>
+        <sqlmap>
+            <![CDATA[
+			SELECT
+		     ID,
+		     USER_ID,
+		     TITLE,
+		     MESSAGE,
+		     CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO
+			FROM makeploy_option
+			WHERE USER_ID = #userId#
+			<isNotNull property="startRow">
+                limit $startRow$,$pageSize$
+            </isNotNull>
+			]]>
+        </sqlmap>
+    </operation>
+
+    <!-- 插入用户反馈信息 -->
+    <operation name="insertOption" >
+
+        <sql>
+            insert into makeploy_option (USER_ID,TITLE,MESSAGE)
+            values(?,?,?)
+        </sql>
+    </operation>
+    
+    <!-- 添加用户反馈信息 -->
+    <operation name="addOption"  paramtype="object">
+
+        <sql>
+            insert into makeploy_option 
+            (USER_ID,
+             MESSAGE,
+             CREATER,
+		     GMT_CREATE,
+		     MODIFIER,
+		     GMT_MODIFIED,
+		     MEMO)
+            values(?,?,?, CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?)
+        </sql>
+    </operation>
+
+
+<!-- 根据有无用户ID查询意见信息 southRain-->
+    <operation name="selectOptionByUserId" multiplicity="many" >
+        <extraparams>
+        	<param name="userId" javatype="java.lang.String" />
+            <param name="offset"  javatype="java.lang.Integer"/>
+            <param name="limit"  javatype="java.lang.Integer"/>
+        </extraparams>
+        <sql>
+            select * from makeploy_option
+        </sql>
+        <sqlmap>
+        <![CDATA[ 
+			SELECT  * FROM makeploy_option where 1=1
+			<isNotEmpty property="userId" prepend="and">
+	                    USER_ID = #userId#
+	        </isNotEmpty>
+	            order by GMT_CREATE desc  limit #offset#,#limit#
+			 ]]>
+        </sqlmap>
+       
+    </operation>
+    
+    <!-- 根据有无用户ID查询意见信息条数 southRain-->
+    <operation name="selectOptionCountByUserId" >
+        <extraparams>
+        	<param name="userId" javatype="java.lang.String" />
+        </extraparams>
+        <sql>
+            select count(1) from makeploy_option
+        </sql>
+        <sqlmap>
+        <![CDATA[ 
+			SELECT  count(1) from makeploy_option where 1=1
+			<isNotEmpty property="userId" prepend="and">
+	                    USER_ID = #userId#
+	        </isNotEmpty>
+			 ]]>
+        </sqlmap>
+       
+    </operation>
+</table>

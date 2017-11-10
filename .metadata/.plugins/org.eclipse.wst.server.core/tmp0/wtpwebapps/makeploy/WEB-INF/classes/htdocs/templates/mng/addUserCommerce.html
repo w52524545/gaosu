@@ -1,0 +1,195 @@
+<!-- southRain -->
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-店铺信息查询</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+.a-upload {
+    padding: 4px 10px;
+    height: 30px;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+    color: cadetblue;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 15px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+}
+
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none;
+}
+
+td {
+text-align:center;
+}
+</style>
+
+<script type="text/javascript">
+function addNewCommerceUser(commerceId,userId){
+	    alert("确认添加？");
+	    var url="addNewCommerceUser.do";
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{
+				 "commerceId":commerceId,
+				 "userId":userId
+			 },
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert("成功");
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+}
+
+</script>
+
+</head>
+<body>
+	<div class="headline">
+		
+	</div>
+	<section class="hbox stretch">
+		
+				<section id="content">
+					<section class="vbox">
+						<section class="scrollable padder">
+							<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+								<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+								<li>商会信息查询</li>
+								<li>当前店铺数：$!allCommerceList.size()</li>
+							</ul>
+						<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="addUserCommerce.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!formName.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+
+										 <label
+											class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">商会电话：</label>
+										<div class="col-sm-2">
+											<input type="text" name="commerceCell" value="$!commerceCell"
+												class="form-control">
+										</div>
+
+										<input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+										<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+									    <input type="hidden" id="userIds" value="$!userId" name="userIds">
+									</div>
+
+								</div>
+
+							</div>
+						</form>
+								<!-- <form id="shopForm" action="allcommerce.html" name="shopForm" method="post">
+								
+									商会电话:<input type="text" name=commerceCell id="commerceCell" value="$!commerceCell">
+									<button type="submit" class="btn btn-primary">搜索</button>
+									
+									<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+								</form> -->
+						</div>
+						<br>
+								<section class="panel panel-default" style="overflow-x:auto;width:auto">
+									<table id="announcement" class="table table-striped datagrid m-b-sm" style="width:auto">
+										<thead>
+											<tr>
+												<th style="width:20%">商会图片</th>
+												<th style="width:20%;">商会名称</th>
+												<th style="width:20%">商会电话</th>
+												<th style="width:20%">商会人数</th>
+												<th style="width:20%;">商会地址</th>
+												<th style="width:20%;">操作</th>
+											</tr>
+										</thead>
+										#foreach($commerce in $allCommerceList)
+										<tr>
+											<td style="width:20%;" align="center">
+											<img alt="" src="$!commerce.CommerceDO.commerceUrl">
+											</td>
+											<td style="width:20%">$!commerce.CommerceDO.commerceName</td>
+											<td style="width:20%">$!commerce.CommerceDO.commerceCell</td>
+											<td style="width:20%">$!commerce.CommerceDO.peopleNum</td>
+											<td style="width:20%">$!commerce.CommerceDO.commerceAddr</td>
+                                            <td style="width:20%">
+                                            #if($!commerce.checkNewUser == 1)
+                                            <input type="button" class="btn   btn-success" value="已是该商会成员" style="background-color: red">
+                                            #else
+                                            <input type="button" class="btn   btn-success" value="选择加入该商会" onclick="addNewCommerceUser($!commerce.CommerceDO.commerceId,$!userId)">
+                                            #end
+                                            </td>
+										</tr>
+										#end
+									</table>
+							</section>
+							<div class="fn-mt7" style="float:right">#set ($formName = "formName")
+													#parse('/mng/page.html')
+									</div>
+						</section>
+					</section>
+					
+					<a href="#" class="hide nav-off-screen-block"
+						data-toggle="class:nav-off-screen" data-target="#nav"></a>
+				</section>
+			</section>
+	<script src="js/app.v2.js"></script>
+	
+	<script type="text/javascript">
+     function goback(){
+    	 window.location.href="userInfoMng.html";
+     }
+</script>
+
+</body>
+</html>

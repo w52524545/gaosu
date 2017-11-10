@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+	</div>
+	<section class="hbox stretch">
+		
+
+		<section id="content" style="background-color: ">
+		
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;审核中心</li>
+						<li>入会审核<li>
+						<li>总记录数：$!totalItems<li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="commerceCheckMng.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage" value="$!formName.currentPage">
+							 <input type="hidden" name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<header class="panel-heading">
+							<span style="font-family: 微软雅黑;">申请</span>&nbsp; 
+						</header>
+						       <!-- 推荐已成为农村经纪人 -->
+						<div class="table-responsive">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm" style="text-align:center">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width: 10%">联系人</th>
+										<th style="width: 10%">联系电话</th>
+										<th style="width: 10%">从事行业</th>
+										<th style="width: 10%">户籍所在地</th>
+										<th style="width: 10%">现所在地</th>
+										<th style="width: 10%">备注留言</th>
+										<th style="width: 10%">商会名称</th>
+										<th style="width: 10%">申请时间</th>
+										<th style="text-align: center">编辑</th>
+									</tr>
+								</thead>
+								#foreach($comm in $list)
+								<tr>
+									<td>$!comm.commerceCheckDO.userName</td>
+									<td>$!comm.commerceCheckDO.userCell</td>
+									<td>$!comm.commerceCheckDO.userJob</td>
+									<td>$!comm.commerceCheckDO.cardAddr</td>
+									<td>$!comm.commerceCheckDO.nowAddr</td>
+									<td>$!comm.commerceCheckDO.messages</td>
+									<td>$!comm.commerceDO.commerceName</td>
+									<td>$!dateUtils.format($!comm.commerceCheckDO.gmtModified,'yyyy-MM-dd HH:mm:ss')</td>
+									<td style="width: auto;vertical-align:middle;text-align: center">
+									#if($!comm.commerceCheckDO.status=="0")
+                                 	<input class="btn   btn-danger" style="width:auto;padding:5px 6px;margin-left:15px;"  type="button" onclick="pass('$!comm.commerceCheckDO.userId','$!comm.commerceCheckDO.commerceId',1)" value="批准" name="a_up" id="a_up">
+                                 	
+                                    <input class="btn   btn-default" style="width:auto;padding:5px 6px;marigin-left:20px;"   type="button" value="不批准" name="a_delete" id="a_delete" onclick="pass('$!comm.commerceCheckDO.userId','$!comm.commerceCheckDO.commerceId',2)">
+                                    #elseif($!comm.commerceCheckDO.status=="1")通过
+                                    #elseif($!comm.commerceCheckDO.status=="2")不通过
+                                    #end
+                                    </td>
+							#end
+							</table>
+						</div>
+						
+					</section>
+					<div class="fn-mt7" >#set ($formName = "formName")
+						#parse('/mng/page.html')</div>
+						<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+				</section>
+			</section>
+		
+		</section>
+		</section>
+		<script src="js/app.v2.js"></script>
+	
+</body>
+<script type="text/javascript">
+     function goback(){
+    	 window.location.href="shopCheckMng.html";
+     }
+</script>
+<script type="text/javascript">
+
+function pass(userId,commerceId,flg){
+	alert("操作执行中......");
+	jQuery.ajax({
+		 url : "joinCommerce.do",// 跳转到 action  
+		 type : 'post',
+		 cache : false,
+		 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		 dataType : 'json',
+		 data:{"userId":userId,"commerceId":commerceId,"flg":flg},
+		 success : function(result) {
+		 if (result.bizSucc==true) {
+		window.location.reload(true)
+		alert(result.errMsg)
+		 }  if (result.bizSucc==false){
+			  window.location.reload(true)
+	    alert(result.errMsg) 
+	  
+		 }
+		
+		 },
+		 error : function() {  
+		            alert("异常！");  
+		     }  
+		   });
+	
+}
+</script>
+</html>

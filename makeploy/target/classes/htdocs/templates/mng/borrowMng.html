@@ -1,0 +1,310 @@
+<!--southRain-->
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-借款信息</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.table1 {
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+
+.td1 {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
+<!-- 修改申请状态 -->
+<script type="text/javascript">
+	function changeState(borrowId, state) {
+		var url = "borrowModify.do";
+		jQuery.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				"borrowId" : borrowId,
+				"state" : state
+			},
+			success : function(jsonResult) {
+				if (jsonResult.bizSucc) {
+					alert("修改成功");
+				} else {
+					alert("修改失败");
+				}
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>农村经纪人默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+										<li><a href="addAgent.html"> <i
+												class="fa fa-angle-right"></i> <span>区域代理添加</span>
+										</a></li>
+										<li><a href="addPartner.html"> <i
+												class="fa fa-angle-right"></i> <span>农村经纪人添加</span>
+										</a></li>
+									</ul></li>
+
+								<!-- 充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li class="active"><a href=""> <i
+										class="fa fa-file-text icon"> <b class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content" style="background-color:">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;我要借款</li>
+						<li>借款信息查询
+						<li>
+						<li>当前信息数：$!borrowInfoList.size()</li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="borrowForm"
+							action="borrowMng.html" name="borrowForm" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!borrowForm.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!borrowForm.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+										<select name="state" style="height: 30px; width: 100px;">
+											<option value="">全部</option>
+											<option value="0" #if($!activeType== "0") selected="selected"
+												#end>进行中</option>
+											<option value="1" #if($!activeType== "1") selected="selected"
+												#end>成功</option>
+											<option value="2" #if($!activeType== "2") selected="selected"
+												#end>失败</option>
+										</select>&nbsp; <input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default">
+						<table id="announcement"
+							class="table table-striped datagrid m-b-sm table1">
+							<thead>
+								<tr>
+									<!-- <th>ID</th> -->
+									<th style="width: 10%">借款人姓名</th>
+									<th style="width: 10%">借款人手机号</th>
+									<th style="width: 10%">借款人身份证号</th>
+									<th style="width: 10%">担保人姓名</th>
+									<th style="width: 10%">担保人手机号</th>
+									<th style="width: 10%">担保人身份证号</th>
+									<th style="width: 10%">用途</th>
+									<th style="width: 10%">申请金额</th>
+									<th style="width: 14%">申请状态</th>
+								</tr>
+							</thead>
+							#foreach( $borrowInfo in $borrowInfoList )
+							<tr>
+								<td align="center">$!borrowInfo.borrowName</td>
+								<td align="center">$!borrowInfo.borrowCell</td>
+								<td align="center">$!borrowInfo.borrowCard</td>
+								<td align="center">$!borrowInfo.sponsorName</td>
+								<td align="center">$!borrowInfo.sponsorCell</td>
+								<td align="center">$!borrowInfo.sponsorCard</td>
+								<td align="center">$!borrowInfo.useWay</td>
+								<td align="center">$!borrowInfo.borrowMoney</td>
+								<td align="center"><nav class="nav-primary hidden-xs">
+										<ul class="nav" style="background-color: #EEEEE0;">
+											<li><a style="cursor: pointer;"><span>#if($!borrowInfo.borrowState=="0")进行中
+														#elseif($!borrowInfo.borrowState=="1")成功
+														#elseif($!borrowInfo.borrowState=="2")失败 #end</span></a>
+												<ul class="nav lt">
+													<li><a href=""
+														onclick="changeState('$!borrowInfo.borrowId','0')"><i
+															class="fa fa-angle-right"></i><span>进行中</span> </a></li>
+													<li><a href=""
+														onclick="changeState('$!borrowInfo.borrowId','1')"><i
+															class="fa fa-angle-right"></i><span>成功</span> </a></li>
+													<li><a href=""
+														onclick="changeState('$!borrowInfo.borrowId','2')"><i
+															class="fa fa-angle-right"></i><span>失败</span> </a></li>
+												</ul></li>
+										</ul>
+									</nav></td>
+							</tr>
+							#end
+						</table>
+					</section>
+					<div class="fn-mt7">#set ($formName = "borrowForm")
+						#parse('/mng/page.html')</div>
+				</section>
+			</section>
+		</section>
+	</section>
+	<script src="js/app.v2.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+#Tomcat publish data
+#Fri Nov 10 10:03:41 CST 2017
+org.eclipse.jst.j2ee.server\:makeploy-common-util=WEB-INF/lib/makeploy-common-util-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-common-service-facade=WEB-INF/lib/makeploy-common-service-facade-1.0.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-core-service=WEB-INF/lib/makeploy-core-service-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-core-model=WEB-INF/lib/makeploy-core-model-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-common-dal=WEB-INF/lib/makeploy-common-dal-1.0.jar
+org.eclipse.jst.jee.server\:/binary\:D\:\\gaosu\\xm\\repository\\org\\springframework\\spring-web\\3.2.2.RELEASE\\spring-web-3.2.2.RELEASE.jar=WEB-INF/lib/spring-web-3.2.2.RELEASE.jar
+org.eclipse.jst.j2ee.server\:makeploy-biz-shared=WEB-INF/lib/makeploy-biz-shared-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-biz-service-impl=WEB-INF/lib/makeploy-biz-service-impl-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-biz-task=WEB-INF/lib/makeploy-biz-task-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-common-service-integration=WEB-INF/lib/makeploy-common-service-integration-1.0.jar
+org.eclipse.jst.j2ee.server\:makeploy-web-home=WEB-INF/lib/makeploy-web-home-1.0.jar

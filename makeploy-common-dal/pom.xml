@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.onway.makeploy</groupId>
+		<artifactId>makeploy-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.makeploy</groupId>
+	<artifactId>makeploy-common-dal</artifactId>
+	<version>1.0</version>
+	<name>makeploy-common-dal</name>
+	<description>makeploy-common-dal</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+	<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.onway.makeploy</groupId>
+			<artifactId>makeploy-common-service-facade</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>commons-beanutils</groupId>
+		    <artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<!-- oracle的数据库驱动包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+	</dependencies>
+</project>

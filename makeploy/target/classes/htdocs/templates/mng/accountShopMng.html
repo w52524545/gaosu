@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+
+<style type="text/css">
+#hidden_div {
+	position: absolute;
+	margin-left: 20%;
+	width: 700px;
+	display: none;
+	height: auto;
+	/* 	width: calc(100% - 100px);
+	height:300px;
+	margin:50px 20px 50px 16px;
+	background: #bcbcbc;
+	display:block; */
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<!-- 主体内容 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<!-- 弹出层 -->
+						<section id="hidden_div"
+							class="panel panel-default bg-white m-t-lg">
+							<header class="panel-heading text-center">
+								<strong>提现记录</strong>
+							</header>
+
+						</section>
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;提现记录</li>
+					</ul>
+
+					<section class="panel panel-default">
+					
+						<div class="table-responsive">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width:auto">提现金额</th>
+										<th style="width:auto">提现状态</th>
+										<th style="width:auto">提现时间</th>
+									</tr>
+								</thead>
+								#foreach($inMoney in $outMoneyInfo)
+								<tr>
+									<!-- <td>$a</td> -->
+									<td align="center">$!inMoney.amount</td>
+									<td align="center">
+									#if($!inMoney.subType == '0')提现失败
+									#elseif($!inMoney.subType == '1')提现成功
+									#elseif($!inMoney.subType == '2')提现进行中
+									#else 系统错误
+									#end
+									</td>
+									<td align="center">$!dateUtils.format($!inMoney.gmtCreate,"yyyy-MM-dd
+										HH:mm:ss")</td>
+							    </tr>
+							    #end
+							</table>
+						</div>
+						<div style="height: 40px"></div>
+					</section>
+				</section>
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+				<input onclick="goback()" type="button" id="btnDelete"  value="返回上一页 "
+												    class="btn btn-primary" />
+		</section>
+
+	</section>
+<script src="js/app.v2.js"></script>
+<script type="text/javascript">
+     function goback(){
+    	 window.location.href="recharge.html";
+     }
+</script>
+
+</body>
+</html>

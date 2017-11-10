@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="makeploy_product_parameters">
+
+	<!-- 根据商品 shopId and productNo 查询 -->
+	<operation name="selectInfoByShopIdAndProductNo"
+		multiplicity="many">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="shopId" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product_parameters
+		</sql>
+		<sqlmap>
+            <![CDATA[
+                       select * from makeploy_product_parameters
+                       where
+                       SHOP_ID = #shopId# and
+                       PRODUCT_NO = #productNo#
+            ]]>
+		</sqlmap>
+	</operation>
+
+	<!-- 根据商品号查询商品颜色及尺寸 -->
+	<operation name="selectProductParametersById" multiplicity="many">
+		<extraparams>
+			<param name="productNo" javatype="java.lang.String" />
+			<param name="parflag" javatype="java.lang.String" />
+		</extraparams>
+		<sql>
+			select * from makeploy_product_parameters
+		</sql>
+		<sqlmap>
+   	 	<![CDATA[
+   	 	select * from makeploy_product_parameters where 1=1
+   	 		<isNotEmpty property="productNo" prepend="and">
+                PRODUCT_NO = #productNo#
+            </isNotEmpty>
+            <isNotEmpty property="parflag" prepend="and">
+                PARFLAG = #parflag#
+            </isNotEmpty>
+        ]]>
+		</sqlmap>
+	</operation>
+	<operation name="insert" classResult="int">
+		<sql>
+			insert into makeploy_product_parameters(
+			SHOP_ID,
+			PRODUCT_NO,
+			FATHER_NAME,
+			CHILDREN_NAME,
+			STOCK,
+			CREATER,
+			PARFLAG,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			values
+			(
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			?,
+			CURRENT_TIMESTAMP,
+			?,
+			CURRENT_TIMESTAMP,
+			?
+			)
+		</sql>
+	</operation>
+	<operation name="addPartnerPara" paramtype="object">
+		<sql>
+			insert into makeploy_product_parameters
+			(
+			ID,
+			SHOP_ID,
+			PRODUCT_NO,
+			FATHER_NAME,
+			CHILDREN_NAME,
+			STOCK,
+			PARFLAG,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			)
+			VALUES
+			(
+			?, ?, ?, ?, ?, ?, ?, ?,
+			CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?
+			)
+		</sql>
+	</operation>
+	<operation name="editProductParameterInfo" resultClass="int">
+
+		<sql>
+			update makeploy_product_parameters set STOCK=?,GMT_MODIFIED =
+			CURRENT_TIMESTAMP
+			WHERE SHOP_ID = ? and PRODUCT_NO = ? and PARFLAG=?
+		</sql>
+
+
+	</operation>
+</table>

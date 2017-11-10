@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>商户管理系统</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]>
+    <script src="js/ie/html5shiv.js" cache="false"></script>
+    <script src="js/ie/respond.min.js" cache="false"></script>
+    <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<style type="text/css">
+.type-button {
+	color: #666;
+	background-color: #bdeebf;
+	border-color: #EEE;
+	/*font-weight: 300;*/
+	/*font-size: 16px;*/
+	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial,
+		"Lucida Grande", sans-serif;
+	text-decoration: none;
+	text-align: center;
+	/*line-height: 40px;*/
+	border-radius: 4px;
+	padding: 5px 10px;
+	margin: 0;
+	display: inline-block;
+	appearance: none;
+	cursor: pointer;
+	border: none;
+}
+
+.panel-heading {
+	font-weight: bold;
+}
+</style>
+<style type="text/css">
+.user_tit_box {
+	border: 1px solid #dcdcdc;
+	background: #fff;
+	padding: 1px;
+}
+
+.m_t10 {
+	margin-top: 10px;
+}
+
+.user_tit_box div.boxbg {
+	background: #e2edfb no-repeat 8px -196px;
+	font-weight: bold;
+	font-size: 14px;
+	color: #004499;
+	padding: 0 10px 0 18px;
+	zoom: 1;
+	height: 32px;
+	line-height: 32px;
+}
+
+.user_box {
+	border: 1px solid #dcdcdc;
+	border-top: none;
+	padding: 10px;
+	line-height: 24px;
+}
+
+strong {
+	font-weight: bold;
+}
+
+.m_r10 {
+	margin-right: 10px;
+}
+
+.red, .red a, a.red {
+	color: #f00;
+}
+
+.dd {
+	font-family: sans-serif;
+	font-size: large;
+	text-align: left;
+	margin: 6px;
+}
+</style>
+<script type="text/javascript">
+	function inShop(shopId){
+		window.location.href="shopProduct.html?shopId="+shopId;
+		
+	}
+    </script>
+<script type="text/javascript">
+    var features = "top=20%,left=30%,width=1200,height=550,"
+        + "location=yes,menubar=no,resizable=yes,"
+        + "scrollbars=yes,status=no,toolbar=no";
+function changeShop(shopId) {
+    var url = "changeShop.html?shopId="+shopId;
+    window.location.href=url
+
+}
+    </script>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+
+		<h3 style="font-family: 微软雅黑;">商户管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+
+								<li class="active"><a href="javascript:" class="active">
+										<i class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>卖家管理首页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="javascript:" class="active"> <i
+												class="fa fa-angle-right"></i> <span>卖家中心</span>
+										</a></li>
+									</ul></li>
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>店铺管理页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOrderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单管理</span>
+										</a></li>
+										<li><a href="shopProductMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品管理</span>
+										</a></li>
+										<li><a href="shopProductAddMng.html"> <i
+												class="fa fa-angle-right"></i><span>添加商品</span>
+										</a></li>
+										<!-- 										<li><a href=""> <i class="fa fa-angle-right"></i> <span>店铺信息管理</span> -->
+										<!-- 										</a></li> -->
+
+									</ul></li>
+								<li><a> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>运费模板</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="faretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>现有运费模板<span></span>
+										</a></li>
+									</ul>
+									<ul class="nav lt">
+										<li><a href="addFaretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>增加运费模板<span></span>
+										</a></li>
+									</ul></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+						<li>卖家中心</li>
+					</ul>
+
+					<!-- 表格内容 -->
+					<div>
+
+						<div id="$!shop.shopId"
+							style="height: 200px; margin: 10px 0px 35px 5px; background-color: #B0E0E6;">
+
+							<div>
+								<img src="$!shopDo.shopUrl"
+									style="position: relative; left: -30px; top: -10px; height: 200px;">
+							</div>
+							<div class="dd" style="">店铺名:$!shopDo.shopName</div>
+							<div class="dd" style="">店铺电话:$!shopDo.cell</div>
+							<div class="dd" style="">所属行业:$!shopDo.industry</div>
+							<div class="dd" style="">店铺描述:$!shopDo.shopDec</div>
+							<div class="dd" style="">店铺地址:$!shopDo.shopAddr</div>
+							<div onclick="changeShop($!shopDo.shopId)" class="type-button"
+								style="position: relative; float: left; bottom: 0px;">修改</div>
+							<!--                     <a href="shopProductMng.html"><input type="button" value="进人店铺"></a>  -->
+							<div style=""></div>
+						</div>
+						<div>
+
+
+							<div class="user_tit_box m_t10">
+								<div class="boxbg clearfix">订单交易</div>
+							</div>
+							<div class="user_box">
+								<p>
+									<strong>店铺订单：</strong> <a href="shopOrderMng.html">待付款</a><span
+										class="red m_r10">($!unPayOrderCount)</span> <a
+										href="shopOrderMng.html">待发货</a><span class="red m_r10">($!unSendOrderCount)</span>
+									<a href="shopOrderMng.html">待确认收货</a><span class="red m_r10">($!unReciveOrderCount)</span>
+									<a href="shopOrderMng.html">退货/退款</a><span class="red m_r10">($!backOrderCount)</span>
+								</p>
+							</div>
+							<div class="user_tit_box m_t10">
+								<div class="boxbg clearfix">资金账户</div>
+							</div>
+							<div class="user_box">
+								<p>
+									我的资金账号：<strong class="m_r10">$!uesrDo.userId</strong>
+									<!--     <a href="#" target="_blank">进入资金账户</a> -->
+								</p>
+								<p>
+									我的店铺账号：<strong class="m_r10">$!shopDo.shopId</strong>
+									<!--     <a href="#" target="_blank">进入资金账户</a> -->
+								</p>
+								<p>
+									个人账户余额：<strong class="red">$!uesrDo.balance元</strong> <span
+										class="gray6">(<em class="m_l10">可提现余额：</em><span
+										class="red">$!uesrDo.balance元</span>)
+									</span>
+									<!--         <a href="#" class="btn_gray_46  inline m_r10 m_l10" target="_blank">充 值</a> -->
+									<!--         <a href="#" class="btn_gray_46  inline  m_r10" target="_blank">转 账</a> -->
+									<!--         <a href="#" class="btn_gray_46  inline m_r10" target="_blank">提 现</a> -->
+								</p>
+								<p>
+									店铺收益：<strong class="red">$!shopIncomeDO.incomeAccout元</strong> <span
+										class="gray6" >(<em class="m_l10">可提现收益：</em><span
+										class="red">$!shopIncomeDO.incomeAccout元</span>)
+									</span><br><br>
+									<!--         <a href="#" class="btn_gray_46  inline m_r10 m_l10" target="_blank">充 值</a> -->
+									<!--         <a href="#" class="btn_gray_46  inline  m_r10" target="_blank">转 账</a> -->
+									<strong class="red"><a href="#" class="btn_gray_46  inline m_r10" target="_blank" onclick="outShopMoney($!uesrDo.userId,$!uesrDo.shopId)">店铺收益  提 现</a></strong><br>
+									<strong class="red"><a href="accountShopMng.html?userId=$!uesrDo.userId" class="btn_gray_46  inline m_r10" target="_blank" >提现记录</a></strong>
+								</p>
+							</div>
+
+						</div>
+					</div>
+
+
+				</section>
+			</section>
+		</section>
+	</section>
+
+	<script src="js/app.v2.js"></script>
+	
+<script type="text/javascript">
+
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function outShopMoney(userId,shopId) {
+			var url = "outShopMoney.html?userId="+userId+"&shopId="+shopId;
+			window.open(url, '增加一条信息', features);	
+		}
+</script>
+</body>
+</html>

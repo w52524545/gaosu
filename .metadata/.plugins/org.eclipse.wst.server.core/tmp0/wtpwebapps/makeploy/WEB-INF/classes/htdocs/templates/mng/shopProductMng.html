@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+    <meta charset="utf-8" />
+    <title>商户管理系统</title>
+    <meta name="description"
+          content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+    <link rel="stylesheet" href="css/product.css" type="text/css"/>
+    <!--tab切换-->
+    <link rel="stylesheet" href="css/ydui1.css"/>
+    <!--<link rel="stylesheet" href="css/demo.css"/>-->
+    <script src="js/ydui.flexible.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/ie/html5shiv.js" cache="false"></script>
+    <script src="js/ie/respond.min.js" cache="false"></script>
+    <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+    <script src="js/jquery-1.11.3.js" cache="false"></script>
+<!--     <script src="js/shopProduct.js" cache="false"></script> -->
+
+    <style type="text/css">
+        .panel-heading {
+            font-weight: bold;
+        }
+        .pro_pic {
+    float: left;
+    display: block;
+    width: 48px;
+    height: 48px;
+    /* border: 1px solid #ccc; */
+    position: relative;
+    margin-left: 5px;
+    _margin-left: 0px;
+    margin-right: 5px;
+    overflow: hidden;
+}
+    </style>
+    <script type="text/javascript">
+  
+ 
+	function changeS_childType(){
+		var fType= document.getElementById("productType").value
+		var url ="getChildType.do"
+			jQuery.ajax({
+		        type: "POST",
+		        url:  url,
+			    data:{
+			    "fatherType":fType
+			    },	
+	    	   error: function(request) {
+				      alert("Connection error");
+			},
+			  success: function(result) {
+				  var div='<option value="0" >选择类型</option>'
+				  jQuery.each(result,function(i,item){
+					  div+='<option value="'+item.childrenName+'">'+item.childrenName+'</option>'
+					  
+				  	})
+				  $("#children").html(div)
+				  }
+		    	});
+	}
+	
+        function editAll(productNo){
+            window.location.href="shopProductEditMng.html?productNo="+productNo;
+
+        }
+        function editDown(productNo){
+        	editDownUp(productNo,'0')
+        }
+        function editUp(productNo){
+        	editDownUp(productNo,'1')
+        }
+        function editDownUp(productNo,flag){
+        	jQuery.ajax({
+                url : 'productsUpDown.do' ,
+                type : 'post',
+                cache : false,
+                contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                dataType : 'json',
+                data:{
+                    "flag":flag,
+                    "productNo":productNo
+                },
+
+                success : function(data) {
+                	if(data==1){
+                	submitSearch()}
+                	else{
+                		alert("修改失败!")
+                	}
+                },error : function() {
+                    alert("网络异常!");
+                }
+                })
+
+        }
+        function editDelet(productNo){
+        	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+        	 if (confirm(msg)==true){ 
+        		 jQuery.ajax({
+                     url : 'productsDelect.do' ,
+                     type : 'post',
+                     cache : false,
+                     contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                     dataType : 'json',
+                     data:{
+                         
+                         "productNo":productNo
+                     },
+
+                     success : function(data) {
+                    	 if(data==1){
+                         	submitSearch()}
+                         	else{
+                         		alert("修改失败!")
+                         	}
+                     },error : function() {
+                         alert("网络异常!");
+                     }
+                     })
+        	 }else{ 
+        	  return false; 
+        	 } 
+        }
+    </script>
+
+ 
+    <script type="text/javascript">
+       /* $(document).click(function(e) { // 在页面任意位置点击而触发此事件
+           alert($(e.target).attr("id"));       // e.target表示被点击的目标
+        })*/
+        var TAB=new Array(4);
+       var TAB_INDEX=0;
+      TAB[0]=1;TAB[1]=1;TAB[2]=1;TAB[3]=1;
+      
+      window.onload=function(){ 
+
+    	  submitSearch();
+    	  } 
+        function submitSearch(pageNum) {
+            //留判断 值改变
+
+
+            TAB[0]=1;TAB[1]=1;TAB[2]=1;TAB[3]=1;
+            var s_itemName = document.getElementById('s_itemName').value
+            var productType= document.getElementById('productType').value
+            var children= document.getElementById('children').value
+            var s_itemNo= document.getElementById('s_itemNo').value
+            var s_price_min= document.getElementById('s_price_min').value
+            var s_price_max= document.getElementById('s_price_max').value
+            var s_addTime_begin= document.getElementById('s_addTime_begin').value
+            var s_addTime_end= document.getElementById('s_addTime_end').value
+            var s_isTeam= document.getElementById('s_isTeam').value
+//             var s_recommendFlg= document.getElementById('s_recommendFlg').value
+            if(document.getElementById("s_isTeam").checked){
+                s_isTeam=1
+            }
+/*             if(document.getElementById("s_recommendFlg").checked){
+                s_recommendFlg=1
+            } */
+            jQuery.ajax({
+                url : 'productsSelect.do' ,
+                type : 'post',
+                cache : false,
+                contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                dataType : 'json',
+                data:{
+                    "tab_index":TAB_INDEX,
+                    "s_itemName":s_itemName,
+                    "productType":productType,
+                    "children":children,
+                    "s_itemNo":s_itemNo,
+                    "s_price_min":s_price_min,
+                    "s_price_max":s_price_max,
+                    "s_addTime_begin":s_addTime_begin,
+                    "s_addTime_end":s_addTime_end,
+                    "s_isTeam":s_isTeam,
+//                     "s_recommendFlg":s_recommendFlg,
+                    "currentPage":pageNum
+                },
+
+                success : function(data) {
+                    var productList=data.listObject;
+                    var totalPage=data.totalPages;
+//                     判断结果是否为空
+                    if(totalPage>0){
+                    var pageNum=data.pageNum;
+                   var text= '<div class="tab_box3 m_t20"><table class="ie6_table_top" width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr class="choose_box2"><th class="left first "style="width:120px;"></th><th class=" w90">分类</th><th class="w85" style="text-align:center;">返现比例</th><th class="w70" style="text-align:center;">返积分比例</th><th class="w70">价格（元）</th><th class="w50" style="text-align:center;">库存</th><th class="w70">创建时间</th> <th class="w50">状态</th><th class="w100 last">操作</th></tr></tbody></table><table class="table_border item_img_word" id="unsold_list_table" width="100%" border="0" cellspacing="0" cellpadding="0"><tbody>';
+
+                    if(TAB_INDEX==0){
+                   jQuery.each(productList,function(i,item){
+
+//                 	                                                           这里应该有这个类                                                                                                                                                                                                                                                                                              pro_pic  图片边框     不要忘了下面也要
+                        text+=     '<tr class="" title=""><td class="left first"style="width:100px;"><div class="clearfix" ><div class=" pointer">'+
+                                '<img src="'+item.productUrl+
+                                '" width="40px"  ><div class="gray_bg item_pic_edit" style="display: none;"></div><div class="pro_txt item_pic_edit" style="display: none;"><a class="edit-pic" href="javascript:">编辑图片</a></div></div><div class="pro_name3">'+
+                                item.productName+
+                                '</p><p style="font-size:5px">'+
+                                item.productNo+
+                                '</p></div></div></td><td class="edit-category w90"><div class="read-mode attr-edit"><span class="edit" style="margin:0;float:right;" data-attr="catId"></span><div class="fen_box" style="float:left;"><p>'+
+                                item.productType+
+                                '&gt;</p><p>'+
+                                item.children+
+                                '</p></div> <div class="clear"></div></div></td><td class="edit-price w85"><div class="read-mode attr-edit"><div class="red">'+
+                                item.proportionReturn+
+                                '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                item.proportionIntegral+
+                                '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                 item.modifier+
+                                '</div><span class="edit" data-attr="price"></span><div class="clear"></div></div> </td><td class="edit-number w50"><div class="read-mode attr-edit"><div class="">'+
+                                item.stock+
+                                '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                item.creater   +
+
+                                '</p> </div> </td><td class="w50">'+item.checkStatus +' </td> <td class="w100 left last"><div id="operate_font_size_14" class="operation"><p><a href="javascript:;" target="_blank" onclick="editAll('
+                                +item.productNo+
+                                ')">编辑</a></p> <p> <a class="delete" href="javascript:"onclick="editDelet('+item.productNo+
+                                ')">删除</a></p> </div></td> </tr>'});}
+                    else if(TAB_INDEX==1){//出售中的商品
+                        jQuery.each(productList,function(i,item){
+                            text+=     '<tr class="" title=""><td class="first"style="width:100px;"><div class="clearfix" ><div class=" pointer">'+
+                                    '<img src="'+item.productUrl+
+                                    '" width="40px"  ><div class="gray_bg item_pic_edit" style="display: none;"></div><div class="pro_txt item_pic_edit" style="display: none;"><a class="edit-pic" href="javascript:">编辑图片</a></div></div><div class="pro_name3">'+
+                                    item.productName+
+                                    '</p><p style="font-size:5px">'+
+                                    item.productNo+
+                                    '</p></div></div></td><td class="edit-category w90"><div class="read-mode attr-edit"><span class="edit" style="margin:0;float:right;" data-attr="catId"></span><div class="fen_box" style="float:left;"><p>'+
+                                    item.productType+
+                                    '&gt;</p><p>'+
+                                    item.children+
+                                    '</p></div> <div class="clear"></div></div></td><td class="edit-price w85"><div class="read-mode attr-edit"><div class="red">'+
+                                    item.proportionReturn+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.proportionIntegral+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.modifier+
+                                    '</div><span class="edit" data-attr="price"></span><div class="clear"></div></div> </td><td class="edit-number w50"><div class="read-mode attr-edit"><div class="">'+
+                                    item.stock+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.creater+
+                                    '</p> </div> </td><td class="w50">'+item.checkStatus +' </td> <td class="w100 left last"><div id="operate_font_size_14" class="operation"><p><a href="javascript:;" target="_blank" onclick="editAll('
+                                    +item.productNo+
+                                    ')">编辑</a></p><p><a class="haltsale" href="javascript:" onclick="editDown('+item.productNo+
+                                    ')">下架</a></p> <p> <a class="delete" href="javascript:"onclick="editDelet('+item.productNo+
+                                    ')">删除</a></p> <p> <a class="promotion" href="javascript:"onclick="productPromotion('+item.productNo+','+item.shopId+')">申请促销</a></p> </div></td> </tr>'
+
+                        });}else if(TAB_INDEX==2){
+                        jQuery.each(productList,function(i,item){
+                            text+=     '<tr class="" title=""><td class="first"style="width:100px;"><div class="clearfix" ><div class=" pointer">'+
+                                    '<img src="'+item.productUrl+
+                                    '" width="40px" height="48" ><div class="gray_bg item_pic_edit" style="display: none;"></div><div class="pro_txt item_pic_edit" style="display: none;"><a class="edit-pic" href="javascript:">编辑图片</a></div></div><div class="pro_name3">'+
+                                    item.productName+
+                                    '</p><p style="font-size:5px">'+
+                                    item.productNo+
+                                    '</p></div></div></td><td class="edit-category w90"><div class="read-mode attr-edit"><span class="edit" style="margin:0;float:right;" data-attr="catId"></span><div class="fen_box" style="float:left;"><p>'+
+                                    item.productType+
+                                    '&gt;</p><p>'+
+                                    item.children+
+                                    '</p></div> <div class="clear"></div></div></td><td class="edit-price w85"><div class="read-mode attr-edit"><div class="red">'+
+                                    item.proportionReturn+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.proportionIntegral+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.modifier+
+                                    '</div><span class="edit" data-attr="price"></span><div class="clear"></div></div> </td><td class="edit-number w50"><div class="read-mode attr-edit"><div class="">'+
+                                    item.stock+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.creater+
+                                    '</p> </div> </td><td class="w50">'+item.checkStatus +' </td> <td class="w100 left last"><div id="operate_font_size_14" class="operation"><p><a href="javascript:;" target="_blank" onclick="editAll('
+                                    +item.productNo+
+                                    ')">编辑</a></p><p><a class="haltsale" href="javascript:" onclick="editUp('+item.productNo+
+                                    ')">上架</a></p> <p> <a class="delete" href="javascript:"onclick="editDelet('+item.productNo+
+                                    ')">删除</a></p> </div></td> </tr>'
+                        });}else if(TAB_INDEX==3){
+                        jQuery.each(productList,function(i,item){
+
+
+                            text+=     '<tr class="" title=""><td class="first"style="width:100px;"><div class="clearfix" ><div class=" pointer">'+
+                                    '<img src="'+item.productUrl+
+                                    '" width="40px" height="48" ><div class="gray_bg item_pic_edit" style="display: none;"></div><div class="pro_txt item_pic_edit" style="display: none;"><a class="edit-pic" href="javascript:">编辑图片</a></div></div><div class="pro_name3">'+
+                                    item.productName+
+                                    '</p><p style="font-size:5px">'+
+                                    item.productNo+
+                                    '</p></div></div></td><td class="edit-category w90"><div class="read-mode attr-edit"><span class="edit" style="margin:0;float:right;" data-attr="catId"></span><div class="fen_box" style="float:left;"><p>'+
+                                    item.productType+
+                                    '&gt;</p><p>'+
+                                    item.children+
+                                    '</p></div> <div class="clear"></div></div></td><td class="edit-price w85"><div class="read-mode attr-edit"><div class="red">'+
+                                    item.proportionReturn+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.proportionIntegral+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.modifier+
+                                    '</div><span class="edit" data-attr="price"></span><div class="clear"></div></div> </td><td class="edit-number w50"><div class="read-mode attr-edit"><div class="">'+
+                                    item.stock+
+                                    '</div><span class="edit" style="width:20px;" data-attr="number"></span><div class="clear"></div></div></td><td class="w70"><div class="gray6"><p>'+
+                                    item.creater   +
+
+                                    '</p> </div> </td><td class="w50">'+item.checkStatus +' </td> <td class="w100 left last"><div id="operate_font_size_14" class="operation"><p><a href="javascript:;" target="_blank" onclick="editAll('
+                                    +item.productNo+
+                                    ')">编辑</a></p> <p> <a class="delete" href="javascript:"onclick="editDelet('+item.productNo+
+                                    ')">删除</a></p> </div></td> </tr>'});}
+
+                    text+=' </tbody> </table> </div><div class="tcdPageCode"></div>';
+                    $('.tab-panel .tab-active').html(text);
+
+                    $('.tab-panel .tab-active div.tcdPageCode').unbind();
+                    $('.tab-panel .tab-active div.tcdPageCode').createPage({
+                        pageCount: totalPage,
+                        current: pageNum,
+                        backFn: function (p) {
+                            submitSearch(p);
+                        }})}
+                    else{
+                    	var text= '未找到该类型商品';
+                    	$('.tab-panel .tab-active').html(text);
+                    }
+
+                },
+                error : function() {
+                    alert("拼命加载中 ！");
+                }
+            });
+        }
+
+       /*/!**!/function(){ $(this).addClass('hover') },*/
+/*function tab(a){
+    document.getElementsByClassName('tab-panel-item tab-active').item(0).innerHTML='aaaaaaaaaa';
+
+}*/
+
+    </script>
+
+</head>
+<body>
+
+<div class="headline">
+    <img src="images/icon.png" />
+
+    <h3 style="font-family: 微软雅黑;">商户管理系统</h3>
+    <a href="loginMng.html">安全退出</a>
+</div>
+<section class="hbox stretch">
+    <!-- .aside -->
+    <aside class="bg-dark lter aside-md hidden-print" id="nav">
+        <section class="vbox">
+            <section class="w-f scrollable">
+                <div class="slim-scroll" data-height="auto"
+                     data-disable-fade-out="true" data-distance="0" data-size="5px"
+                     data-color="#333333">
+                    <nav class="nav-primary hidden-xs">
+                        <ul class="nav">
+
+                            <li ><a href="javascript:" >
+										<i class="fa fa-columns icon "> <b class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>卖家管理首页</span>
+								</a>
+								<ul class="nav lt">
+										<li><a href="shopOwerMng.html" class="active"> <i
+												class="fa fa-angle-right"></i> <span>卖家中心</span>
+										</a></li></ul>
+								</li>
+								<li class="active"><a href="" class="active"> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>店铺管理页</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopOrderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单管理</span>
+										</a></li>
+										<li class="active"><a href="#"> <i
+												class="fa fa-angle-right"></i> <span>商品管理</span>
+										</a></li>
+										<li><a href="shopProductAddMng.html"> <i class="fa fa-angle-right"></i><span>添加商品</span>
+										</a></li>
+<!-- 										<li><a href=""> <i class="fa fa-angle-right"></i> <span>店铺信息管理</span> -->
+<!-- 										</a></li> -->
+
+									</ul></li>
+									<li><a> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text-active"></i> <i
+											class="fa fa-angle-up text"></i>
+									</span> <span>运费模板</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="faretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>现有运费模板<span></span>
+										</a></li>
+									</ul>
+									<ul class="nav lt">
+										<li><a href="addFaretemplate.html" class="active"> <i
+												class="fa fa-angle-right"></i>增加运费模板<span></span>
+										</a></li>
+									</ul></li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+        </section>
+    </aside>
+
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable padder">
+
+                <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+                    <li><i class="fa fa-home"></i>&nbsp;商户管理后台</li>
+                    <li>我的商铺</li><li>$!shopInfo.shopName</li>
+                </ul>
+
+                <!-- TAB-->
+
+                <section ><!--class="g-doc"-->
+                    <div class="m-tab demo-small-pitch" data-ydui-tab>
+                        <ul class="tab-nav">
+                            <li class="tab-nav-item tab-active"><a href="javascript:;" >全部商品</a></li>
+                            <li class="tab-nav-item"><a href="javascript:;" >出售中商品</a></li>
+                            <li class="tab-nav-item"><a href="javascript:;" >下架商品</a></li>
+                            <li class="tab-nav-item"><a href="javascript:;" >待审核商品</a></li>
+                        </ul>
+                        <div id="searchBox">
+                            <div class="sold_box1 m_t10 clearfix">
+                                <div class="sold_btn "style="cursor:pointer"><a herf="javascript:" class="submit btn_blue" id="submitSearchBox" onclick="submitSearch()">搜索</a></div>
+                                <div class="clearfix">
+                                    <div class="f_left1">
+                                        <div class="txt_right" style="width:70px">商品名：</div>
+                                        <div class="f_left"><input id="s_itemName" data-attr="itemName" type="text" value="" class="input_140">
+                                        </div>
+                                    </div>
+                                    <div class="f_left2">
+                                        <div class="txt_right"style="width:100px">商品大类：</div>
+                                        <div class="f_left">
+                                            <select name="productType" id="productType" class="" style="font-size:13px;width:100px;height:20px;">
+                                                <option value="0"#if($!productType=='0')selected="true" #end>选择类型</option>
+                                                #foreach($type in $fathertype)
+												<option value="$!type">$!type</option>
+												#end
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="f_left3">
+                                        <div class="txt_right"style="width:100px">商品子类：</div>
+                                        <div class="f_left">
+                                            <select name="children" id="children" class="" style="font-size:13px;width:100px;height:20px;">
+                                                <option value="0"#if($!productType=='0')selected="true" #end>选择类型</option>
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="complete clearfix m_t5" style="margin: 10px 0px 0px  0px ">
+                                    <div class="f_left1" >
+                                        <div class="txt_right" style="width:70px">商品号：</div>
+                                        <div class="f_left"><input id="s_itemNo" data-attr="itemNo" type="text" value="" class="input_140">
+                                        </div>
+                                    </div>
+                                    <div class="f_left2">
+                                        <div class="txt_right"style="width:100px">价格：</div>
+                                        <div class="f_left"><input id="s_price_min" data-attr="price_min" type="text" value=""
+                                                                   class=" input_50"> - <input id="s_price_max" data-attr="price_max"
+                                                                                               type="text" value="" class="input_50"></div>
+                                    </div>
+                                    <div class="f_left3">
+
+                                        <div class="txt_right" style="width:100px">上架时间：</div>
+                                        <div class="f_left"><input id="s_addTime_begin" data-attr="addTime_begin" type="date" value=""
+                                                                   class="text_105 hasDatepicker"> - <input id="s_addTime_end"
+                                                                                                            data-attr="addTime_end" type="date"
+                                                                                                            value=""
+                                                                                                            class="text_105 hasDatepicker">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="complete clearfix m_t5" style=" margin: 20px 0 0 0;">
+
+
+                                    <div class="f_left3" >
+                                        <div class="txt_right" style="display: block;margin:0 auto">&nbsp;</div>
+                                        <label for="s_isTeam" style=" margin:0 10px  0 0;"><input id="s_isTeam" name="s_isTeam" type="checkbox"> 团购标识</label>
+<!--                                         <label for="s_recommendFlg"style=" margin:0 10px  0 0;"><input id="s_recommendFlg" name="s_recommendFlg" type="checkbox"> 推荐标识</label> -->
+
+                                        <div class="clear"></div>
+                                    </div>
+                                     <div class="f_left2">
+<!--                                          <a href="javascript:" class="reset gray f_right ">重置</a> -->
+                                     </div>
+
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <!--
+                            <div class="unsold_ico">
+                                <a href="javascript:" class="down" style="display:none;">展开</a>
+                                <a href="javascript:" class="up">收起</a>
+                            </div>-->
+                        </div>
+                        <div class="tab-panel">
+                            <!--全部商品-->
+                            <div class="tab-panel-item tab-active" >
+                                <!--动态加载部分-->
+
+
+
+
+
+
+
+                                </div>
+                            <div class="tab-panel-item"></div>
+                            <div class="tab-panel-item"></div>
+                            <div class="tab-panel-item"></div>
+                        </div>
+
+                    </div>
+                </section>
+<div style="height:70px"></div>
+            </section>
+        </section>
+    </section>
+</section>
+   <script type="text/javascript">
+  
+    	document.getElementById('productType').onchange=new Function("changeS_childType()");
+    	</script>
+<script src="js/ydui.js"></script>
+<script src="js/app.v2.js"></script>
+
+    <script src="js/commonPage.js" type="text/javascript" charset="utf-8"></script>
+    
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function productPromotion(productNo,shopId) {
+			var url = "productPromotion.html?productNo="+productNo+"&shopId="+shopId;
+			window.open(url, '增加一条信息', features);
+		}
+</script>
+    
+</body>
+</html>

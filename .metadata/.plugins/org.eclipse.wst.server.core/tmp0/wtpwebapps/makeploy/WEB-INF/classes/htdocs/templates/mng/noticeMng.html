@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+
+
+<script type="text/javascript">
+	function noticeDo(noticeId,flag){
+		var flag=flag;
+		if(flag==1? confirm("是否确定删除该条公告？"):confirm("是否确定置顶该公告?")){
+		var noticeId=noticeId;
+		var url="notice.do";
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"noticeId":noticeId,"flag":flag},
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				 alert(jsonResult.information);
+			 window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.information);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+	}
+	}
+
+</script>
+<script type="text/javascript">
+function addNotice(){
+	if(confirm("是否确认发布该公告？")){
+	var title=$("#title").val();
+	var noticeinfo=$("#noticeinfo").val();
+	var url="addNotice.do";
+	jQuery.ajax({
+		 url : url,
+		 type : 'post',
+		 cache : false,
+		 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		 dataType : 'json',
+		 data:{"title":title,"noticeinfo":noticeinfo},
+		 success : function(jsonResult) {
+		 if (jsonResult.bizSucc) {
+			 alert("成功发布公告!");
+		 window.location.reload(true);
+		 } 
+		 else{
+			 alert("公告发布失败!");
+		 }
+		 },
+		 error : function() {  
+		            alert("异常！");  
+		     }  
+		   });
+	return false;
+}
+}
+</script>
+<style type="text/css">
+#hidden_div {
+	position: absolute;
+	margin-left: 20%;
+	width: 700px;
+	display: none;
+	height: auto;
+	/* 	width: calc(100% - 100px);
+	height:300px;
+	margin:50px 20px 50px 16px;
+	background: #bcbcbc;
+	display:block; */
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-dashboard icon"> <b class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li class="active"><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li class="active"><a href="noticeMng.html"> <i>●</i>
+														<span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>农村经纪人默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+										<li><a href="addAgent.html"> <i
+												class="fa fa-angle-right"></i> <span>区域代理添加</span>
+										</a></li>
+										<li><a href="addPartner.html"> <i
+												class="fa fa-angle-right"></i> <span>农村经纪人添加</span>
+										</a></li>
+									</ul></li>
+								<!--充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li><a href=""> <i class="fa fa-file-text icon"> <b
+											class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+										<li><a href="agentInfo.html"> <i
+												class="fa fa-angle-right"></i><span>区域代理查询</span>
+										</a></li>
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>农村经纪人商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<!-- 主体内容 -->
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<!-- 弹出层 -->
+					<section id="hidden_div"
+						class="panel panel-default bg-white m-t-lg">
+						<header class="panel-heading text-center">
+							<strong>公告发布</strong>
+						</header>
+
+						<div class="form-group" style="margin: 10px 30px 0px 30px">
+							<label class="control-label">标题</label> <input type="text"
+								class="form-control input-lg" name="title" id="title">
+						</div>
+						<div class="form-group" style="margin: 10px 30px 0px 30px">
+							<label class="control-label">公告内容</label>
+							<textarea name="noticeinfo" id="noticeinfo" style="height: 400px"
+								class="form-control input-lg"></textarea>
+						</div>
+						<button class="btn btn-primary"
+							style="margin-left: 15%; width: 70px;" id="off">取消</button>
+						<button onclick="addNotice();" class="btn btn-primary"
+							style="margin-left: 45%; width: 70px;">确认</button>
+
+					</section>
+					<!-- ---- -->
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;发布管理</li>
+						<li>公告管理</li>
+					</ul>
+
+					<section class="panel panel-default">
+						<header class="panel-heading">
+							<span style="font-family: 微软雅黑;">公告</span>&nbsp; <a
+								id="addNotice" href=" "
+								style="font-family: 微软雅黑; border: solid 1px; border-radius: 2px; padding: 2px; border-color: darkgrey; color: grey">
+								<i class="fa fa-plus text">&nbsp;发布公告</i>
+							</a> <span><a id="shuaxin" href="announceMng.html"><input
+									type="hidden" value="刷新页面"> </a></span>
+
+						</header>
+						<div class="table-responsive">
+							<table id="announcement"
+								class="table table-striped datagrid m-b-sm">
+								<thead>
+									<tr>
+										<!-- <th>ID</th> -->
+										<th style="width: 20%">标题</th>
+										<th>内容</th>
+										<th style="width: 20%">发布时间</th>
+										<th style="text-align: center">编辑</th>
+									</tr>
+								</thead>
+								#foreach($notice in $noticeInfoList)
+								<tr>
+									<!-- <td>$a</td> -->
+									<td align="center">$!notice.title</td>
+									<td style="overflow: hidden; width: 50%" align="center">$!notice.info</td>
+									<td align="center">$!dateUtils.format($!notice.gmtCreate,"yyyy-MM-dd
+										HH:mm:ss")</td>
+									<td style="width: 20%; padding: 2px 2px" align="center">
+										<!-- <input type="button" value="修改" onclick="noticeChang($!notice.id)"name="a_modify"> -->
+										#if($notice.state=="1")<input class="btn   btn-default"
+										style="width: 45%; padding: 5px 6px" type="button"
+										onclick="noticeDo($!notice.id,'1')" value="删除" name="a_delete"><input
+										class="btn   btn-success"
+										style="width: 45%; padding: 5px 6px; margin-left: 7px;"
+										disabled="disabled" type="button"
+										onclick="noticeDo($!notice.id,'2')" value="置顶" name="a_up">
+										#elseif($notice.state=="0")<input class="btn   btn-default"
+										style="width: 45%; padding: 5px 6px;" type="button"
+										onclick="noticeDo($!notice.id,'1')" value="删除" name="a_delete"><input
+										class="btn   btn-success"
+										style="width: 45%; padding: 5px 6px; margin-left: 5px"
+										type="button" onclick="noticeDo($!notice.id,'2')" value="置顶"
+										name="a_up"> #end
+									</td> #end
+							   </tr>
+							</table>
+						</div>
+						<div style="height: 40px"></div>
+					</section>
+				</section>
+			</section>
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+
+	</section>
+	<script src="js/app.v2.js"></script>
+	<script type="text/javascript">
+$("#addNotice").click(function(){  
+		$("#hidden_div").fadeToggle("slow");
+		return false;
+});  
+$("#off").click(function(){  
+   $("#hidden_div").fadeToggle("slow");  
+   return false;
+});
+</script>
+</body>
+</html>

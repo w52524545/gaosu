@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-首页</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	function addHighUser(userId,i) {
+		var highUserCell=$(i).parent().find("input").eq(0).val();
+// 		alert(userId);
+		var url="addHighUser.do";
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data:{"userId":userId,"highUserCell":highUserCell},
+			 success : function(result) {
+			 if (result.bizSucc) {
+				alert("设置成功!");
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(result.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+	}
+</script>
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.table1 {
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+
+.td1 {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+td {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+		<img src="images/icon.png" />
+		<h3 style="font-family: 微软雅黑;">后台管理系统</h3>
+		<a href="loginMng.html">安全退出</a>
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		<aside class="bg-dark lter aside-md hidden-print" id="nav">
+			<section class="vbox">
+				<section class="w-f scrollable">
+					<div class="slim-scroll" data-height="auto"
+						data-disable-fade-out="true" data-distance="0" data-size="5px"
+						data-color="#333333">
+						<nav class="nav-primary hidden-xs">
+							<ul class="nav">
+								<!-- 发布中心：公告、首页图片 -->
+								<li><a href=""> <i class="fa fa-dashboard icon"> <b
+											class="bg-danger"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>发布管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>首页信息管理</span></a>
+											<ul class="nav lt">
+												<li><a href="noticeMng.html"> <i>●</i> <span>公告管理</span>
+												</a></li>
+												<li><a href="bannerMng.html"> <i>●</i><span>图片管理</span>
+												</a></li>
+											</ul></li>
+										<li><a href="noticeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品活动管理</span></a>
+											<ul class="nav lt">
+												<li><a href="recMng.html"> <i>●</i><span>首页推荐</span>
+												</a></li>
+												<li><a href="newproMng.html"> <i>●</i><span>新品专区</span>
+												</a></li>
+												<li><a href="teamBuyMng.html"> <i>●</i> <span>团购专区</span>
+												</a></li>
+												<li><a href="dividendProMng.html"> <i>●</i> <span>分红商品专区</span>
+												</a></li>
+												<li><a href="defaultProMng.html"> <i>●</i> <span>默认商品</span>
+												</a></li>
+											</ul></li>
+									</ul></li>
+								<!-- 手续费管理 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#else
+								<li><a href="counterFee.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>手续费管理</span>
+								</a></li>
+								#end
+								<!-- 审核中心-->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>审核中心</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="shopCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺审核</span>
+
+										</a></li>
+										<li><a href="productCheckMng.html"> <i
+												class="fa fa-angle-right"></i> <span>商品审核</span>
+										</a></li>
+									</ul></li>
+								<!--充值中心 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#else
+								<li><a href="recharge.html"> <i class="fa fa-jpy icon">
+											<b class="bg-info"></b>
+									</i> <span>充值中心</span>
+								</a></li>
+								#end
+								<!-- 提现审核 -->
+								#if($!checkOperative == '1')
+								<li style="display: none;"><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#else
+								<li><a href="withdrawMng.html"> <i
+										class="fa fa-jpy icon"> <b class="bg-info"></b>
+									</i> <span>提现审核</span>
+								</a></li>
+								#end
+								<!-- 					商品分类样式管理 -->
+								<li><a href=""> <i class="fa fa-columns icon"> <b
+											class="bg-warning"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>商品分类样式管理</span>
+								</a>
+									<ul class="nav lt">
+										<li><a href="productTypeMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理分类</span>
+										</a></li>
+										<li><a href="productParameterMng.html"> <i
+												class="fa fa-angle-right"></i> <span>管理样式</span>
+										</a></li>
+
+									</ul></li>
+								<!-- 信息查询 -->
+								<li class="active"><a href="" class="active"> <i
+										class="fa fa-file-text icon"> <b class="bg-primary"></b>
+									</i> <span class="pull-right"> <i
+											class="fa fa-angle-down text"></i> <i
+											class="fa fa-angle-up text-active"></i>
+									</span> <span>信息查询</span>
+								</a>
+									<ul class="nav lt">
+										<li class="active"><a href="userInfoMng.html"> <i
+												class="fa fa-angle-right"></i><span>用户信息查询</span>
+										</a></li>
+										<li><a href="shopInfoMng.html"> <i
+												class="fa fa-angle-right"></i> <span>店铺信息查询</span>
+										</a></li>
+	
+										<li><a href="orderMng.html"> <i
+												class="fa fa-angle-right"></i> <span>订单信息查询</span>
+										</a></li>
+										<li><a href="partnerMng.html"> <i
+												class="fa fa-angle-right"></i><span>玫发现商品查询</span>
+										</a></li>
+										<li><a href="borrowMng.html"> <i
+												class="fa fa-angle-right"></i><span>我要借款</span>
+										</a></li>
+									</ul></li>
+								<!-- 意见管理 -->
+								<li><a href="optionMng.html"> <i
+										class="fa fa-envelope-o icon"> <b class="bg-primary dker"></b>
+									</i> <span>意见管理</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+			</section>
+		</aside>
+
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;信息查询</li>
+						<li>用户信息查询</li>
+						<li><a style="color: red;" href="noLimitQr.html">&nbsp;生成用户二维码</a></li>
+						<li><a style="color: red;" href="hightest.html">&nbsp;设置最高级用户</a></li>
+						<li><a style="color: red;" href="" onclick="check()">&nbsp;寻回用户密码</a></li>
+						<li><a style="color: red;" href="userInfoMng.html" >&nbsp;会员</a></li>
+					</ul>
+					<!-- 搜索框 -->
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="formName"
+							action="partnerInfoMng.html" name="formName" method="post">
+							<input type="hidden" name="currentPage" id="currentPage"
+								value="$!formName.currentPage"> <input type="hidden"
+								name="pageSize" id="pageSize" value="$!formName.pageSize">
+							<div class="form-group">
+								<div class="col-sm-11">
+									<div class="row">
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">用户ID：</label>
+										<div class="col-sm-2">
+											<input type="text" name="userId" value="$!userId"
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">卡号：</label>
+										<div class="col-sm-2">
+											<input type="text" name="orderId" value="$!orderId"
+												class="form-control">
+										</div><br><br>
+								<input id="outRankNo" name="outRankNo"
+								type="text" class="form-control parsley-validated"
+								placeholder="修改出局的排单排位" value="$!outRankNo" style="width: 25%">
+								<input class="btn   btn-success"
+								style="width: 20%; padding: 5px 6px;" type="button"
+								onclick="changeOutRankNo()" value="确认" name="a_up">
+										<!-- <label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">用户手机：</label>
+										<div class="col-sm-2">
+											<input type="text" name="cell" value="$!cell"
+												class="form-control">
+										</div>
+										<label class="col-sm-2 control-label"
+											style="width: 70px; padding-left: 0px; padding-right: 0px">用户昵称：</label>
+										<div class="col-sm-2">
+											<input type="text" name="userNickName" value="$!userNickName"
+												class="form-control"> -->
+										</div>
+										<input type="submit" id="btnTransfer" value=" 搜索 "
+											class="btn btn-primary" />
+											
+										<!-- <input onclick="outTheFirst()" type="button" id="btnDelete"  value="确认当前排名一号出局"
+												    class="btn btn-primary" /> -->
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--  列表主体 -->
+					<section class="panel panel-default"
+						style="overflow-x: auto; width: 99.999%">
+						<table id="announcement"
+							class="table table-striped datagrid m-b-sm table1"
+							style="width: auto">
+							<thead>
+								<tr>
+									<th style="width: 7.9%">订单号</th>
+									<th style="width: 7.9%">当前排名/订单排名</th>
+									<th style="">该单已出局次数</th>
+									<!-- 										<th style="width:7.9%">微信ID</th> -->
+									<!-- <th style="width:7.9%">店铺ID</th> -->
+									<th style="">手机号</th>
+									<!-- 										<th style="">会员编号</th> -->
+									<th style="">用户名</th>
+									<th style="width: 10%">昵称</th>
+									<!-- <th style="width:4%">性别 </th> -->
+									<th style="width: 7.9%">上级用户</th>
+									<th style="">可用积分/分</th>
+									<th style="">备注信息</th>
+									<th style="">排单时间</th>
+									<th style="">修改用户</th>
+									<th style="">修改次数</th>
+									<th style="">操作</th>
+								</tr>
+							</thead>
+							#foreach($userInfo in $userInfo)
+							<tr>
+								<td>$!userInfo.partnerRankDO.orderId</td>
+								<td>$!userInfo.partnerRankDO.partnerNum / $!userInfo.partnerRankDO.orderNum</td>
+								<td>$!userInfo.partnerRankDO.outNum</td>
+								<!-- 									<td class="td1" title="$!userInfo.wechatId">$!userInfo.wechatId</td> -->
+
+								<!-- <td>#if(!$!userInfo.shopId||$!userInfo.shopId=="")无店铺
+									#else
+									$!userInfo.shopId
+									#end</td> -->
+								<td>#if(!$!userInfo.userDO.cell||$!userInfo.userDO.cell=="")未绑定
+									#else $!userInfo.userDO.cell #end</td>
+								<!-- 									<td>$!userInfo.userNum</td> -->
+								<td>$!userInfo.userDO.userName</td>
+								<td><img style="margin-left: 0px; margin-top: 5px" alt="图片"
+									src="$!userInfo.userDO.headUrl"><span
+									style="margin-top: 5px">$!userInfo.userDO.nickName</span></td>
+								<!-- <td>#if($!userInfo.sex=="1")男 
+									#elseif($!userInfo.sex=="2")女
+									#end
+									</td> -->
+								<td>#if($!userInfo.userDO.certType == '1') 高级用户 #else
+									#if(!$!userInfo.userDO.highUserId||$!userInfo.userDO.highUserId=="")还没有上级用户<br>
+									<nav class="nav-primary hidden-xs" style="padding: 0px 0px">
+										<ul class="nav">
+											<li><a id="" style="color: red; padding: 5px 5px;"
+												href="#">通过手机号码添加</a>
+												<ul class="nav lt">
+													<li><input style="float: left; margin-top: 5px"
+														size="11" type="text"> <i
+														style="cursor: pointer; float: left; padding: 5px 5px"
+														onclick="addHighUser($!userInfo.userDO.userId,this)">
+															<img
+															style="width: auto; height: auto; margin-left: 0px; margin-top: 0px"
+															src="img/check1.png">
+													</i></li>
+												</ul></li>
+										</ul>
+									</nav> #else $!userInfo.userDO.highUserId<br> <a id="highInfo"
+									style="color: skyblue"
+									href="userInfoMng.html?userId=$!userInfo.userDO.highUserId">用户详情</a>
+									<!-- &nbsp;<span style="cursor:pointer;">修改</span> -->
+									<nav class="nav-primary hidden-xs" style="padding: 0px 0px">
+										<ul class="nav">
+											<li><a id="" style="color: black; padding: 0px 0px;"
+												href="#">修改</a>
+												<ul class="nav lt">
+													<li><input style="float: left; margin-top: 5px"
+														size="11" type="text"> <i
+														style="cursor: pointer; float: left; padding: 5px 5px"
+														onclick="addHighUser($!userInfo.userDO.userId,this)">
+															<img
+															style="width: auto; height: auto; margin-left: 0px; margin-top: 0px"
+															src="img/check1.png">
+													</i></li>
+												</ul></li>
+										</ul>
+									</nav> #end #end
+								</td>
+								<td>$!userInfo.pointCount</td>
+								<td><input id="$!userInfo.partnerRankDO.id" name="$!userInfo.partnerRankDO.id"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!userInfo.partnerRankDO.memo" value="">
+								<input class="btn   btn-success"
+								style="width: 20%; padding: 5px 6px;" type="button"
+								onclick="rankMemo('$!userInfo.userDO.userId','$!userInfo.partnerRankDO.orderId','$!userInfo.partnerRankDO.id')" value="确认" name="a_up">
+								</td>
+								<td>$!dateUtils.format($!userInfo.partnerRankDO.gmtCreate,'yyyy-MM-dd
+									HH:mm:ss')</td>
+							    <td><input id="$!userInfo.userDO.userId" name="$!userInfo.userDO.userId"
+								type="text" class="form-control parsley-validated"
+								placeholder="$!userInfo.userDO.userId" value="">
+								<input class="btn   btn-success"
+								style="width: 20%; padding: 5px 6px;" type="button"
+								onclick="changeUserId('$!userInfo.userDO.userId','$!userInfo.partnerRankDO.orderId','$!userInfo.userDO.userId')" value="确认" name="a_up">
+								</td>
+								<td><input class="btn   btn-danger"
+										style="width: auto; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="changerate('$!userInfo.userDO.userId','$!userInfo.partnerRankDO.orderId')"
+										value="修改出局次数" name="a_up"></td>
+								<td><input class="btn   btn-danger"
+										style="width: auto; padding: 5px 6px; margin-left: 15px;"
+										type="button"
+										onclick="deleteRank('$!userInfo.userDO.userId','$!userInfo.partnerRankDO.orderId')"
+										value="删除该排单" name="a_up"></td>
+							</tr>
+							#end
+						</table>
+					</section>
+					<div class="fn-mt7" style="float: right">#set ($formName =
+						"formName") #parse('/mng/page.html')</div>
+					<div style="height: 200px"></div>
+				</section>
+			</section>
+		</section>
+	</section>
+	<div id="inputText" class="white_content"
+		style="position: absolute; left: 800px; top: 170px; width: 420px; height: 37px;">
+	</div>
+	<script src="js/app.v2.js"></script>
+
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function check() {
+			var url = "check.html";
+			window.open(url, '增加一条信息', features);
+		}
+</script>
+
+<script type="text/javascript">
+	var features = "top=20%,left=25%,width=698px,height=490px,"
+		+ "location=yes,menubar=no,resizable=yes,"
+		+ "scrollbars=no,status=no,toolbar=no";
+	
+	function addUserCommerce(userId) {
+			var url = "addUserCommerce.html?userIds="+userId;
+			window.open(url, '增加一条信息', features);
+		}
+</script>
+
+<script type="text/javascript">
+	function outTheFirst(){
+		//alert(orderId)
+		if(confirm("确认该用户出局？ ")){
+			var url =  "outTheFirst.do"
+				jQuery.ajax({
+		            url : url,// 跳转到 action  
+		            type : 'post',
+		            cache : false,
+		            contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		            dataType : 'json',
+		            success : function(result) {
+		                if (result.bizSucc) {
+		                    alert("操作成功");
+		                    window.location.reload();
+		                } else{
+		                     alert(result.errMsg)
+		                }
+		            },
+		            error : function() {  
+		                           alert("异常！");  
+		                }  
+		          });
+		}
+			
+	}
+</script>
+
+<script type="text/javascript">
+
+function changerate(userId, orderId) {
+	div = '<input type="text"class="type-button"style="height:35px;width:120px;" id="outNum" placeholder="输入修改后的出局次数（不能大于等于5）">'+
+	'<span class="type-button" style="font-size: 16px;font-weight: bold;cursor: pointer;float:left;position:absolute;right:70px;top:0px" onclick="PassTrue('+userId+','+orderId+')">'+
+	'确认同意</span>'+
+	'<span class="type-button" style="font-size: 16px;font-weight: bold;cursor: pointer;float:left;position:absolute;right:0px;top:0px" onclick="CloseDivText()">'+
+	'关闭</span>';
+	$("#inputText").html(div);
+	ShowDiv('inputText', 'fade');
+}
+
+function PassTrue(userId, orderId) {
+	var url = "changeOutNum.do";
+	var outNum = document.getElementById("outNum").value;
+	jQuery
+			.ajax({
+				url : url,// 跳转到 action  
+				type : 'post',
+				cache : false,
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				dataType : 'json',
+				data : {
+					"outNum" : outNum,
+					"userId" : userId,
+					"orderId" : orderId,
+				},
+				success : function(data) {
+					if (data.bizSucc) {
+						alert("操作成功！");
+						window.location.reload(true);
+					} else {
+						alert("操作失败！");
+						window.location.reload(true);
+					}
+				},
+				error : function() {
+					alert("网络异常！");
+				}
+			});
+}
+
+//弹出隐藏层
+function ShowDiv(show_div, bg_div) {
+	document.getElementById(show_div).style.display = 'block';
+	document.getElementById(bg_div).style.display = 'block';
+	var bgdiv = document.getElementById(bg_div);
+	bgdiv.style.width = document.body.scrollWidth;
+	//bgdiv.style.height = $(document).height();
+	$("#" + bg_div).height($(document).height());
+}
+//关闭窗口
+function CloseDivText() {
+	document.getElementById('inputText').style.display = 'none';
+	document.getElementById('fade').style.display = 'none';
+}
+</script>
+
+
+<script type="text/javascript">
+function deleteRank(userId, orderId){
+	var url="deleteRank.do";
+	if(confirm("确认删除?不可再修改")){
+		jQuery.ajax({
+			 url : url,// 跳转到 action  
+			 type : 'post',
+			 cache : false,
+			 contentType : "application/x-www-form-urlencoded; charset=utf-8",
+			 dataType : 'json',
+			 data : {
+					"userId" : userId,
+					"orderId" : orderId,
+				},
+			 success : function(jsonResult) {
+			 if (jsonResult.bizSucc) {
+				alert(jsonResult.errMsg);
+			 	window.location.reload(true);
+			 } 
+			 else{
+				 alert(jsonResult.errMsg);
+			 }
+			 },
+			 error : function() {  
+			            alert("异常！");  
+			     }  
+			   });
+		}
+}
+</script>
+
+	<script type="text/javascript">
+function rankMemo(userId,orderId,id) {
+	    var url = "rankMemo.do";
+	    var memo = document.getElementById(id).value;
+		jQuery.ajax({
+					url : url,// 跳转到 action  
+					type : 'post',
+					cache : false,
+					contentType : "application/x-www-form-urlencoded; charset=utf-8",
+					dataType : 'json',
+					data : {
+						"userId" : userId,
+						"orderId" : orderId,
+						"memo" : memo
+					},
+					success : function(jsonResult) {
+						if (jsonResult.bizSucc) {
+							alert("修改成功！");
+							window.location.reload(true);
+						} else {
+							alert("操作失败");
+						}
+					},
+					error : function() {
+						alert("异常！");
+					}
+				});
+}
+</script>
+
+<script type="text/javascript">
+function changeUserId(userId,orderId,id) {
+	    var url = "changeUserId.do";
+	    var changeUserId = document.getElementById(id).value;
+		jQuery.ajax({
+					url : url,// 跳转到 action  
+					type : 'post',
+					cache : false,
+					contentType : "application/x-www-form-urlencoded; charset=utf-8",
+					dataType : 'json',
+					data : {
+						"userId" : userId,
+						"orderId" : orderId,
+						"changeUserId" : changeUserId
+					},
+					success : function(jsonResult) {
+						if (jsonResult.bizSucc) {
+							alert("修改成功！");
+							window.location.reload(true);
+						} else {
+							alert(jsonResult.errMsg);
+							window.location.reload(true);
+						}
+					},
+					error : function() {
+						alert("异常！");
+					}
+				});
+}
+</script>
+
+<script type="text/javascript">
+function changeOutRankNo() {
+	    var url = "changeOutRankNo.do";
+	    var outRankNo = document.getElementById("outRankNo").value;
+		jQuery.ajax({
+					url : url,// 跳转到 action  
+					type : 'post',
+					cache : false,
+					contentType : "application/x-www-form-urlencoded; charset=utf-8",
+					dataType : 'json',
+					data : {
+						"outRankNo" : outRankNo
+					},
+					success : function(jsonResult) {
+						if (jsonResult.bizSucc) {
+							alert("修改成功！");
+							window.location.reload(true);
+						} else {
+							alert(jsonResult.errMsg);
+							window.location.reload(true);
+						}
+					},
+					error : function() {
+						alert("异常！");
+					}
+				});
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.onway.makeploy</groupId>
+		<artifactId>makeploy-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.makeploy</groupId>
+	<artifactId>makeploy-core-model</artifactId>
+	<version>1.0</version>
+	<name>makeploy-core-model</name>
+	<description>makeploy-core-model</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.onway.makeploy</groupId>
+			<artifactId>makeploy-common-dal</artifactId>
+		</dependency>
+	</dependencies>
+</project>

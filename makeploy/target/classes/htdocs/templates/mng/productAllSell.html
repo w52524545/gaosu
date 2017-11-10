@@ -1,0 +1,167 @@
+<!-- southRain -->
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>后台管理系统-店铺收入信息</title>
+<meta name="description"
+	content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="css/app.v2.css" type="text/css" />
+<style type="text/css">
+.tip {
+	position: relative;
+	text-align: center;
+	font-size: 40px;
+	top: 60px;
+}
+
+.a-upload {
+	padding: 4px 10px;
+	height: 30px;
+	line-height: 20px;
+	position: relative;
+	cursor: pointer;
+	color: cadetblue;
+	background: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.a-upload  input {
+	position: absolute;
+	font-size: 15px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	cursor: pointer;
+}
+
+.a-upload:hover {
+	color: #444;
+	background: #eee;
+	border-color: #ccc;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<div class="headline">
+	</div>
+	<section class="hbox stretch">
+		<!-- .aside -->
+		
+		<section id="content">
+			<section class="vbox">
+				<section class="scrollable padder">
+					<ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+						<li><i class="fa fa-home"></i>&nbsp;商品信息查询</li>
+						<li>收入信息</li>
+					</ul>
+					<div class="panel-body" style="padding-bottom: 0px;">
+						<form id="incomeForm" action="productAllSell.html" name="incomeForm" method="post">
+							从:<input type="date" name="startTime" id="startTime" value="$!startTime">
+									到:<input type="date" name="endTime" id="endTime" value="$!endTime">
+									<input type="hidden" name="currentPage" id="currentPage" value="$!incomeForm.currentPage"> 
+									<input type="hidden" name="pageSize" id="pageSize" value="$!incomeForm.pageSize">
+									<input type="hidden" name="shopId" id="shopId" value="$!shopId">
+									<input type="hidden" name="productNo" id="productNo" value="$!productNo">
+									<input type="hidden" name="praflag" id="praflag" value="$!praflag">
+									<input name="selectedNew" value="0" type="radio" 
+									#if($flag!='1'||$flag!='2' ) checked="" #end><label>所有支付</label>
+									<input name="selectedNew" value="1" type="radio" 
+									#if($flag=='1') checked="" #end><label>微信支付</label>
+									<input name="selectedNew" value="2" type="radio" 
+									#if($flag=='2') checked="" #end><label>分享币支付</label>
+									<button type="submit" class="btn btn-primary">搜索</button>
+						</form>
+						<button class="btn btn-primary" onclick="go(1)">本月销售额</button>
+						<button class="btn btn-primary" onclick="go(2)">本周销售额</button>
+					</div>
+					<br>
+					<section class="panel panel-default">
+						<table id="announcement"
+							class="table table-striped datagrid m-b-sm"
+							style="text-align: center;">
+							<thead>
+								<tr>
+									<th>商品号</th>
+									<th>商品名</th>
+									<th>销售额（元）（已完成订单）</th>
+									<!-- <th>收入额</th> -->
+									<th>时间段</th>
+									<th>支付方式</th>
+								</tr>
+							</thead>
+							<!-- #foreach($incomeInfo in $incomeInfoList)
+							<tr>
+								<td>$!shopDO.shopId</td>
+								<td>$!shopDO.shopName</td>
+								<td>$!shopDO.cell</td>
+								<td>$!incomeInfo.sellAccout</td>
+								<td>$!incomeInfo.incomeAccout</td>
+								<td>$!dateUtils.format($!incomeInfo.gmtModified,"yyyy-MM-dd
+									HH:mm:ss")</td>
+							</tr>
+							#end -->
+							<tr>
+								<td>$!productDO.productNo</td>
+								<td>$!productDO.productName</td>
+								<td>$!orderPrice</td>
+								<td>
+								#if($!checkTime == '1')
+								本月销售额
+								#elseif($!checkTime == '2')
+								本周销售额
+								#else
+								$!dateUtils.format($!startDate,"yyyy-MM-dd")~$!dateUtils.format($!endDate,"yyyy-MM-dd")
+								#end
+								</td>
+								<td>#if($!flag == '1')
+								微信支付
+								#elseif($!flag == '2')
+								分享币支付
+								#else
+								所有支付
+								#end</td>
+							</tr>
+						</table>
+					</section>
+					<!-- <div class="fn-mt7">#set ($formName = "incomeForm")
+						#parse('/mng/page.html')</div> -->
+				</section>
+			</section>
+
+			<a href="#" class="hide nav-off-screen-block"
+				data-toggle="class:nav-off-screen" data-target="#nav"></a>
+		</section>
+	</section>
+
+	<script src="js/app.v2.js"></script>
+</body>
+
+<script type="text/javascript">
+
+      function go(id){
+    	  var id = id;
+    	  var shopId = '$!shopId';
+    	  var productNo = '$!productNo';
+    	  var praflag = '$!praflag';
+    	  var flag;
+    	  var radionum = document.getElementsByName("selectedNew"); 
+    	  for(var i=0;i<radionum.length;i++){ 
+    		  if(radionum[i].checked){ 
+    			  flag = radionum[i].value 
+    	      } 
+    	  }
+    	  window.location.href = "productAllSell.html?productNo="+productNo+"&shopId="+shopId+"&praflag="+praflag+"&check="+id+"&selectedNew="+flag;
+    	  
+      }
+</script>
+</html>
